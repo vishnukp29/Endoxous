@@ -1,0 +1,66 @@
+.p3-order-block {
+  margin: 80px 10px;
+  padding: 20px;
+  background-color: white;
+  width: 700px;
+}
+
+.p3-order-item-block {
+  width: 100px;
+  height: 100px;
+  background-color: gray;
+  border-radius: 10px;
+  margin: auto 5px;
+}
+
+.p3-notes {
+  width: 300px;
+  background-color: white;
+  margin: 80px 10px;
+  padding: 20px;
+}
+.p3-notes-bg {
+  background-color: grey;
+  padding: 20px;
+  margin: 20px;
+  border-radius: 10px;
+}
+.p3-activity-bg {
+  background-color: white;
+  padding: 20px;
+  margin: 20px;
+}
+
+.p3-customer-hr-dotted {
+  border: 2px dotted black;
+}
+
+.p3-notes button {
+  background-color: white;
+  width: 100%;
+  margin: 10px 20px;
+  padding: 5px 10px;
+}
+.p3-body {
+  font-family: Has;
+}
+
+.p3-order-block input {
+  border: none;
+  border-color: transparent;
+}
+.p3-fotter {
+  width: 85%;
+  align-items: right;
+}
+.p3-fotter {
+  align-content: right;
+  width: 85%;
+}
+
+.btn-page4 {
+  background-color: #0f390f;
+  outline: none;
+  border: none;
+  border-radius: 4px;
+}
