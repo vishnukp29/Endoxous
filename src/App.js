@@ -50,7 +50,7 @@ function App() {
           <Route path="/product/new" element={<AddProducts />} />
           <Route path="/analystics" element={<Analystics />} />
           <Route path="/support" element={<CustomerSupport />} />
-          {/* <Route path="/product/deatils/:id" element={<ProductDetails />} /> */}
+          <Route path="/customer/:id" element={<CustomerName />} />
           <Route path="/product/edit/:id" element={<EditProducts />} />
         </Routes>
       </BrowserRouter>

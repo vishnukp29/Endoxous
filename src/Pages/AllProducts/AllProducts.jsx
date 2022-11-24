@@ -17,9 +17,11 @@ const AllProducts = () => {
   const navigate = useNavigate();
   const id = useParams()
 
+ 
   const [keyword, setKeyword] = useState("");
   const [status, setStatus] = useState(false);
   const [lowStockStatus, setLowStockStatus] = useState(false);
+  const [state, setState] = useState(false);
 
   const { loading, error, products } = useSelector((state) => state.products);
   const { error:deleteError,message:deleteMsg,isDeleted,loading:DeleteLoading } = useSelector((state) => state.product);
@@ -28,7 +30,7 @@ const AllProducts = () => {
   );
 
   const [filteredProducts, setFilteredProducts] = useState([]);
-  console.log(filteredProducts,"========== filters");
+
 
   useEffect(() => {
     if (error) {
@@ -70,13 +72,15 @@ const AllProducts = () => {
       products && products.filter((product) => product.stock <=4);
 
     setFilteredProducts(lowStockProduct);
+    setState(true)
     }else {
       const Allproducts =
       products && products.filter((product) => product);
       setFilteredProducts(Allproducts);
+      setState(true)
     }
 
-    console.log(lowStockStatus,"================lowSetStatus");
+  
   
   };
 
@@ -85,15 +89,23 @@ const AllProducts = () => {
     const nuserysproducts =
       products && products.filter((product) => product.seller === nursery);
     setFilteredProducts(nuserysproducts);
+    setState(true)
     if (nursery == 1) {
       setFilteredProducts();
+      
     }
   };
 
   const gridHandler = ()=>{
-    setStatus(!status)
+    setStatus(true)
 
   }
+  const listHandler = ()=>{
+    setStatus(false)
+
+  }
+
+  
 
   return (
     <div className="section2 ">
@@ -125,7 +137,7 @@ const AllProducts = () => {
         <hr />
       </nav>
       <div className="d-flex justify-content-between align-items-center px-2 py-1">
-        <div className="p-5">
+        <div className="p-5" onClick={(e)=>setState(false)}>
           <input
             className="form-control px-5"
             type="text"
@@ -149,7 +161,7 @@ const AllProducts = () => {
               </label>
             </div>
             <div onClick={gridHandler}>Grid</div>
-            <div className="mx-1" onClick={gridHandler}>List</div>
+            <div className="mx-1" onClick={listHandler}>List</div>
            
             <div className="p2-selection mx-2">
               <select
@@ -210,8 +222,10 @@ const AllProducts = () => {
                </tr>
              </thead>
              <tbody>
-               {filteredProducts &&
-                 filteredProducts
+               {state === false ? (
+                <Fragment>
+                  {products &&
+                 products
                    .filter((val) => {
                      if (keyword === "") {
                        return val;
@@ -223,8 +237,8 @@ const AllProducts = () => {
                        return val;
                      }
                    })
-                   .map((product, intex) => (
-                     <tr>
+                   .map((product, index) => (
+                     <tr key={index}>
                        <td>
                          <div
                            style={{
@@ -252,6 +266,55 @@ const AllProducts = () => {
                        <td>Nursery Name</td>
                      </tr>
                    ))}
+
+                </Fragment>
+               ) : (
+                <Fragment>
+                  {filteredProducts &&
+                 filteredProducts
+                   .filter((val) => {
+                     if (keyword === "") {
+                       return val;
+                     } else if (
+                       val.fullName
+                         ?.toLowerCase()
+                         .includes(keyword?.toLowerCase())
+                     ) {
+                       return val;
+                     }
+                   })
+                   .map((product, index) => (
+                     <tr key={index}>
+                       <td>
+                         <div
+                           style={{
+                             backgroundColor: "#ececec",
+                             borderRadius: ".5rem",
+                             width: "70px",
+                             height: "70px",
+                             overflow: "hidden",
+                           }}
+                           scope="row"
+                         >
+                           <img
+                             className="bg-primary img-fluid rounded-start"
+                             src={product.images[0]?.url}
+                             alt="img"
+                           />
+                         </div>
+                       </td>
+                       <td>{product.name}</td>
+                       {/* <td><button type="button" class="btn btn-outline-danger"
+                             onClick={()=> dispatch(deleteProduct(product._id))}  >Delete</button></td> */}
+                       <td>{product.stock}</td>
+                       <td>...</td>
+                       <td>Rs {product.price}</td>
+                       <td>Nursery Name</td>
+                     </tr>
+                   ))}
+
+                </Fragment>
+               )}
              </tbody>
            </table>
          </div>
@@ -263,7 +326,105 @@ const AllProducts = () => {
                 style={{ borderRadius: ".5rem" }}
                 className="container-sm d-flex flex-wrap gap-5 px-0 py-2"
               >
-                {filteredProducts &&
+                {state === false ? (
+                  <Fragment>
+                    {products &&
+                  products
+                    .filter((val) => {
+                      if (keyword === "") {
+                        return val;
+                      } else if (
+                        val.fullName
+                          ?.toLowerCase()
+                          .includes(keyword?.toLowerCase())
+                      ) {
+                        return val;
+                      }
+                    })
+                    .map((product, index) => (
+                      <div
+                        className="card"
+                        style={{ width: "30%" }}
+                        key={index}
+                      >
+                        <div className="row g-0 d-flex justify-content-center">
+                          <div
+                            className="col-md-4"
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                            }}
+                          >
+                            <div
+                              className="cardBox"
+                              style={{
+                                backgroundColor: "#ececec",
+                                borderRadius: ".5rem",
+                                width: "70px",
+                                height: "70px",
+                                overflow: "hidden",
+                              }}
+                            >
+                              <img
+                                src={product.images[0]?.url}
+                                className=" bg-primary img-fluid rounded-start"
+                                alt="img"
+                              />
+                            </div>
+                          </div>
+                          <div className="col-md-8">
+                            <div className="card-body">
+                              <h5 className="card-title text-capitalize">
+                                {product.name}
+                              </h5>
+                              <p className="card-text">
+                                <small className="text-muted text-capitalize">
+                                  per piece
+                                </small>
+                              </p>
+                              <span className="card-text fs-5">
+                                Rs {product.mrp}
+                              </span>
+
+                              <span
+                                className="form-check form-switch d-inline me-2"
+                                style={{ position: "absolute", right: "0" }}
+                              >
+                                <input
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  id="flexSwitchCheckDefault"
+                                />
+                              </span>
+                            </div>
+                          </div>
+                          <hr style={{ width: "95%" }} />
+                          <div className="d-flex p-2 justify-content-between align-items-center">
+                            <h5>In Stock: {product.stock}</h5>
+                            {/* <button
+                              type="button"
+                              className="btn  btn-danger btn-md"
+                              onClick={()=> dispatch(deleteProduct(product._id))}
+                            >
+                              Delete
+                            </button> */}
+                            <button
+                              type="button"
+                              className="btn bg-success btn-success btn-md"
+                              // onClick={()=>ProductDetailsHandler(product._id)}
+                            >
+                              Details
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+
+                  </Fragment>
+                ) : (
+                  <Fragment>
+                    {filteredProducts &&
                   filteredProducts
                     .filter((val) => {
                       if (keyword === "") {
@@ -355,6 +516,8 @@ const AllProducts = () => {
                         </div>
                       </div>
                     ))}
+                  </Fragment>
+                )}
               </div>
             </div>
           </div>

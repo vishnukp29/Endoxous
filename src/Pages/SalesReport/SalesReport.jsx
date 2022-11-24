@@ -1,28 +1,114 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, Fragment } from "react";
 import "./Page7.css";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { clearErrors, getSalesperDay } from "../../redux/actions/chartAction";
-
+import { getAllNurseries } from "../../redux/actions/nurseryAction";
+import { getAllOrders } from "../../redux/actions/orderAction";
+import Loader from "../../Components/SideBar/Loader/Loader";
 
 function SalesReport() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   //const { error } = useSelector((state) => state.chartSalesperDay);
-  const { error, loading,dateSales,totalSales,salesReport } = useSelector((state) => state.salePerDay);
-  console.log(dateSales&&dateSales,"============",totalSales&&totalSales,salesReport&&salesReport,"========== sale perday");
-  const totalSalesAmount = totalSales&&totalSales.reduce((a,b)=>a+b,0);
-  
+  const {
+    error: orderError,
+    orders,
+    loading: ordresLoading,
+  } = useSelector((state) => state.allOrders);
+  const { error, loading, dateSales, totalSales, salesReport } = useSelector(
+    (state) => state.salePerDay
+  );
+  console.log(
+    dateSales && dateSales,
+    "============",
+    totalSales && totalSales,
+    salesReport && salesReport,
+    "========== sale perday"
+  );
+
+  const totalSalesAmount = totalSales && totalSales.reduce((a, b) => a + b, 0);
+
+  const { error: nurseriesError, nurseries } = useSelector(
+    (state) => state.allNurseries
+  );
+
+  const [state, setState] = useState(false);
+  const [filteredOrders, setFilterOrders] = useState([]);
+
   useEffect(() => {
     if (error) {
       toast.error(error.message);
       dispatch(clearErrors());
     }
 
-    dispatch(getSalesperDay())
-  }, [dispatch,error]);
+    dispatch(getSalesperDay());
+    dispatch(getAllOrders());
+    dispatch(getAllNurseries());
+  }, [dispatch, error]);
+
+  const nurseryDropDownHandler = (e) => {
+    const nursery = e.target.value;
+    const nuserysOrders =
+      salesReport && salesReport.filter((sale) => sale.deliveredBy === nursery);
+    setFilterOrders(nuserysOrders);
+    if (nursery === 1) {
+      setFilterOrders(AllOrdders);
+    }
+  };
+
+  // Date
+  let currentDate = new Date().toJSON().slice(0, 10);
+
+  // Week
+  const getLastWeeksDate = () => {
+    const now = new Date();
+    return new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000)
+      .toJSON()
+      .slice(0, 10);
+  };
+  const weekend = getLastWeeksDate();
+
+  // Month
+  function getMonthEndDate(numOfMonths, date = new Date()) {
+    const dateCopy = new Date(date.getTime());
+    dateCopy.setMonth(dateCopy.getMonth() - numOfMonths);
+    return dateCopy;
+  }
+
+  const date = new Date();
+  const monthend = getMonthEndDate(1, date).toJSON().slice(0, 10);
+
+  // Filtering
+  const AllOrdders = salesReport && salesReport.filter((sale) => sale);
+  const todayOrders =
+    salesReport && salesReport.filter((sale) => sale.date === currentDate);
+
+  const weekOrders =
+    salesReport && salesReport.filter((sale) => sale.date >= weekend);
+
+  const monthOrders =
+    salesReport && salesReport.filter((sale) => sale.date >= monthend);
+
+  const salesSelect = (e) => {
+    let item = parseInt(e.target.value);
+    if (item === 1) {
+      setFilterOrders(AllOrdders);
+      setState(true);
+    } else if (item === 2) {
+      setFilterOrders(todayOrders);
+      setState(true);
+    } else if (item === 3) {
+      setFilterOrders(weekOrders);
+      setState(true);
+    } else {
+      setFilterOrders(monthOrders);
+      setState(true);
+    }
+  };
+
   return (
     <div>
       <div className="mainsection">
@@ -56,70 +142,48 @@ function SalesReport() {
           </nav>
           <div className="d-flex justify-content-between  align-items-center px-2 py-1">
             <div className="p-5">
-              {/* <input
-                className="form-control px-5"
-                type="text"
-                value="Order ID, phone or name..."
-                aria-label="readonly input example"
-                readonly
-              /> */}
               <p>TOTAL SALES</p>
-              <h4>Rs {totalSalesAmount&&totalSalesAmount}</h4>
+              <h4>Rs {totalSalesAmount && totalSalesAmount}</h4>
             </div>
             <div>
               <div className="d-flex px-4 ">
-                <div className="p2-selection mx-2">
-                  {/* <select
-                    className="form-select "
-                    aria-label="Default select example"
-                  >
-                    <option selected>Order status </option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                  </select> */}
-                </div>
+                <div className="p2-selection mx-2"></div>
                 <div className="p2-selection mx-2 ">
                   <select
                     className="form-select "
                     aria-label="Default select example"
+                    onChange={nurseryDropDownHandler}
                   >
                     <option selected>All nurseries</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
+                    {nurseries &&
+                      nurseries.map((nursery, index) => (
+                        <option value={nursery.name} key={index}>
+                          {nursery?.name + " " + nursery?.address}
+                        </option>
+                      ))}
                   </select>
                 </div>
                 <div className="p2-selection mx-2">
                   <select
                     className="form-select "
                     aria-label="Default select example"
+                    onChange={salesSelect}
                   >
-                    <option selected>Lifetime</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
+                    <option value="1">Lifetime</option>
+                    <option value="2">Today</option>
+                    <option value="3">This Week</option>
+                    <option value="4">This Month</option>
                   </select>
                 </div>
-                {/* <button
-                  type="button"
-                  className="btn-page4 btn btn-primary btn-lg"
-                >
-                  + Add new nursery
-                </button> */}
               </div>
             </div>
           </div>
-          {/* <div className="section2-btn d-flex  px-5 ">
-            <button className="s2-btn">All</button>
-            <button className="s2-btn">Pending</button>
-            <button className="s2-btn">Shipped</button>
-            <button className="s2-btn">Delivered</button>
-            <button className="s2-btn">Cancelled</button>
-          </div> */}
           <div className="s2-table px-5 m-3 ">
             <div className="s2-table py-4">
-              <table className="table table-borderless table-sm ">
+              {loading ? (
+                <Loader />
+              ):(
+                <table className="table table-borderless table-sm ">
                 <thead className="s2-table-nava">
                   <tr>
                     <th scope="col">Date</th>
@@ -128,20 +192,35 @@ function SalesReport() {
                     <th scope="col">Nursery Name</th>
                   </tr>
                 </thead>
-                <tbody className="table-group-divider  my-5">
-                  {salesReport&&salesReport.map((sale,index)=>(
-                    <tr>
-                    <th scope="row">{sale.date}</th>
-                    <td>{sale.count}</td>
-                    <td>{sale.total}</td>
-                    <td>Area/Locality</td>
-                    
-                  </tr>
-                  ))}
-
-                  
+                <tbody className="table-group-divider my-5">
+                  {state == false ? (
+                    <Fragment>
+                      {salesReport &&
+                        salesReport.map((sale, index) => (
+                          <tr>
+                            <th scope="row">{sale.date}</th>
+                            <td>{sale.count}</td>
+                            <td>{sale.total}</td>
+                            <td>Area/Locality</td>
+                          </tr>
+                        ))}
+                    </Fragment>
+                  ) : (
+                    <Fragment>
+                      {filteredOrders &&
+                        filteredOrders.map((sale, index) => (
+                          <tr>
+                            <th scope="row">{sale.date}</th>
+                            <td>{sale.count}</td>
+                            <td>{sale.total}</td>
+                            <td>Area/Locality</td>
+                          </tr>
+                        ))}
+                    </Fragment>
+                  )}
                 </tbody>
               </table>
+              )}
             </div>
           </div>
         </div>

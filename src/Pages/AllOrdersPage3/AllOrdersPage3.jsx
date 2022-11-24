@@ -346,8 +346,8 @@ function AllOrdersPage3() {
               <div className="p3-notes">
                 <p> Notes</p>
                 <form action="">
-                <input class="form-control" type="text" placeholder=""/>
-                <button type="button" class="btn btn-outline-secondary w-25 mx-1">Send</button>
+                  <input class="form-control" type="text" placeholder=""/>
+                  <button type="button" class="btn btn-outline-secondary w-25 mx-1">Send</button>
                 </form>
               </div>
               <div className="p3-activity-bg">
@@ -365,9 +365,10 @@ function AllOrdersPage3() {
                     Order Placed
                     <p>
                       <DateFormatter date={order?.createdAt} />{" "}
+                      {/* {console.log(order?.createdAt.slice(0, 10))} */}
                     </p>
                   </div>
-                  <div>
+                  {/* <div>
                     <input
                       className="form-check-input bg-danger"
                       type="radio"
@@ -375,12 +376,15 @@ function AllOrdersPage3() {
                       id="radioNoLabel1"
                       value="Pending"
                       aria-label="..."
-                    />{" "}
+                     />
                     Assigned to
                     <p>
-                      <DateFormatter date={order?.createdAt} />
+                      
+                      {
+                        order?.assignedAt ?( <DateFormatter date={order?.assignedAt} />): "Not Assigned"
+                      }
                     </p>
-                  </div>
+                  </div> */}
                   <div>
                     <input
                       className="form-check-input bg-danger"
@@ -392,7 +396,9 @@ function AllOrdersPage3() {
                     />{" "}
                     Order Shipped
                     <p>
-                      <DateFormatter date={order?.shippedAt} />
+                    {
+                        order?.shippedAt ?( <DateFormatter date={order?.shippedAt} />): "Not Shipped"
+                      }
                     </p>
                   </div>
                   <div>
@@ -407,7 +413,10 @@ function AllOrdersPage3() {
                     Order Delivered
                     <p>
                       {" "}
-                      <DateFormatter date={order?.deliverdAt} />
+                      {/* <DateFormatter date={order?.deliverdAt} /> */}
+                      {
+                        order?.deliverdAt ?( <DateFormatter date={order?.deliverdAt} />): "Order not Delivered"
+                      }
                     </p>
                   </div>
                 </div>

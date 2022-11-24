@@ -7,6 +7,7 @@ import { CreateProduct, clearErrors } from "../../redux/actions/productAction";
 import { NEW_PRODUCT_RESET } from "../../constants/productConstants";
 import { getAllCategories } from "../../redux/actions/categoryAction";
 import { toast } from "react-toastify";
+import Loader from "../../Components/SideBar/Loader/Loader";
 
 const AddProducts = () => {
   const dispatch = useDispatch();

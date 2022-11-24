@@ -286,7 +286,7 @@ const HomePage = () => {
               <div>
                 <p style={{ fontWeight: 500 }}>TOTAL SALES</p>
                 <h2 style={{ fontWeight: 700, fontSize: "2rem" }}>
-                  {totalSales}
+                  {Math.round(totalSales)}
                 </h2>
               </div>
               <div

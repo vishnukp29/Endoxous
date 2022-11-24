@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./Page8.css";
 // import logo from "../../Assets/Images/logo3.png";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { clearErrors, getAllUsers } from "../../redux/actions/userAction.js";
 import { toast } from "react-toastify";
 import DateFormatter from "../../utils/DateFormatter";
@@ -24,6 +24,10 @@ function MyCustomers() {
 
     dispatch(getAllUsers());
   }, [dispatch, error, keyword]);
+
+  const customerDetailsHandler=(id)=>{
+    navigate(`/customer/${id}`)
+  }
 
   return (
     <div>
@@ -169,7 +173,8 @@ function MyCustomers() {
                       })
                       .map((user, index) => (
                         <tr>
-                          <th scope="row">
+                         
+                          <th scope="row" onClick={()=>customerDetailsHandler(user._id)} style={{cursor:"pointer"}}>
                             {index + 1}#{user._id}
                           </th>
                           <td>

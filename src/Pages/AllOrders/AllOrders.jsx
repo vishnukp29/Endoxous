@@ -10,8 +10,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { clearErrors, getAllOrders } from "../../redux/actions/orderAction";
 import { getAllNurseries } from "../../redux/actions/nurseryAction";
-
-import Loader from "../../Components/SideBar/Loader/Loader";
+import Loader from "../../Components/SideBar/Loader/Loader"; 
 
 function AllOrders() {
   const dispatch = useDispatch();
@@ -194,7 +193,6 @@ function AllOrders() {
     }
   };
 
-  // setFilterOrders(customOrders)
 
   return (
     <div>
