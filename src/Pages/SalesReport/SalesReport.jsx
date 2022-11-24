@@ -18,6 +18,7 @@ function SalesReport() {
     orders,
     loading: ordresLoading,
   } = useSelector((state) => state.allOrders);
+  
   const { error, loading, dateSales, totalSales, salesReport } = useSelector(
     (state) => state.salePerDay
   );

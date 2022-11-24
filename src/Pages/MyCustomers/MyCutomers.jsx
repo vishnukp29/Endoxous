@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,Fragment } from "react";
 import "./Page8.css";
 // import logo from "../../Assets/Images/logo3.png";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { clearErrors, getAllUsers } from "../../redux/actions/userAction.js";
+import { getAllNurseries } from "../../redux/actions/nurseryAction";
 import { toast } from "react-toastify";
 import DateFormatter from "../../utils/DateFormatter";
+import Loader from "../../Components/SideBar/Loader/Loader"; 
 
 function MyCustomers() {
   const dispatch = useDispatch();
@@ -13,8 +15,12 @@ function MyCustomers() {
   const [keyword, setKeyword] = useState("");
 
   const { error, loading, users } = useSelector((state) => state.allUsers);
+  const { error: nurseriesError, nurseries } = useSelector((state) => state.allNurseries);
   console.log(users && users, "====== users");
   const usersOnly = users && users.filter((user) => user.role !== "admin");
+
+  const [filteredUsers, setFilteredUsers] = useState([]);
+  const [state, setState] = useState(false);
 
   useEffect(() => {
     if (error) {
@@ -28,6 +34,72 @@ function MyCustomers() {
   const customerDetailsHandler=(id)=>{
     navigate(`/customer/${id}`)
   }
+
+  const AllUsers = users && users.filter((user) => user);
+
+  const nurseryDropDownHandler = (e) => {
+    const nursery = e.target.value;
+    const nuserysOrders =
+    users && users.filter((user) => user.deliveredBy === nursery); 
+    setFilteredUsers(nuserysOrders);
+    setState(true);
+
+    if (nursery === 1) {
+      setFilteredUsers(AllUsers);
+      setState(true);
+    }
+  };
+
+  // Date
+  let currentDate = new Date().toJSON().slice(0, 10);
+
+  // Week
+  const getLastWeeksDate = () => {
+    const now = new Date();
+    return new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000)
+      .toJSON()
+      .slice(0, 10);
+  };
+  const weekend = getLastWeeksDate();
+
+  // Month
+  function getMonthEndDate(numOfMonths, date = new Date()) {
+    const dateCopy = new Date(date.getTime());
+    dateCopy.setMonth(dateCopy.getMonth() - numOfMonths);
+    return dateCopy;
+  }
+  const date = new Date();
+  const monthend = getMonthEndDate(1, date).toJSON().slice(0, 10);
+
+
+  // Filtering
+  const todayUsers =
+  users &&
+  users.filter((user) => user.joinedOn.slice(0, 10) === currentDate);
+
+  const weekUsers =
+  users && users.filter((user) => user.joinedOn.slice(0, 10) >= weekend);
+
+  const monthUsers =
+  users &&
+  users.filter((user) => user.joinedOn.slice(0, 10) >= monthend);
+
+  const userSelect = (e) => {
+    let item = parseInt(e.target.value);
+    if (item === 1) {
+      setFilteredUsers(todayUsers);
+      setState(true);
+    } else if (item === 2) {
+      setFilteredUsers(weekUsers);
+      setState(true);
+    } else if (item === 3) {
+      setFilteredUsers(monthUsers);
+      setState(true);
+    } else {
+      setFilteredUsers(AllUsers);
+      setState(true);
+    }
+  };
 
   return (
     <div>
@@ -125,11 +197,12 @@ function MyCustomers() {
                   <select
                     className="form-select "
                     aria-label="Default select example"
+                    onChange={userSelect}
                   >
-                    <option selected>Lifetime</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
+                    <option defaultValue="Select">All Users</option>
+                    <option value="1">Today</option>
+                    <option value="2">This Week</option>
+                    <option value="3">This Month</option>
                   </select>
                 </div>
               </div>
@@ -147,7 +220,7 @@ function MyCustomers() {
               <table className="table table-borderless table-sm ">
                 <thead className="s2-table-nava">
                   <tr>
-                    <th scope="col">Order ID</th>
+                    <th scope="col">Customer ID</th>
                     <th scope="col">Date & Time</th>
                     <th scope="col">Customer</th>
                     <th scope="col">Items</th>
@@ -158,7 +231,8 @@ function MyCustomers() {
                   </tr>
                 </thead>
                 <tbody className="table-group-divider  my-5">
-                  {usersOnly &&
+                  {state==false ? (<Fragment>
+                    {usersOnly &&
                     usersOnly
                       .filter((val) => {
                         if (keyword === "") {
@@ -214,6 +288,67 @@ function MyCustomers() {
                           </td>
                         </tr>
                       ))}
+                  </Fragment>) : (
+                    <Fragment>
+                      {filteredUsers &&
+                        filteredUsers
+                      .filter((val) => {
+                        if (keyword === "") {
+                          return val;
+                        } else if (
+                          val.fullName
+                            .toLowerCase()
+                            .includes(keyword.toLowerCase())
+                        ) {
+                          return val;
+                        }
+                      })
+                      .map((user, index) => (
+                        <tr>
+                         
+                          <th scope="row" onClick={()=>customerDetailsHandler(user._id)} style={{cursor:"pointer"}}>
+                            {index + 1}#{user._id}
+                          </th>
+                          <td>
+                            {" "}
+                            <DateFormatter date={user?.joinedOn} />{" "}
+                          </td>
+                          <td>
+                            {" "}
+                            {user?.phone ? user?.phone : "not specified"}
+                          </td>
+                          <td> 1 </td>
+                          <td>COD</td>
+                          <td>
+                            <div>
+                              <input
+                                className="form-check-input s2-radio"
+                                type="radio"
+                                name="radioNoLabel"
+                                id="radioNoLabel1"
+                                value="Pending"
+                                aria-label="..."
+                              />{" "}
+                              Pending
+                            </div>
+                          </td>
+                          <td>Rs 320</td>
+                          <td>
+                            <select
+                              className="form-select-sm px-3"
+                              aria-label="Default select example"
+                            >
+                              <option selected>Select Nursery </option>
+                              <option value="1">One</option>
+                              <option value="2">Two</option>
+                              <option value="3">Three</option>
+                            </select>
+                          </td>
+                        </tr>
+                      ))}
+                    </Fragment>
+                  )}
+                  
 
                   
                 </tbody>
@@ -227,3 +362,5 @@ function MyCustomers() {
 }
 
 export default MyCustomers;
+
+

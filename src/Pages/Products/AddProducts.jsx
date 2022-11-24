@@ -285,7 +285,7 @@ const AddProducts = () => {
                 id="exampleInputNumber1"
                 aria-describedby="numberHelp"
                 name="avatar"
-                accept="image/*"
+                accept="image/webp"
                 onChange={createProductImagesChange}
                 multiple
               />

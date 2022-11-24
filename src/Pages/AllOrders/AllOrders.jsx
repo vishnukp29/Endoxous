@@ -17,9 +17,7 @@ function AllOrders() {
   const navigate = useNavigate();
 
   const { error, loading, orders } = useSelector((state) => state.allOrders);
-  const { error: nurseriesError, nurseries } = useSelector(
-    (state) => state.allNurseries
-  );
+  const { error: nurseriesError, nurseries } = useSelector((state) => state.allNurseries);
 
   const [nursery, setNursery] = useState("");
   const [orderId, setOrderId] = useState("");
@@ -371,8 +369,6 @@ function AllOrders() {
                                 <td>
                                   {" "}
                                   <DateFormatter date={order.createdAt} />{" "}
-                                  {/* {order.createdAt.slice(0, 10)}
-                              {console.log((order.createdAt).slice(0, 10),'Date')};  */}
                                 </td>
 
                                 <td>

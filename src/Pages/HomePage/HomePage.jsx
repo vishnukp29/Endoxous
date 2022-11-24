@@ -178,10 +178,6 @@ const HomePage = () => {
       setSales(yesterdayOrders);
      }
    };
- 
-   // const showAll = () => {
-   //   setFilterOrders(AllOrdders);
-   // };
 
   return (
     <div className="section2 ">
