@@ -17,8 +17,6 @@ const SideBar = () => {
       <div className="section1">
         <div className="logo">
           <img className="logo" src={logo} alt="img" />
-          {/* <h2>Endoxous</h2>
-        <h6 className="s2-logotitle">international private limited</h6> */}
         </div>
         <div>
           <ul className="navbar-nav justify-content-end flex-grow-1 ">

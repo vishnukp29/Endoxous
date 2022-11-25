@@ -19,7 +19,6 @@ function AllNurseries() {
     (state) => state.allNurseries
   );
 
-
   useEffect(() => {
     if (error) {
       toast.error(error.message);
@@ -27,7 +26,7 @@ function AllNurseries() {
     }
 
     dispatch(getAllNurseries());
-  }, [dispatch, error,keyword]);
+  }, [dispatch, error, keyword]);
 
   const addNewNurseryHandler = () => {
     console.log("New Nursery Mode or any popup");
@@ -64,8 +63,8 @@ function AllNurseries() {
             </div>
             <hr />
           </nav>
-          <div className="d-flex justify-content-between  align-items-center px-2 py-1">
-            <div className="p-5">
+          <div className="d-flex justify-content-between align-items-center px-2 py-1 filterInputInAllOrders">
+            <div className="p-5 filterInput">
               <input
                 className="form-control px-4"
                 type="text"
@@ -75,25 +74,31 @@ function AllNurseries() {
                 onChange={(e) => setKeyword(e.target.value)}
               />
             </div>
-            <div>
-              <div className="d-flex px-4 ">
-                <button
-                  type="button"
-                  className="btn-AllNurseries btn btn-success btn-md"
-                  onClick={addNewNurseryHandler}
-                >
-                  + Add new nursery
-                </button>
-              </div>
+            <div className="addNewNursery d-flex px-5 ">
+              <button
+                type="button"
+                className="btn-AllNurseries btn btn-md"
+                onClick={addNewNurseryHandler}
+              >
+                + Add new nursery
+              </button>
             </div>
           </div>
-          <div className="s2-table px-3 mx-5 ">
-            <div className="s2-table py-4">
+          <div className="tableForAll s2-table m-5 ">
+            <div className="subTableForAll s2-table">
               {loading ? (
                 <Loader />
               ) : (
-                <table className="table table-borderless table-sm ">
-                  <thead className="s2-table-nava">
+                <table
+                  className="table table-borderless"
+                  style={{
+                    overflow: "hidden",
+                    width: "100%",
+                    borderRadius: ".5rem",
+                    backgroundColor: "white",
+                  }}
+                >
+                  <thead style={{ backgroundColor: "#eaeaea" }}>
                     <tr>
                       <th scope="col">Order ID</th>
                       <th scope="col">Nursery Name</th>
@@ -106,36 +111,38 @@ function AllNurseries() {
                   </thead>
                   <tbody className="table-group-divider  my-5">
                     {nurseries &&
-                      nurseries.filter((val) => {
-                        if (keyword === "") {
-                          return val;
-                        } else if (
-                          val.fullName
-                            ?.toLowerCase()
-                            .includes(keyword?.toLowerCase())
-                        ) {
-                          return val;
-                        }
-                      }).map((nursery, index) => (
-                        <tr>
-                          <th scope="row">#{nursery._id}</th>
-                          <td>{nursery?.name}</td>
-                          <td>{nursery.address} </td>
-                          <td> 1 </td>
-                          {/* <td>🟢</td> */}
-                          <div>
-                            <input
-                              className="form-check-input s2-radio"
-                              type="radio"
-                              name="radioNoLabel"
-                              id="radioNoLabel1"
-                              value="Pending"
-                              aria-label="..."
-                            />
-                          </div>
-                          <td>Rs 36,320</td>
-                        </tr>
-                      ))}
+                      nurseries
+                        .filter((val) => {
+                          if (keyword === "") {
+                            return val;
+                          } else if (
+                            val.fullName
+                              ?.toLowerCase()
+                              .includes(keyword?.toLowerCase())
+                          ) {
+                            return val;
+                          }
+                        })
+                        .map((nursery, index) => (
+                          <tr>
+                            <th scope="row">#{nursery._id}</th>
+                            <td>{nursery?.name}</td>
+                            <td>{nursery.address} </td>
+                            <td> 1 </td>
+                            {/* <td>🟢</td> */}
+                            <div>
+                              <input
+                                className="form-check-input s2-radio"
+                                type="radio"
+                                name="radioNoLabel"
+                                id="radioNoLabel1"
+                                value="Pending"
+                                aria-label="..."
+                              />
+                            </div>
+                            <td>Rs 36,320</td>
+                          </tr>
+                        ))}
 
                     {/* <tr>
                     <th scope="row">#12345</th>
