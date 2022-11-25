@@ -67,7 +67,7 @@ function AllNurseries() {
           <div className="d-flex justify-content-between  align-items-center px-2 py-1">
             <div className="p-5">
               <input
-                className="form-control px-5"
+                className="form-control px-4"
                 type="text"
                 value={keyword}
                 placeholder="ID, phone or name..."

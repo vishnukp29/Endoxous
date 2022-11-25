@@ -227,7 +227,7 @@ function AllOrders() {
             <div className="p-5" onClick={(e) => setState(false)}>
               {/* <form className="searchBox" onSubmit={searchSubmitHandler}> */}
               <input
-                className="form-control px-5"
+                className="form-control px-4"
                 type="text"
                 value={keyword}
                 aria-label="readonly input example"

@@ -206,7 +206,7 @@ const EditProducts = () => {
         >
           <div className="bg-white p-4 rounded">
             <div className="mb-2">
-              <label for="exampleInputNumber" className="form-label">
+              <label htmlFor="exampleInputNumber" className="form-label">
                 Product Name
               </label>
               <input
@@ -220,7 +220,7 @@ const EditProducts = () => {
             </div>
 
             <div className="mb-2">
-              <label for="exampleInputNumber" className="form-label">
+              <label htmlFor="exampleInputNumber" className="form-label">
                 Description
               </label>
               <input
@@ -234,7 +234,7 @@ const EditProducts = () => {
             </div>
 
             <div className="mb-2">
-              <label for="exampleInputNumber" className="form-label">
+              <label htmlFor="exampleInputNumber" className="form-label">
                 Product Category
               </label>
               <br />
@@ -255,7 +255,7 @@ const EditProducts = () => {
 
             <div className="d-flex flex-row gap-2">
               <div className="mb-2">
-                <label for="exampleInputNumber" className="form-label">
+                <label htmlFor="exampleInputNumber" className="form-label">
                  MRP
                 </label>
                 <input
@@ -268,7 +268,7 @@ const EditProducts = () => {
                 />
               </div>
               <div className="mb-2">
-                <label for="exampleInputNumber" className="form-label">
+                <label htmlFor="exampleInputNumber" className="form-label">
                   PRICE
                 </label>
                 <input
@@ -280,7 +280,7 @@ const EditProducts = () => {
                   onChange={(e) => setPrice(e.target.value)}
                 />
                 <label
-                  for="exampleInputNumber"
+                  htmlFor="exampleInputNumber"
                   className="form-label bg-success mt-1 px-1 text-white rounded"
                 >
                   20$ OFF
@@ -290,7 +290,7 @@ const EditProducts = () => {
 
             <div className="d-flex flex-row gap-2">
               <div className="mb-2">
-                <label for="exampleInputNumber" className="form-label">
+                <label htmlFor="exampleInputNumber" className="form-label">
                   Product Stock
                 </label>
                 <input
@@ -307,7 +307,7 @@ const EditProducts = () => {
 
           <div className="bg-white p-4 rounded mt-3">
             <div className="mb-2" id="createProductFormFile">
-              <label for="exampleInputNumber" className="form-label">
+              <label htmlFor="exampleInputNumber" className="form-label">
                 Product Images
               </label>
               <input
@@ -337,7 +337,7 @@ const EditProducts = () => {
           <div className="bg-white p-4 rounded mt-3">
             <div className="mb-2">
               <h6>Product Unit</h6>
-              <label for="exampleInputNumber" className="form-label">
+              <label htmlFor="exampleInputNumber" className="form-label">
                 Quantity
               </label>
               <input
