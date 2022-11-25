@@ -412,7 +412,7 @@ const AllProducts = () => {
                             <button
                               type="button"
                               className="btn bg-success btn-success btn-md"
-                              // onClick={()=>ProductDetailsHandler(product._id)}
+                              onClick={()=>ProductDetailsHandler(product._id)}
                             >
                               Details
                             </button>

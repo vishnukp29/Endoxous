@@ -36,8 +36,9 @@ const EditProducts = () => {
   const [oldImages, setOldImages] = useState([]);
   const [imagesPreviw, setImagesPreviw] = useState([]);
   const [inventory, setInventory] = useState(0);
-  //   const [tags, setTags] = useState([]);
-  const [tag, setTag] = useState("");
+  // tags
+	const [hashTags, setHashTags] = useState([]);
+	const [tag, setTag] = useState('');
 
   //   const categories = [];
   const productId = id;
@@ -95,7 +96,7 @@ const EditProducts = () => {
     myForm.set("mrp", mrp);
     myForm.set("stock", stock);
     myForm.set("inventory", inventory);
-    myForm.set("tag", tag);
+    myForm.set("hashTags", hashTags);
 
     images.forEach((image) => {
       myForm.append("images", image);
@@ -134,6 +135,33 @@ const EditProducts = () => {
       return options;
     }
   };
+
+  // Tags
+	const handleTagInput = (e) => {
+		if (e.target.value.length > 0) {
+			console.log("🚀 ~ file: EditProducts.jsx ~ line 149 ~ handleTagInput ~ e.target.value", e.target.value)
+			setTag(e.target.value);
+			console.log(tag);
+		}
+		
+	}
+
+  const addTag = (e) => {
+		if (hashTags.length < 0) {
+		setHashTags(tag)
+		} else {
+				setHashTags([...hashTags, tag]);
+				console.log(hashTags);
+		}
+		setTag('');
+	};
+	const removeTag = (removedTag) => {
+		const newTags = hashTags.filter((tag) => tag !== removedTag);
+		setHashTags(newTags);
+	};
+	const clearTags = () => {
+		setHashTags([]);
+	};
 
   return (
     <div className="">
@@ -228,20 +256,7 @@ const EditProducts = () => {
             <div className="d-flex flex-row gap-2">
               <div className="mb-2">
                 <label for="exampleInputNumber" className="form-label">
-                  Price
-                </label>
-                <input
-                  type="number"
-                  className="form-control"
-                  id="exampleInputNumber"
-                  aria-describedby="numberHelp"
-                  value={price}
-                  onChange={(e) => setPrice(e.target.value)}
-                />
-              </div>
-              <div className="mb-2">
-                <label for="exampleInputNumber" className="form-label">
-                  Price
+                 MRP
                 </label>
                 <input
                   type="number"
@@ -250,6 +265,19 @@ const EditProducts = () => {
                   aria-describedby="numberHelp"
                   value={mrp}
                   onChange={(e) => setMrp(e.target.value)}
+                />
+              </div>
+              <div className="mb-2">
+                <label for="exampleInputNumber" className="form-label">
+                  PRICE
+                </label>
+                <input
+                  type="number"
+                  className="form-control"
+                  id="exampleInputNumber"
+                  aria-describedby="numberHelp"
+                  value={price}
+                  onChange={(e) => setPrice(e.target.value)}
                 />
                 <label
                   for="exampleInputNumber"
@@ -263,7 +291,7 @@ const EditProducts = () => {
             <div className="d-flex flex-row gap-2">
               <div className="mb-2">
                 <label for="exampleInputNumber" className="form-label">
-                  Product Unit
+                  Product Stock
                 </label>
                 <input
                   type="number"
@@ -308,7 +336,7 @@ const EditProducts = () => {
 
           <div className="bg-white p-4 rounded mt-3">
             <div className="mb-2">
-              <h6>Inventory</h6>
+              <h6>Product Unit</h6>
               <label for="exampleInputNumber" className="form-label">
                 Quantity
               </label>
@@ -324,30 +352,52 @@ const EditProducts = () => {
           </div>
 
           <div className="bg-white p-4 rounded mt-3">
-            <div className="mb-2">
-              <h6>Tags to Products</h6>
+						<div className="mb-2">
+							<h6>Tags to Products</h6>
 
-              <input
-                type="text"
-                className="form-control"
-                id="exampleInputNumber1"
-                aria-describedby="numberHelp"
-                value={tag}
-                onChange={(e) => setTag(e.target.value)}
-              />
-            </div>
-            {/* <div className="gap-2 d-flex">
-              <button type="button" className="btn btn-secondary rounded-pill">
-                Add
-              </button>
-              <button type="button" className="btn btn-danger rounded-pill">
-                Secondary X
-              </button>
-              <button type="button" className="btn btn-danger rounded-pill">
-                Secondary X
-              </button>
-            </div> */}
-          </div>
+							<input
+								type="text"
+								className="form-control"
+								id="exampleInputNumber1"
+								aria-describedby="numberHelp"
+								value={tag || ''}
+								onChange={handleTagInput}
+							/>
+						</div>
+						<div className="gap-2 d-flex">
+							<button
+								onClick={addTag}
+								type="button"
+								className="btn btn-secondary rounded-pill"
+							>
+								Add Tag
+							</button>
+							{hashTags && (
+								<>
+									{hashTags?.map((tag, index) => (
+										<button
+											key={index}
+											onClick={() => removeTag(tag)}
+											type="button"
+											className="btn btn-danger rounded-pill"
+										>
+											{tag}{' '}
+											<span className="ml-1">X</span>
+										</button>
+									))}
+
+									<button
+										onClick={() => clearTags()}
+										type="button"
+										className="btn btn-danger rounded-pill ml-1"
+									>
+										Clear All Tags{' '}
+										<span className="ml-1">X</span>
+									</button>
+								</>
+							)}
+						</div>
+					</div>
 
           <button type="submit" className="btn btn-success w-100 mt-3 mb-5">
             <Link to="" style={{ color: "white", textDecoration: "none" }}>
