@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import Loader from "../../Components/SideBar/Loader/Loader";
+import { MdDelete } from "react-icons/md";
 import {
   addBanner,
   clearErrors,
@@ -46,12 +47,13 @@ const HomePage = () => {
 
   console.log(nurseries && nurseries, "========= nurseries");
 
-
   const pendingOrders =
     orders && orders.filter((order) => order.orderStatus === "pending");
+
   const pendingOrdersWorth =
     pendingOrders &&
     pendingOrders.reduce((acc, item) => acc + item.totalPrice, 0);
+
   const ordersToShip =
     orders &&
     orders.filter(
@@ -61,6 +63,8 @@ const HomePage = () => {
         order.orderStatus !== "Delivered"
     );
   const top5Nuseries = nurseries && nurseries.slice(0, 5);
+
+  const [filteredOrders, setFilterOrders] = useState([]);
 
   useEffect(() => {
     if (error) {
@@ -136,48 +140,50 @@ const HomePage = () => {
   const bannerDeleteHandler = (id) => {
     dispatch(deleteBanner(id));
   };
-  const [saleDate, setSalesDate] = useState(1) 
-  const [sales, setSales] = useState(orders)
-  const [totalSales,setTotalSales] = useState()
+  const [saleDate, setSalesDate] = useState(1);
+  const [sales, setSales] = useState(orders);
+  const [totalSales, setTotalSales] = useState();
 
-  useEffect(()=>{
-    setTotalSales(sales.reduce((acc, item) => acc + item.totalPrice, 0));  
-  },[sales]) 
+  useEffect(() => {
+    setTotalSales(sales.reduce((acc, item) => acc + item.totalPrice, 0));
+  }, [sales]);
 
+  // Today
+  let currentDate = new Date().toJSON().slice(0, 10);
+  console.log(currentDate, "current Date");
 
-   // Today
-   let currentDate = new Date().toJSON().slice(0, 10)
-   console.log(currentDate,'current Date'); 
- 
-   // Yesterday 
-   const getYesterdayDate=()=> {
-     const now = new Date();
-     return new Date(now.getTime() - 2 * 24 * 60 * 60 * 1000).toJSON().slice(0,10);
-   }
-   const yesterday= getYesterdayDate()
-   console.log(yesterday,'Yesterday');
- 
- 
-    const todayOrders =
-     orders && orders.filter((order) => (order.createdAt).slice(0, 10) === currentDate);
-     console.log(todayOrders); 
-     console.log(currentDate);
+  // Yesterday
+  const getYesterdayDate = () => {
+    const now = new Date();
+    return new Date(now.getTime() - 2 * 24 * 60 * 60 * 1000)
+      .toJSON()
+      .slice(0, 10);
+  };
+  const yesterday = getYesterdayDate();
+  console.log(yesterday, "Yesterday");
 
-     const yesterdayOrders =
-     orders && orders.filter((order) => (order.createdAt).slice(0, 10) === yesterday);
-     console.log(todayOrders); 
-     console.log(currentDate);
- 
-   const daySelect = (e) => {
-     let item = parseInt(e.target.value);
-     if (item === 1) {
-       setSales(orders);
-     } else if (item === 2) {
+  const todayOrders =
+    orders &&
+    orders.filter((order) => order.createdAt.slice(0, 10) === currentDate);
+  console.log(todayOrders);
+  console.log(currentDate);
+
+  const yesterdayOrders =
+    orders &&
+    orders.filter((order) => order.createdAt.slice(0, 10) === yesterday);
+  console.log(todayOrders);
+  console.log(currentDate);
+
+  const daySelect = (e) => {
+    let item = parseInt(e.target.value);
+    if (item === 1) {
+      setSales(orders);
+    } else if (item === 2) {
       setSales(todayOrders);
-     } else if (item === 3) {
+    } else if (item === 3) {
       setSales(yesterdayOrders);
-     }
-   };
+    }
+  };
 
   return (
     <div className="section2 ">
@@ -223,7 +229,8 @@ const HomePage = () => {
                 selected={saleDate}
                 className="form-select "
                 aria-label="Default select example"
-                onChange={daySelect}>
+                onChange={daySelect}
+              >
                 <option value="1">Lifetime</option>
                 <option value="2">Today</option>
                 <option value="3">Yesterday</option>
@@ -278,7 +285,8 @@ const HomePage = () => {
                 height: "14rem",
                 display: "flex",
                 justifyContent: "space-between",
-              }} >
+              }}
+            >
               <div>
                 <p style={{ fontWeight: 500 }}>TOTAL SALES</p>
                 <h2 style={{ fontWeight: 700, fontSize: "2rem" }}>
@@ -294,11 +302,10 @@ const HomePage = () => {
               >
                 <p style={{ fontWeight: 500 }}>Orders</p>
                 <h2 style={{ fontWeight: 700, fontSize: "2rem" }}>
-                  {sales && sales.length} 
+                  {sales && sales.length}
                 </h2>
               </div>
             </div>
-
           </div>
           <div className="container-lg d-flex flex-wrap justify-content-between px-5 py-2">
             <div className="container-md p-0" style={{ width: "60%" }}>
@@ -313,18 +320,19 @@ const HomePage = () => {
                   encType="multipart/form-data"
                   onSubmit={createBannerSubmitHandler}
                 >
-                  {/* <div id="">
+                  <div>
                     <input
+                      className="d-none"
+                      id="file"
                       type="file"
                       name="avatar"
                       accept="image/*"
                       onChange={bannerDataChange}
                     />
-                  </div> */}
-
-                  {/* <button type="submit" disabled={avatar === "" ? true : false}>
-                    Save
-                  </button> */}
+                    <label htmlFor="file" className="btn btn py-0">
+                      + Add new
+                    </label>
+                  </div>
                 </form>
               </div>
               <div
@@ -352,18 +360,30 @@ const HomePage = () => {
 
                 {banners &&
                   banners?.map((banner, index) => (
-                    <div
-                      className="card mx-1"
-                      style={{ width: "10rem", height: "5rem" }}
-                      onClick={() => bannerDeleteHandler(banner._id)}
-                    >
-                      <i className="bi bi-trash"></i>
-
-                      <img
-                        src={banner.url}
-                        className="card-img-top"
-                        alt="..."
+                    <div>
+                      <MdDelete
+                        style={{
+                          color: "#dc3545",
+                          cursor: "pointer",
+                        }}
+                        onClick={() => bannerDeleteHandler(banner._id)}
                       />
+                      <div
+                        className="card mx-1"
+                        style={{
+                          width: "10rem",
+                          height: "5rem",
+                          overflow: "hidden",
+                          borderRadius: ".4rem",
+                        }}
+                      >
+                        <img
+                          style={{ borderRadius: ".4rem" }}
+                          src={banner.url}
+                          className="bg-primary img-fluid rounded-start h-100"
+                          alt="..."
+                        />
+                      </div>
                     </div>
                   ))}
               </div>
