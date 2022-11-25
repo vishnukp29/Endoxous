@@ -11,6 +11,76 @@ input::-webkit-inner-spin-button {
 }
 
 /* Firefox */
-input[type=number] {
+input[type="number"] {
   -moz-appearance: textfield;
+}
+
+.tableForAll {
+  margin: 1rem !important;
+}
+
+.subTableForAll {
+  margin: 0;
+  width: 100%;
+  overflow-x: scroll;
+}
+
+@media only screen and (max-width: 992px) {
+  .mainsection {
+    width: 100%;
+  }
+
+  .section1 {
+    display: none !important;
+  }
+
+  .section2-btn {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .section2 {
+    width: 100%;
+    left: 0;
+  }
+
+  .filterInput {
+    width: 100% !important;
+  }
+
+  .addNewNursery {
+    width: 100%;
+    margin-bottom: 2rem;
+  }
+
+  .btn-AllNurseries {
+    width: 100%;
+  }
+
+  .filterInputInAllOrders {
+    display: flex;
+    /* flex-wrap: wrap; */
+    width: 100;
+    flex-direction: column;
+  }
+
+  .tableForAll {
+    margin: 1rem !important;
+  }
+
+  .subTableForAll {
+    margin: 0;
+    width: 100%;
+    overflow-x: scroll;
+  }
+
+  .categoryBtn {
+    width: 100%;
+    margin: 0 0 2rem 0 !important;
+  }
+
+  .categorySelection {
+    width: 100%;
+    margin: 0 0 2rem 0 !important;
+  }
 }

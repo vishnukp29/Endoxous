@@ -15,8 +15,12 @@ function Categories() {
   const navigate = useNavigate();
   const [keyword, setKeyword] = useState("");
 
-  const { error, loading, categoryList } = useSelector((state) => state.allCategories);
-  const { error: nurseriesError, nurseries } = useSelector((state) => state.allNurseries);
+  const { error, loading, categoryList } = useSelector(
+    (state) => state.allCategories
+  );
+  const { error: nurseriesError, nurseries } = useSelector(
+    (state) => state.allNurseries
+  );
 
   console.log(categoryList && categoryList, "=========== category list");
 
@@ -41,11 +45,12 @@ function Categories() {
   const nurseryDropDownHandler = (e) => {
     const nursery = e.target.value;
     const nuserysproducts =
-    categoryList && categoryList.filter((category) => category.seller === nursery);
+      categoryList &&
+      categoryList.filter((category) => category.seller === nursery);
     setFilteredCategories(nuserysproducts);
-    setState(true)
+    setState(true);
     if (nursery == 1) {
-      setFilteredCategories(); 
+      setFilteredCategories();
     }
   };
 
@@ -79,8 +84,8 @@ function Categories() {
           </div>
           <hr />
         </nav>
-        <div className="d-flex justify-content-between  align-items-center px-2 py-1">
-          <div className="p-5">
+        <div className="d-flex flex-wrap justify-content-between align-items-center px-2 py-1">
+          <div className="px-5 py-4 filterInput">
             <input
               className="form-control px-4"
               type="text"
@@ -90,30 +95,33 @@ function Categories() {
             />
           </div>
           <div>
-            <div className="d-flex px-4 ">
-              <button type="button" className="btn btn-sm btn-link me-5">
+            <div className="d-flex flex-wrap px-5 ">
+              <button
+                type="button"
+                className="categoryBtn btn btn-sm btn-link me-5"
+              >
                 Reorder Catagory
               </button>
-              <div className="p2-selection mx-2 ">
+              <div className="categorySelection p2-selection mx-2">
                 <select
                   className="form-select "
                   aria-label="Default select example"
                   onChange={nurseryDropDownHandler}
                 >
-                 <option selected value="1">
-                  All nurseries
-                </option>
-                {nurseries &&
-                  nurseries.map((nursery, index) => (
-                    <option value={nursery._id} key={index}>
-                      {nursery?.name + " " + nursery?.address}
-                    </option>
-                  ))}
+                  <option selected value="1">
+                    All nurseries
+                  </option>
+                  {nurseries &&
+                    nurseries.map((nursery, index) => (
+                      <option value={nursery._id} key={index}>
+                        {nursery?.name + " " + nursery?.address}
+                      </option>
+                    ))}
                 </select>
               </div>
               <button
                 type="button"
-                className="btn-page4 btn btn-success btn-md"
+                className="btn-page4 categorySelection btn btn-success btn-md"
                 onClick={addCategoryHandler}
               >
                 + Add New Category
@@ -122,8 +130,8 @@ function Categories() {
           </div>
         </div>
 
-        <div className="s2-table mx-5 ">
-          <div className="s2-table">
+        <div className="tableForAll s2-table mx-5 ">
+          <div className="s2-table subTableForAll">
             {loading ? (
               <Loader />
             ) : (
