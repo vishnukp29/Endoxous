@@ -166,14 +166,14 @@ const AddProducts = () => {
           encType="multipart/form-data"
           onSubmit={createProductSubmitHandler}
         >
-          <div class="bg-white p-4 rounded">
-            <div class="mb-2">
-              <label for="exampleInputNumber" class="form-label">
+          <div className="bg-white p-4 rounded">
+            <div className="mb-2">
+              <label htmlFor="exampleInputNumber" className="form-label">
                 Product Name
               </label>
               <input
                 type="text"
-                class="form-control"
+                className="form-control"
                 id="exampleInputNumber"
                 aria-describedby="numberHelp"
                 value={name}
@@ -181,13 +181,13 @@ const AddProducts = () => {
               />
             </div>
 
-            <div class="mb-2">
-              <label for="exampleInputNumber" class="form-label">
+            <div className="mb-2">
+              <label htmlFor="exampleInputNumber" className="form-label">
                 Description
               </label>
               <input
                 type="text"
-                class="form-control"
+                className="form-control"
                 id="exampleInputNumber"
                 aria-describedby="numberHelp"
                 value={description}
@@ -195,8 +195,8 @@ const AddProducts = () => {
               />
             </div>
 
-            <div class="mb-2">
-              <label for="exampleInputNumber" class="form-label">
+            <div className="mb-2">
+              <label htmlFor="exampleInputNumber" className="form-label">
                 Product Category
               </label>
               <select
@@ -214,49 +214,49 @@ const AddProducts = () => {
                   </select>
             </div>
 
-            <div class="d-flex flex-row gap-2">
-              <div class="mb-2">
-                <label for="exampleInputNumber" class="form-label">
+            <div className="d-flex flex-row gap-2">
+              <div className="mb-2">
+                <label htmlFor="exampleInputNumber" className="form-label">
                   MRP
                 </label>
                 <input
                   type="number"
-                  class="form-control"
+                  className="form-control"
                   id="exampleInputNumber"
                   aria-describedby="numberHelp"
                   value={mrp}
                   onChange={(e) => setMrp(e.target.value)}
                 />
               </div>
-              <div class="mb-2">
-                <label for="exampleInputNumber" class="form-label">
+              <div className="mb-2">
+                <label htmlFor="exampleInputNumber" className="form-label">
                   PRICE
                 </label>
                 <input
                   type="number"
-                  class="form-control"
+                  className="form-control"
                   id="exampleInputNumber"
                   aria-describedby="numberHelp"
                   value={price}
                   onChange={(e) => setPrice(e.target.value)}
                 />
                 <label
-                  for="exampleInputNumber"
-                  class="form-label bg-success mt-1 px-1 text-white rounded"
+                  htmlFor="exampleInputNumber"
+                  className="form-label bg-success mt-1 px-1 text-white rounded"
                 >
                   20$ OFF
                 </label>
               </div>
             </div>
 
-            <div class="d-flex flex-row gap-2">
-              <div class="mb-2">
-                <label for="exampleInputNumber" class="form-label">
+            <div className="d-flex flex-row gap-2">
+              <div className="mb-2">
+                <label htmlFor="exampleInputNumber" className="form-label">
                   Product Stock
                 </label>
                 <input
                   type="number"
-                  class="form-control" 
+                  className="form-control" 
                   id="exampleInputNumber"
                   aria-describedby="numberHelp"
                   value={stock}
@@ -266,14 +266,14 @@ const AddProducts = () => {
             </div>
           </div>
 
-          <div class="bg-white p-4 rounded mt-3">
-            <div class="mb-2" id="createProductFormFile">
-              <label for="exampleInputNumber" class="form-label">
+          <div className="bg-white p-4 rounded mt-3">
+            <div className="mb-2" id="createProductFormFile">
+              <label htmlFor="exampleInputNumber" className="form-label">
                 Product Images
               </label>
               <input
                 type="file"
-                class="form-control"
+                className="form-control"
                 id="exampleInputNumber1"
                 aria-describedby="numberHelp"
                 name="avatar"
@@ -289,15 +289,15 @@ const AddProducts = () => {
             </div>
           </div>
 
-          <div class="bg-white p-4 rounded mt-3">
-            <div class="mb-2">
+          <div className="bg-white p-4 rounded mt-3">
+            <div className="mb-2">
               <h6>Product Unit</h6>
-              <label for="exampleInputNumber" class="form-label">
+              <label htmlFor="exampleInputNumber" className="form-label">
                 Quantity
               </label>
               <input
                 type="text"
-                class="form-control"
+                className="form-control"
                 id="exampleInputNumber1"
                 aria-describedby="numberHelp"
                 value={inventory}
@@ -355,7 +355,7 @@ const AddProducts = () => {
 					</div>
 
 
-          <button type="submit" class="btn btn-success w-100 mt-3 mb-5">
+          <button type="submit" className="btn btn-success w-100 mt-3 mb-5">
             <Link to="" style={{ color: "white", textDecoration: "none" }}>
               Add Products
             </Link>
