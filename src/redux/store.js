@@ -3,15 +3,10 @@ import { addBannerReducer, allBannersReducer, deleteBannerReducer } from "./redu
 import { allCategoriesReducer, newCategoryReducer } from "./reducers/categoryReducer";
 import { chartReducer, chartSalesReducer, ordersPerDayReducer, salePerDayReducer } from "./reducers/chartReducer";
 import { allNurseriesReducer } from "./reducers/nurseryReducer";
-import { allOrdersReducer, orderDetailsReducer, orderReducer } from "./reducers/orderReducer";
+import { allOrdersReducer, orderDetailsReducer, orderReducer,  usersOrdersReducer} from "./reducers/orderReducer";
 import { newProductReducer, productDetailsReducer, productReducer, productsReducer } from "./reducers/productReducers";
 import { ordersTicketReducer } from "./reducers/ticketsReducer";
-import { allUsersReducer, userReducer, verifyUserReducer } from "./reducers/userReducer";
-
-
-
-
-
+import { allUsersReducer, userReducer, verifyUserReducer, userDetailsReducer } from "./reducers/userReducer";
 
 const Store = configureStore({
   reducer: {
@@ -38,7 +33,8 @@ const Store = configureStore({
      chartSales:chartSalesReducer,
      ordersPerDay:ordersPerDayReducer,
      salePerDay:salePerDayReducer,
-    // userDetails : userDetailsReducer,
+    userDetails : userDetailsReducer,
+    usersOrders : usersOrdersReducer,
     // forgotPassword : forgotPasswordReducer,
     // deleteCart : deleteCartItemReducer,
     // shippingInfo : saveShippingReducer,

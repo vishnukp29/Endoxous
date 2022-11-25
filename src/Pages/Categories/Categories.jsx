@@ -9,17 +9,19 @@ import {
   getAllCategories,
 } from "../../redux/actions/categoryAction";
 import Loader from "../../Components/SideBar/Loader/Loader";
-
+import { getAllNurseries } from "../../redux/actions/nurseryAction";
 function Categories() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [keyword, setKeyword] = useState("");
 
-  const { error, loading, categoryList } = useSelector(
-    (state) => state.allCategories
-  );
+  const { error, loading, categoryList } = useSelector((state) => state.allCategories);
+  const { error: nurseriesError, nurseries } = useSelector((state) => state.allNurseries);
 
   console.log(categoryList && categoryList, "=========== category list");
+
+  const [state, setState] = useState(false);
+  const [filteredCategories, setFilteredCategories] = useState([]);
 
   useEffect(() => {
     if (error) {
@@ -28,12 +30,24 @@ function Categories() {
     }
 
     dispatch(getAllCategories());
+    dispatch(getAllNurseries());
   }, [dispatch, error]);
 
   const addCategoryHandler = () => {
     navigate("/category/new");
   };
   console.log(keyword, "======  key word");
+
+  const nurseryDropDownHandler = (e) => {
+    const nursery = e.target.value;
+    const nuserysproducts =
+    categoryList && categoryList.filter((category) => category.seller === nursery);
+    setFilteredCategories(nuserysproducts);
+    setState(true)
+    if (nursery == 1) {
+      setFilteredCategories(); 
+    }
+  };
 
   return (
     <div className="mainsection">
@@ -84,11 +98,17 @@ function Categories() {
                 <select
                   className="form-select "
                   aria-label="Default select example"
+                  onChange={nurseryDropDownHandler}
                 >
-                  <option selected>All nurseries</option>
-                  <option value="1">One</option>
-                  <option value="2">Two</option>
-                  <option value="3">Three</option>
+                 <option selected value="1">
+                  All nurseries
+                </option>
+                {nurseries &&
+                  nurseries.map((nursery, index) => (
+                    <option value={nursery._id} key={index}>
+                      {nursery?.name + " " + nursery?.address}
+                    </option>
+                  ))}
                 </select>
               </div>
               <button

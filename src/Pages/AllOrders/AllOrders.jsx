@@ -10,17 +10,14 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { clearErrors, getAllOrders } from "../../redux/actions/orderAction";
 import { getAllNurseries } from "../../redux/actions/nurseryAction";
-
-import Loader from "../../Components/SideBar/Loader/Loader";
+import Loader from "../../Components/SideBar/Loader/Loader"; 
 
 function AllOrders() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const { error, loading, orders } = useSelector((state) => state.allOrders);
-  const { error: nurseriesError, nurseries } = useSelector(
-    (state) => state.allNurseries
-  );
+  const { error: nurseriesError, nurseries } = useSelector((state) => state.allNurseries);
 
   const [nursery, setNursery] = useState("");
   const [orderId, setOrderId] = useState("");
@@ -194,7 +191,6 @@ function AllOrders() {
     }
   };
 
-  // setFilterOrders(customOrders)
 
   return (
     <div>
@@ -373,8 +369,6 @@ function AllOrders() {
                                 <td>
                                   {" "}
                                   <DateFormatter date={order.createdAt} />{" "}
-                                  {/* {order.createdAt.slice(0, 10)}
-                              {console.log((order.createdAt).slice(0, 10),'Date')};  */}
                                 </td>
 
                                 <td>

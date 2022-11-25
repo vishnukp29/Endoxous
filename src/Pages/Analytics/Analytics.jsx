@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Doughnut, Line } from "react-chartjs-2";
+import { Convert } from "easy-currencies";
 import {
   Chart as ChartJS,
   Title,
@@ -13,7 +14,8 @@ import {
   PointElement,
   ArcElement,
 } from "chart.js";
-import { clearErrors, getOrderChart, getSalesOrdders } from "../../redux/actions/chartAction";
+import { clearErrors, getOrderChart, getSalesOrdders, getSalesperDay } from "../../redux/actions/chartAction";
+import { getperDayOders } from "../../redux/actions/chartAction";
 import { toast } from "react-toastify";
 
 ChartJS.register(
@@ -34,14 +36,36 @@ const Analytics = () => {
 
   const { error, loading,dateOrder,totalOrder } = useSelector((state) => state.chart);
   const { error:totalSalesError,dateSales,totalSales } = useSelector((state) => state.chartSales);
-
-  console.log(dateOrder&&dateOrder,"======",totalOrder&&totalOrder,"========= === chart");
-
+  const {
+    error: ordersPerDayError,loading: ordersPerDayLoading,dateSales:ordersPerDayDate,totalSales:ordersPerDayTotal,ordersReport,} = useSelector((state) => state.ordersPerDay);
 
   const totalOrderCount = totalOrder?.reduce((a,b)=>a+b,0)
   const totalsalesAmount = totalSales?.reduce((a,b)=>a+b,0)
 
-  console.log(totalOrderCount,"========= total orders");
+  const toatlOrdersCount = ordersPerDayTotal && ordersPerDayTotal.reduce((a, b) => a + b, 0);
+  console.log(toatlOrdersCount);
+  const days = ordersPerDayDate && ordersPerDayDate.length;
+  console.log(days);
+  const avg = Math.floor(toatlOrdersCount / days);
+  console.log(avg); 
+
+  const value = Convert(avg).from("INR").to("USD").then((data) => console.log(data));
+  console.log(value);
+
+  useEffect(()=>{
+
+  })
+
+  const { error:salesError, loading:salesLoading, dateSales:salesDate, totalSales:salesTotal, salesReport:salesSalseReport } = useSelector(
+    (state) => state.salePerDay
+  );
+  const salesAmountTotal = salesTotal && salesTotal.reduce((a, b) => a + b, 0);
+  console.log(salesAmountTotal);
+  const numOfDays = salesDate && salesDate.length;
+  console.log(numOfDays);
+  const avgSale = Math.floor(salesAmountTotal / numOfDays);
+  console.log(avgSale);
+
   const orderReport = {
     labels: dateOrder&&dateOrder,
     datasets: [
@@ -84,6 +108,8 @@ const Analytics = () => {
 
     dispatch(getOrderChart())
     dispatch(getSalesOrdders())
+    dispatch(getperDayOders())
+    dispatch(getSalesperDay())
   }, [dispatch,error,totalSalesError]);
 
 
@@ -153,25 +179,25 @@ const Analytics = () => {
       <div className="container d-flex justify-content-between w-100 px-5">
         <div className="card" style={{ width: "24%" }}>
           <div className="card-body">
-            <h5 className="card-title">AVG ORDERS PER DAY</h5>
-            <h2 className="card-subtitle mb-2 text-muted">Rs 7,000</h2>
+            <h6 className="card-title">AVG ORDERS PER DAY</h6>
+            <h2 className="card-subtitle mb-2 text-muted">{avg}</h2>
           </div>
         </div>
         <div className="card" style={{ width: "24%" }}>
           <div className="card-body">
-            <h5 className="card-title">AVG ORDERS PER DAY</h5>
-            <h2 className="card-subtitle mb-2 text-muted">Rs 7,000</h2>
+            <h6 className="card-title">AVG ORDER VALUE</h6>
+            <h2 className="card-subtitle mb-2 text-muted"></h2>
           </div>
         </div>
         <div className="card" style={{ width: "24%" }}>
           <div className="card-body">
-            <h5 className="card-title">AVG ORDERS PER DAY</h5>
-            <h2 className="card-subtitle mb-2 text-muted">Rs 7,000</h2>
+            <h6 className="card-title">AVG SALES PER DAY</h6>
+            <h2 className="card-subtitle mb-2 text-muted">Rs {avgSale}</h2>
           </div>
         </div>
         <div className="card" style={{ width: "24%" }}>
           <div className="card-body">
-            <h5 className="card-title">AVG ORDERS PER DAY</h5>
+            <h6 className="card-title">RETURNING CUSTOMERS</h6>
             <h2 className="card-subtitle mb-2 text-muted">Rs 7,000</h2>
           </div>
         </div>

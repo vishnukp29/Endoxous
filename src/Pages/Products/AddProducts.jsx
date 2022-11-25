@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,10 +6,10 @@ import { CreateProduct, clearErrors } from "../../redux/actions/productAction";
 import { NEW_PRODUCT_RESET } from "../../constants/productConstants";
 import { getAllCategories } from "../../redux/actions/categoryAction";
 import { toast } from "react-toastify";
+import Loader from "../../Components/SideBar/Loader/Loader";
 
 const AddProducts = () => {
   const dispatch = useDispatch();
-//   const alert = useAlert();
   const navigate = useNavigate();
 
   const { loading, error, success,message } = useSelector((state) => state.newProduct);
@@ -30,7 +29,7 @@ const AddProducts = () => {
 	const [inventory, setInventory] = useState(0);
 	const [faqs, setFaqs] = useState([]);
 	// tags
-	const [tags, setTags] = useState([]);
+	const [hashTags, setHashTags] = useState([]);
 	const [tag, setTag] = useState('');
 
 
@@ -61,7 +60,7 @@ const AddProducts = () => {
     myForm.set("mrp", mrp);
     myForm.set("stock", stock);
     myForm.set("inventory", inventory);
-    myForm.set("tags", tags);
+    myForm.set("hashTags", hashTags);
 
     images.forEach((image) => {
       myForm.append("images", image);
@@ -110,26 +109,20 @@ const AddProducts = () => {
 		
 	}
 	const addTag = (e) => {
-		if (tags.length < 0) {
-		setTags(tag)
+		if (hashTags.length < 0) {
+		setHashTags(tag)
 		} else {
-				console.log(
-					'🚀 ~ file: EditProducts.jsx ~ line 149 ~ addTag ~ tag.length',
-					tag.length,
-					tag,
-					tags
-				);
-				setTags([...tags, tag]);
-				console.log(tags);
+				setHashTags([...hashTags, tag]);
+				console.log(hashTags);
 		}
 		setTag('');
 	};
 	const removeTag = (removedTag) => {
-		const newTags = tags.filter((tag) => tag !== removedTag);
-		setTags(newTags);
+		const newTags = hashTags.filter((tag) => tag !== removedTag);
+		setHashTags(newTags);
 	};
 	const clearTags = () => {
-		setTags([]);
+		setHashTags([]);
 	};
 
   return (
@@ -224,20 +217,7 @@ const AddProducts = () => {
             <div class="d-flex flex-row gap-2">
               <div class="mb-2">
                 <label for="exampleInputNumber" class="form-label">
-                  Price
-                </label>
-                <input
-                  type="number"
-                  class="form-control"
-                  id="exampleInputNumber"
-                  aria-describedby="numberHelp"
-                  value={price}
-                  onChange={(e) => setPrice(e.target.value)}
-                />
-              </div>
-              <div class="mb-2">
-                <label for="exampleInputNumber" class="form-label">
-                  Price
+                  MRP
                 </label>
                 <input
                   type="number"
@@ -246,6 +226,19 @@ const AddProducts = () => {
                   aria-describedby="numberHelp"
                   value={mrp}
                   onChange={(e) => setMrp(e.target.value)}
+                />
+              </div>
+              <div class="mb-2">
+                <label for="exampleInputNumber" class="form-label">
+                  PRICE
+                </label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="exampleInputNumber"
+                  aria-describedby="numberHelp"
+                  value={price}
+                  onChange={(e) => setPrice(e.target.value)}
                 />
                 <label
                   for="exampleInputNumber"
@@ -284,12 +277,12 @@ const AddProducts = () => {
                 id="exampleInputNumber1"
                 aria-describedby="numberHelp"
                 name="avatar"
-                accept="image/*"
+                accept="image/webp"
                 onChange={createProductImagesChange}
                 multiple
               />
             </div>
-            <div id="createProductFormImage">
+            <div id="createProductFormImage" >
                 {imagesPreviw.map((image, index) => (
                     <img key={index} src={image} alt="Avatar Preview" />
                 ))}
@@ -298,7 +291,7 @@ const AddProducts = () => {
 
           <div class="bg-white p-4 rounded mt-3">
             <div class="mb-2">
-              <h6>Inventory</h6>
+              <h6>Product Unit</h6>
               <label for="exampleInputNumber" class="form-label">
                 Quantity
               </label>
@@ -334,9 +327,9 @@ const AddProducts = () => {
 							>
 								Add Tag
 							</button>
-							{tags && (
+							{hashTags && (
 								<>
-									{tags?.map((tag, index) => (
+									{hashTags?.map((tag, index) => (
 										<button
 											key={index}
 											onClick={() => removeTag(tag)}
