@@ -148,11 +148,8 @@ const HomePage = () => {
     setTotalSales(sales.reduce((acc, item) => acc + item.totalPrice, 0));
   }, [sales]);
 
-  // Today
-  let currentDate = new Date().toJSON().slice(0, 10);
-  console.log(currentDate, "current Date");
-
-<<<<<<< HEAD
+  
+ 
    // Today
    let currentDate = new Date().toJSON().slice(0, 10)
    console.log(currentDate,'current Date'); 
@@ -170,23 +167,8 @@ const HomePage = () => {
      orders && orders.filter((order) => (order.createdAt).slice(0, 10) === currentDate);
      console.log(todayOrders); 
      console.log(currentDate);
-=======
-  // Yesterday
-  const getYesterdayDate = () => {
-    const now = new Date();
-    return new Date(now.getTime() - 2 * 24 * 60 * 60 * 1000)
-      .toJSON()
-      .slice(0, 10);
-  };
-  const yesterday = getYesterdayDate();
-  console.log(yesterday, "Yesterday");
->>>>>>> afcdcfc8bfc95c3fe6d26fb2dffc91818aedc7a5
 
-  const todayOrders =
-    orders &&
-    orders.filter((order) => order.createdAt.slice(0, 10) === currentDate);
-  console.log(todayOrders);
-  console.log(currentDate);
+ 
 
   const yesterdayOrders =
     orders &&
