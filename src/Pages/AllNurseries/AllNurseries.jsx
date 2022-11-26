@@ -64,7 +64,7 @@ function AllNurseries() {
             <hr />
           </nav>
           <div className="d-flex justify-content-between align-items-center px-2 py-1 filterInputInAllOrders">
-            <div className="p-5 filterInput">
+            <div className="px-5 py-4 filterInput">
               <input
                 className="form-control px-4"
                 type="text"

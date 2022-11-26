@@ -139,8 +139,8 @@ const AllProducts = () => {
         </div>
         <hr />
       </nav>
-      <div className="d-flex justify-content-between align-items-center px-2 py-1">
-        <div className="p-5" onClick={(e) => setState(false)}>
+      <div className="d-flex flex-wrap justify-content-between align-items-center px-2 py-1">
+        <div className="px-5 py-4 filterInput" onClick={(e) => setState(false)}>
           <input
             className="form-control px-4"
             type="text"
@@ -149,37 +149,40 @@ const AllProducts = () => {
             onChange={(e) => setKeyword(e.target.value)}
           />
         </div>
-        <div>
-          <div className="d-flex align-items-center px-4 ">
-            <div className="form-check">
-              <input
-                className="form-check-input"
-                type="checkbox"
-                value=""
-                id="flexCheckDefault"
-                onChange={lowStockHandler}
-              />
-              <label
-                className="form-check-label"
-                htmlFor="flexCheckDefault"
-                style={{ fontSize: "14px", marginRight: "50px" }}
-              >
-                Show low/Out of stock products
-              </label>
+        <div className="px-5 allOptions">
+          <div className="d-flex flex-wrap align-items-center justify-content-between">
+            <div className="modeHolder d-flex justify-content-center">
+              <div className="form-check">
+                <input
+                  className="form-check-input me-2"
+                  type="checkbox"
+                  value=""
+                  id="flexCheckDefault"
+                  onChange={lowStockHandler}
+                />
+                <label
+                  className="form-check-label"
+                  htmlFor="flexCheckDefault"
+                  style={{ fontSize: "12px", marginRight: "50px" }}
+                >
+                  Show low/Out of stock products
+                </label>
+              </div>
+              <div className="gridHandler">
+                <BsGrid
+                  onClick={gridHandler}
+                  style={{ cursor: "pointer", color: "#296148" }}
+                ></BsGrid>
+                <BsList
+                  className="mx-2 fs-5 pointer"
+                  style={{ cursor: "pointer", color: "#296148" }}
+                  onClick={listHandler}
+                ></BsList>
+              </div>
             </div>
-            <BsGrid
-              onClick={gridHandler}
-              style={{ cursor: "pointer", color: "#296148" }}
-            ></BsGrid>
-            <BsList
-              className="mx-2 fs-5 pointer"
-              style={{ cursor: "pointer", color: "#296148" }}
-              onClick={listHandler}
-            ></BsList>
-
-            <div className="p2-selection mx-2">
+            <div className="p2-selection filterInput filterOption mx-2">
               <select
-                className="form-select "
+                className="form-select"
                 aria-label="Default select example"
                 onChange={nurseryDropDownHandler}
               >
@@ -196,7 +199,7 @@ const AllProducts = () => {
             </div>
             <button
               type="button"
-              className="btn-page4 btn btn-success btn-md"
+              className="btn-page4 btn btn-success addNewNursery btn-md"
               onClick={AddProductHandler}
             >
               + Add New Product
@@ -211,128 +214,130 @@ const AllProducts = () => {
         <div>
           {/* List View */}
           {status == false ? (
-            <div
-              className="container-lg d-flex justify-content-between px-5 py-2"
-              style={{ width: "100%" }}
-            >
-              <table
-                className="table table-borderless"
-                style={{
-                  overflow: "hidden",
-                  width: "100%",
-                  borderRadius: ".5rem",
-                  backgroundColor: "white",
-                }}
+            <div className="tableForAll s2-table m-5 ">
+              <div
+                className="subTableForAll s2-table"
+                style={{ width: "100%" }}
               >
-                <thead style={{ backgroundColor: "#eaeaea" }}>
-                  <tr>
-                    <th scope="col">Order ID</th>
-                    <th scope="col">Product Name</th>
-                    {/* <th scope="col">Option</th> */}
-                    <th scope="col">Stock</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Amount</th>
-                    <th scope="col">Nursery Name</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {state === false ? (
-                    <Fragment>
-                      {products &&
-                        products
-                          .filter((val) => {
-                            if (keyword === "") {
-                              return val;
-                            } else if (
-                              val.fullName
-                                ?.toLowerCase()
-                                .includes(keyword?.toLowerCase())
-                            ) {
-                              return val;
-                            }
-                          })
-                          .map((product, index) => (
-                            <tr key={index}>
-                              <td>
-                                <div
-                                  style={{
-                                    backgroundColor: "#ececec",
-                                    borderRadius: ".5rem",
-                                    width: "70px",
-                                    height: "70px",
-                                    overflow: "hidden",
-                                  }}
-                                  scope="row"
-                                >
-                                  <img
-                                    className="bg-primary img-fluid rounded-start"
-                                    src={product.images[0]?.url}
-                                    alt="img"
-                                  />
-                                </div>
-                              </td>
-                              <td>{product.name}</td>
-                              {/* <td><button type="button" className="btn btn-outline-danger"
+                <table
+                  className="table table-borderless"
+                  style={{
+                    overflow: "hidden",
+                    width: "100%",
+                    borderRadius: ".5rem",
+                    backgroundColor: "white",
+                  }}
+                >
+                  <thead style={{ backgroundColor: "#eaeaea" }}>
+                    <tr>
+                      <th scope="col">Order ID</th>
+                      <th scope="col">Product Name</th>
+                      {/* <th scope="col">Option</th> */}
+                      <th scope="col">Stock</th>
+                      <th scope="col">Status</th>
+                      <th scope="col">Amount</th>
+                      <th scope="col">Nursery Name</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {state === false ? (
+                      <Fragment>
+                        {products &&
+                          products
+                            .filter((val) => {
+                              if (keyword === "") {
+                                return val;
+                              } else if (
+                                val.fullName
+                                  ?.toLowerCase()
+                                  .includes(keyword?.toLowerCase())
+                              ) {
+                                return val;
+                              }
+                            })
+                            .map((product, index) => (
+                              <tr key={index}>
+                                <td>
+                                  <div
+                                    style={{
+                                      backgroundColor: "#ececec",
+                                      borderRadius: ".5rem",
+                                      width: "70px",
+                                      height: "70px",
+                                      overflow: "hidden",
+                                    }}
+                                    scope="row"
+                                  >
+                                    <img
+                                      className="bg-primary img-fluid rounded-start"
+                                      src={product.images[0]?.url}
+                                      alt="img"
+                                    />
+                                  </div>
+                                </td>
+                                <td>{product.name}</td>
+                                {/* <td><button type="button" className="btn btn-outline-danger"
                              onClick={()=> dispatch(deleteProduct(product._id))}  >Delete</button></td> */}
-                              <td>{product.stock}</td>
-                              <td>...</td>
-                              <td>Rs {product.price}</td>
-                              <td>Nursery Name</td>
-                            </tr>
-                          ))}
-                    </Fragment>
-                  ) : (
-                    <Fragment>
-                      {filteredProducts &&
-                        filteredProducts
-                          .filter((val) => {
-                            if (keyword === "") {
-                              return val;
-                            } else if (
-                              val.fullName
-                                ?.toLowerCase()
-                                .includes(keyword?.toLowerCase())
-                            ) {
-                              return val;
-                            }
-                          })
-                          .map((product, index) => (
-                            <tr key={index}>
-                              <td>
-                                <div
-                                  style={{
-                                    backgroundColor: "#ececec",
-                                    borderRadius: ".5rem",
-                                    width: "70px",
-                                    height: "70px",
-                                    overflow: "hidden",
-                                  }}
-                                  scope="row"
-                                >
-                                  <img
-                                    className="bg-primary img-fluid rounded-start"
-                                    src={product.images[0]?.url}
-                                    alt="img"
-                                  />
-                                </div>
-                              </td>
-                              <td>{product.name}</td>
-                              {/* <td><button type="button" className="btn btn-outline-danger"
+                                <td>{product.stock}</td>
+                                <td>...</td>
+                                <td>Rs {product.price}</td>
+                                <td>Nursery Name</td>
+                              </tr>
+                            ))}
+                      </Fragment>
+                    ) : (
+                      <Fragment>
+                        {filteredProducts &&
+                          filteredProducts
+                            .filter((val) => {
+                              if (keyword === "") {
+                                return val;
+                              } else if (
+                                val.fullName
+                                  ?.toLowerCase()
+                                  .includes(keyword?.toLowerCase())
+                              ) {
+                                return val;
+                              }
+                            })
+                            .map((product, index) => (
+                              <tr key={index}>
+                                <td>
+                                  <div
+                                    style={{
+                                      backgroundColor: "#ececec",
+                                      borderRadius: ".5rem",
+                                      width: "70px",
+                                      height: "70px",
+                                      overflow: "hidden",
+                                    }}
+                                    scope="row"
+                                  >
+                                    <img
+                                      className="bg-primary img-fluid rounded-start"
+                                      src={product.images[0]?.url}
+                                      alt="img"
+                                    />
+                                  </div>
+                                </td>
+                                <td>{product.name}</td>
+                                {/* <td><button type="button" className="btn btn-outline-danger"
                              onClick={()=> dispatch(deleteProduct(product._id))}  >Delete</button></td> */}
-                              <td>{product.stock}</td>
-                              <td>...</td>
-                              <td>Rs {product.price}</td>
-                              <td>Nursery Name</td>
-                            </tr>
-                          ))}
-                    </Fragment>
-                  )}
-                </tbody>
-              </table>
+                                <td>{product.stock}</td>
+                                <td>...</td>
+                                <td>Rs {product.price}</td>
+                                <td>Nursery Name</td>
+                              </tr>
+                            ))}
+                      </Fragment>
+                    )}
+                  </tbody>
+                </table>
+              </div>
             </div>
           ) : (
             <Fragment>
-              <div className="container-lg d-flex flex-wrap justify-content-between px-5 py-2">
+              <div className="container-lg d-flex justify-content-between px-5 py-2">
                 <div className="container-md p-0">
                   <div
                     style={{ borderRadius: ".5rem" }}
@@ -361,7 +366,7 @@ const AllProducts = () => {
                               >
                                 <div className="row g-0 d-flex justify-content-center">
                                   <div
-                                    className="col-md-4"
+                                    className="col-md-4 cardView"
                                     style={{
                                       display: "flex",
                                       alignItems: "center",

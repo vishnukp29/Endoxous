@@ -46,11 +46,13 @@ input[type="number"] {
 
   .filterInput {
     width: 100% !important;
+    margin: 0 !important;
   }
 
   .addNewNursery {
     width: 100%;
     margin-bottom: 2rem;
+    color: white !important;
   }
 
   .btn-AllNurseries {
@@ -82,5 +84,43 @@ input[type="number"] {
   .categorySelection {
     width: 100%;
     margin: 0 0 2rem 0 !important;
+  }
+
+  .allOptions {
+    width: 100%;
+    margin: 0 !important;
+  }
+
+  /* .form-check {
+    margin-left: 3rem;
+  } */
+
+  .form-check-label {
+    margin: 0 !important;
+  }
+
+  .modeHolder {
+    width: 100%;
+    margin: 0 !important;
+  }
+
+  .filterOption{
+    margin: 2rem 0 !important;
+  }
+
+  .gridHandler{
+    display: flex;
+    align-items: center;
+    margin-left: 1rem;
+  }
+
+  .card{
+    width: 100% !important;
+  }
+
+  .cardView{
+    display: flex;
+    justify-content: flex-start !important;
+    padding: 1rem;
   }
 }
