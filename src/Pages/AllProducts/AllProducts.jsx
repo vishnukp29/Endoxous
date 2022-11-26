@@ -180,7 +180,7 @@ const AllProducts = () => {
                 ></BsList>
               </div>
             </div>
-            <div className="p2-selection filterInput filterOption">
+            <div className="p2-selection filterInput filterOption mx-2">
               <select
                 className="form-select"
                 aria-label="Default select example"
