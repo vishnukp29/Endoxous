@@ -152,7 +152,7 @@ const HomePage = () => {
    // Yesterday 
    const getYesterdayDate=()=> {
      const now = new Date();
-     return new Date(now.getTime() - 2 * 24 * 60 * 60 * 1000).toJSON().slice(0,10);
+     return new Date(now.getTime() - 1 * 24 * 60 * 60 * 1000).toJSON().slice(0,10);
    }
    const yesterday= getYesterdayDate()
    console.log(yesterday,'Yesterday');
@@ -282,7 +282,7 @@ const HomePage = () => {
               <div>
                 <p style={{ fontWeight: 500 }}>TOTAL SALES</p>
                 <h2 style={{ fontWeight: 700, fontSize: "2rem" }}>
-                  {Math.round(totalSales)}
+                 Rs {Math.round(totalSales)}
                 </h2>
               </div>
               <div
