@@ -1,61 +1,63 @@
 .p3-order-block {
-  margin: 80px 10px;
+  margin: 1rem;
+  border-radius: 0.5rem;
   padding: 20px;
   background-color: white;
   width: 700px;
 }
 
 .p3-order-item-block {
-  width: 100px;
-  height: 100px;
-  background-color: gray;
-  border-radius: 10px;
-  margin: auto 5px;
+  width: 120px;
+  height: 120px;
+  background-color: #ececec;
+  border-radius: .5rem;
+  margin-bottom: 1.5rem;
 }
 
 .p3-notes {
   width: 300px;
   background-color: white;
-  margin: 80px 10px;
+  border-radius: 0.5rem;
+  margin: 1rem;
   padding: 20px;
-}
-.p3-notes-bg {
-  background-color: grey;
-  padding: 20px;
-  margin: 20px;
-  border-radius: 10px;
-}
-.p3-activity-bg {
-  background-color: white;
-  padding: 20px;
-  margin: 20px;
 }
 
-.p3-customer-hr-dotted {
-  border: 2px dotted black;
+.p3-notes-bg {
+  min-height: 5rem;
+  background-color: #ececec;
+  padding: 20px;
+}
+
+.p3-activity-bg {
+  background-color: white;
+  border-radius: 0.5rem;
+  padding: 20px;
+  margin: 1rem;
+}
+
+.p3-customer-hr {
+  border-style: dashed;
 }
 
 .p3-notes button {
-  background-color: white;
+  background-color: #e0ede3;
+  color: #608030;
   width: 100%;
-  margin: 10px 20px;
-  padding: 5px 10px;
+  margin: 1rem 0;
+  font-weight: 500;
 }
-.p3-body {
-  font-family: Has;
+
+.p3-notes button:hover {
+  background-color: #e0ede3;
+  color: #608030;
+  width: 100%;
+  font-weight: 500;
+  margin: 1rem 0;
 }
 
 .p3-order-block input {
   border: none;
   border-color: transparent;
-}
-.p3-fotter {
-  width: 85%;
-  align-items: right;
-}
-.p3-fotter {
-  align-content: right;
-  width: 85%;
 }
 
 .btn-page4 {
@@ -64,3 +66,29 @@
   border: none;
   border-radius: 4px;
 }
+
+.p3-box {
+  background-color: #ececec !important;
+  padding: 1rem 2rem;
+  border-radius: 0.5rem;
+}
+
+.p3-box p {
+  margin: 0;
+}
+
+.item-text {
+  margin: 1rem 0;
+}
+
+/* .p3-button {
+  padding: 0.5rem 2rem;
+  color: white;
+  background-color: #ff6700;
+}
+
+.p3-button:hover {
+  padding: 0.5rem 2rem;
+  color: white;
+  background-color: #ff6700;
+} */

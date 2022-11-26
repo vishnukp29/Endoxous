@@ -69,7 +69,7 @@ const AddCategory = () => {
         onSubmit={createCategorySubmitHandler}
       >
         <div className="mb-2">
-          <label for="exampleInputNumber" className="form-label">
+          <label htmlFor="exampleInputNumber" className="form-label">
             Category Name
           </label>
           <input
@@ -82,7 +82,7 @@ const AddCategory = () => {
           />
         </div>
         <div className="mb-2">
-          <label for="exampleInputNumber" className="form-label">
+          <label htmlFor="exampleInputNumber" className="form-label">
             Select Image
           </label>
           <input

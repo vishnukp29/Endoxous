@@ -137,8 +137,8 @@ function OrderReports() {
             </div>
             <hr />
           </nav>
-          <div className="d-flex justify-content-between  align-items-center px-2 py-1">
-            <div className="p-5">
+          <div className="d-flex justify-content-between align-items-center flex-wrap px-2 py-1">
+            <div className="pt-4 px-5">
               <p>AVG ORDERS PER DAY</p>
               <h4>{avg}</h4>
             </div>
@@ -146,7 +146,7 @@ function OrderReports() {
               <div className="d-flex px-4 ">
                 <div className="p2-selection mx-2 ">
                   <select
-                    className="form-select "
+                    className="form-select w-100"
                     aria-label="Default select example"
                     onChange={nurseryDropDownHandler}
                   >
@@ -160,9 +160,9 @@ function OrderReports() {
                   </select>
                 </div>
 
-                <div className="p2-selection mx-2">
+                <div className="p2-selection mx-4">
                   <select
-                    className="form-select "
+                    className="form-select w-100"
                     aria-label="Default select example"
                     onChange={ordersSelect}
                   >
@@ -175,13 +175,21 @@ function OrderReports() {
               </div>
             </div>
           </div>
-          <div className="s2-table px-5 mx-5 ">
-            <div className="s2-table py-4">
+          <div className="tableForAll s2-table m-5 ">
+            <div className="s2-table subTableForAll">
               {salesLoading ? (
                 <Loader />
               ) : (
-                <table className="table table-borderless table-sm ">
-                  <thead className="s2-table-nava">
+                <table
+                  className="table table-borderless"
+                  style={{
+                    overflow: "hidden",
+                    width: "100%",
+                    borderRadius: ".5rem",
+                    backgroundColor: "white",
+                  }}
+                >
+                  <thead style={{ backgroundColor: "#eaeaea" }}>
                     <tr>
                       <th scope="col">Date</th>
                       <th scope="col">Orders</th>
@@ -190,7 +198,7 @@ function OrderReports() {
                     </tr>
                   </thead>
                   <tbody className="table-group-divider my-5">
-                    {state == false ? (
+                    {state === false ? (
                       <Fragment>
                         {ordersReport &&
                           ordersReport.map((sale, index) => (

@@ -42,7 +42,7 @@ const Login = () => {
           <h2 className="mb-5">Login</h2>
           <form action="" onSubmit={loginSubmit}>
             <div className="mb-2">
-              <label for="exampleInputNumber" className="form-label">
+              <label htmlFor="exampleInputNumber" className="form-label">
                 Phone Number
               </label>
               <input
@@ -58,7 +58,7 @@ const Login = () => {
               </div>
             </div>
 
-            <button type="submit" class="btn btn-success w-100 mt-3">
+            <button type="submit" className="btn btn-success w-100 mt-3">
               Login
             </button>
           </form>

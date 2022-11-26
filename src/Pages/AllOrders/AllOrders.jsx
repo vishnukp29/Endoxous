@@ -10,14 +10,16 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { clearErrors, getAllOrders } from "../../redux/actions/orderAction";
 import { getAllNurseries } from "../../redux/actions/nurseryAction";
-import Loader from "../../Components/SideBar/Loader/Loader"; 
+import Loader from "../../Components/SideBar/Loader/Loader";
 
 function AllOrders() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const { error, loading, orders } = useSelector((state) => state.allOrders);
-  const { error: nurseriesError, nurseries } = useSelector((state) => state.allNurseries);
+  const { error: nurseriesError, nurseries } = useSelector(
+    (state) => state.allNurseries
+  );
 
   const [nursery, setNursery] = useState("");
   const [orderId, setOrderId] = useState("");
@@ -191,7 +193,6 @@ function AllOrders() {
     }
   };
 
-
   return (
     <div>
       <div className="mainsection">
@@ -223,22 +224,23 @@ function AllOrders() {
             </div>
             <hr />
           </nav>
-          <div className="d-flex justify-content-between  align-items-center px-2 py-1">
-            <div className="p-5" onClick={(e) => setState(false)}>
+          <div className="d-flex justify-content-between align-items-center px-2 py-1 filterInputInAllOrders">
+            <div
+              className="p-5 filterInput"
+              onClick={(e) => setState(false)}
+            >
               {/* <form className="searchBox" onSubmit={searchSubmitHandler}> */}
               <input
-                className="form-control px-5"
+                className="form-control px-4"
                 type="text"
                 value={keyword}
                 aria-label="readonly input example"
                 placeholder="Order ID, phone or name..."
                 onChange={(e) => setKeyword(e.target.value)}
               />
-
-              {/* </form> */}
             </div>
-            <div>
-              <div className="d-flex px-4 ">
+            <div className="px-4">
+              <div className="d-flex px-4">
                 <div className="p2-selection mx-2">
                   <select
                     className="form-select "
@@ -295,25 +297,41 @@ function AllOrders() {
               </div>
             </div>
           </div>
-          <div className="section2-btn d-flex  px-5 ">
-            <button className="s2-btn" onClick={() => showAll()} autoFocus>
+          <div className="section2-btn d-flex px-5 ">
+            <button
+              className="s2-btn py-2 px-3 my-2"
+              onClick={() => showAll()}
+              autoFocus
+            >
               All
             </button>
-            <button className="s2-btn" onClick={() => showPending()}>
+            <button
+              className="s2-btn py-2 px-3 my-2"
+              onClick={() => showPending()}
+            >
               Pending
             </button>
-            <button className="s2-btn" onClick={() => showShippied()}>
+            <button
+              className="s2-btn py-2 px-3 my-2"
+              onClick={() => showShippied()}
+            >
               Shipped
             </button>
-            <button className="s2-btn" onClick={() => showDelivered()}>
+            <button
+              className="s2-btn py-2 px-3 my-2"
+              onClick={() => showDelivered()}
+            >
               Delivered
             </button>
-            <button className="s2-btn" onClick={() => showCancelled()}>
+            <button
+              className="s2-btn py-2 px-3 my-2"
+              onClick={() => showCancelled()}
+            >
               Cancelled
             </button>
           </div>
-          <div className="s2-table m-5 ">
-            <div className="s2-table">
+          <div className="tableForAll s2-table m-5 ">
+            <div className="s2-table subTableForAll">
               {loading ? (
                 <Loader />
               ) : (
@@ -340,7 +358,7 @@ function AllOrders() {
                   </thead>
 
                   <tbody className="table-group-divider  my-5">
-                    {state == false ? (
+                    {state === false ? (
                       <Fragment>
                         {orders &&
                           orders
@@ -367,8 +385,7 @@ function AllOrders() {
                                   {order?._id}
                                 </th>
                                 <td>
-                                  {" "}
-                                  <DateFormatter date={order.createdAt} />{" "}
+                                  <DateFormatter date={order.createdAt} />
                                 </td>
 
                                 <td>

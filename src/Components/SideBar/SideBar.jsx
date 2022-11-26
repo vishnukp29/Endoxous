@@ -2,15 +2,21 @@ import React from "react";
 import logo from "../../Assets/Images/logo3.png";
 import "./SideBar.css";
 import { NavLink } from "react-router-dom";
+import { logout } from "../../redux/actions/userAction";
+import { useDispatch } from "react-redux";
 
 const SideBar = () => {
+  const dispatch = useDispatch();
+
+  function logoutUser() {
+    dispatch(logout());
+    alert.success("Logout Successfully");
+  }
   return (
     <div>
       <div className="section1">
         <div className="logo">
           <img className="logo" src={logo} alt="img" />
-          {/* <h2>Endoxous</h2>
-        <h6 className="s2-logotitle">international private limited</h6> */}
         </div>
         <div>
           <ul className="navbar-nav justify-content-end flex-grow-1 ">
@@ -25,8 +31,8 @@ const SideBar = () => {
               </NavLink>
             </li>
             <li className="nav-item m-2">
-              <div >
-              {/* to="/salesreport" */}
+              <div>
+                {/* to="/salesreport" */}
                 {/* <button className="s1-btn btn btn-sm px-4 ">Products</button> */}
                 <div className="dropdown">
                   <button
@@ -81,9 +87,14 @@ const SideBar = () => {
               </NavLink>
             </li>
             <li className="nav-item m-2">
-              <button className=" s1-btn btn btn-sm px-4 ">
-                <NavLink>Logout</NavLink>
-              </button>
+              <NavLink>
+                <button
+                  className="s1-btn btn btn-sm px-4"
+                  onClick={() => logoutUser()}
+                >
+                  Logout
+                </button>
+              </NavLink>
             </li>
           </ul>
         </div>
