@@ -225,10 +225,7 @@ function AllOrders() {
             <hr />
           </nav>
           <div className="d-flex justify-content-between align-items-center px-2 py-1 filterInputInAllOrders">
-            <div
-              className="p-5 filterInput"
-              onClick={(e) => setState(false)}
-            >
+            <div className="p-5 filterInput" onClick={(e) => setState(false)}>
               {/* <form className="searchBox" onSubmit={searchSubmitHandler}> */}
               <input
                 className="form-control px-4"
