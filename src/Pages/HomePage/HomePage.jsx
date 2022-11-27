@@ -141,6 +141,7 @@ const HomePage = () => {
     dispatch(deleteBanner(id));
   };
   const [saleDate, setSalesDate] = useState(1);
+  
   const [sales, setSales] = useState(orders);
   const [totalSales, setTotalSales] = useState();
 
@@ -163,10 +164,10 @@ const HomePage = () => {
    console.log(yesterday,'Yesterday');
  
  
-    const todayOrders =
-     orders && orders.filter((order) => (order.createdAt).slice(0, 10) === currentDate);
-     console.log(todayOrders); 
-     console.log(currentDate);
+  const todayOrders =
+    orders && orders.filter((order) => (order.createdAt).slice(0, 10) === currentDate);
+    console.log(todayOrders); 
+    console.log(currentDate);
 
  
 

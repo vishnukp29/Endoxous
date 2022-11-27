@@ -1,9 +1,7 @@
 import React, { Fragment, useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-
 import "./Page2.css";
-// import logo from "../../Assets/Images/logo3.png";
 import DateFormatter from "../../utils/DateFormatter";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -11,6 +9,10 @@ import { toast } from "react-toastify";
 import { clearErrors, getAllOrders } from "../../redux/actions/orderAction";
 import { getAllNurseries } from "../../redux/actions/nurseryAction";
 import Loader from "../../Components/SideBar/Loader/Loader";
+
+import { AgGridReact } from 'ag-grid-react';
+import 'ag-grid-community/dist/styles/ag-grid.css';
+import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 
 function AllOrders() {
   const dispatch = useDispatch();
@@ -22,7 +24,6 @@ function AllOrders() {
   );
 
   const [nursery, setNursery] = useState("");
-  const [orderId, setOrderId] = useState("");
   const [keyword, setKeyword] = useState("");
   const [filterStatus, setFilterStatus] = useState("");
   const [filteredOrders, setFilterOrders] = useState([]);
@@ -129,6 +130,7 @@ function AllOrders() {
       .slice(0, 10);
   };
   const weekend = getLastWeeksDate();
+  console.log(weekend);
 
   // Month
   function getMonthEndDate(numOfMonths, date = new Date()) {
@@ -142,19 +144,26 @@ function AllOrders() {
   // Custom Date
   const [showDatePicker, setShowDatePicker] = useState(false);
   //   const [selectedDate, setSelectedDate] = useState(new Date())
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  // const [selectedDate, setSelectedDate] = useState(new Date()); 
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState(''); 
+
+  console.log(startDate);
+  console.log(endDate);
 
   const [customDate, setCustomDate] = useState(
-    selectedDate.toJSON().slice(0, 10)
+    startDate, endDate
   );
-
+  
   useEffect(() => {
-    setCustomDate(selectedDate.toJSON().slice(0, 10));
+    setCustomDate(startDate);
     const customOrders =
       orders &&
-      orders.filter((order) => order.createdAt.slice(0, 10) === customDate);
+      orders.filter((order) => (order.createdAt.slice(0, 10) >= startDate && order.createdAt.slice(0, 10) <= endDate ));
     setFilterOrders(customOrders);
-  }, [selectedDate, orders, customDate]);
+  }, [startDate, orders, customDate, endDate]);
+
+  
 
   // Filtering
   const todayOrders =
@@ -169,7 +178,7 @@ function AllOrders() {
     orders.filter((order) => order.createdAt.slice(0, 10) >= monthend);
 
   const getCustomOrders = (date) => {
-    setSelectedDate(date);
+    setStartDate(date);
   };
 
   const daysSelect = (e) => {
@@ -282,13 +291,17 @@ function AllOrders() {
                   </select>
                   <h1>{showDatePicker}</h1>
                   {showDatePicker && (
-                    <DatePicker
-                      selected={selectedDate}
-                      onChange={(date) => getCustomOrders(date)}
-                      // onChange={(date)=> (setSelectedDate(date)
-                      //   )}
-                      dateFormat="dd-MM-yyyy"
-                    />
+                    <div>
+                      From : <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} className='mx-1'/>
+                      To : <input type="date" value={endDate} onChange={e => setEndDate(e.target.value)}/>
+                    </div>
+                    // <DatePicker
+                    //   selected={selectedDate}
+                    //   onChange={(date) => getCustomOrders(date)}
+                    //   // onChange={(date)=> (setSelectedDate(date)
+                    //   //   )}
+                    //   dateFormat="dd-MM-yyyy"
+                    // />
                   )}
                 </div>
               </div>
