@@ -40,7 +40,7 @@ const Analytics = () => {
     error: ordersPerDayError,loading: ordersPerDayLoading,dateSales:ordersPerDayDate,totalSales:ordersPerDayTotal,ordersReport,} = useSelector((state) => state.ordersPerDay);
 
   const totalOrderCount = totalOrder?.reduce((a,b)=>a+b,0)
-  // const totalsalesAmount = totalSales?.reduce((a,b)=>a+b,0)
+  const totalsalesAmount = totalSales?.reduce((a,b)=>a+b,0)
 
   const toatlOrdersCount = ordersPerDayTotal && ordersPerDayTotal.reduce((a, b) => a + b, 0);
   console.log(toatlOrdersCount);
@@ -59,19 +59,11 @@ const Analytics = () => {
   const { error:salesError, loading:salesLoading, dateSales:salesDate, totalSales:salesTotal, salesReport:salesSalseReport } = useSelector(
     (state) => state.salePerDay
   );
-
-  const [sales, setSales] = useState(totalOrderCount);
-  const [totalSale, setTotalSale] = useState();
-
-  useEffect(() => {
-    setTotalSale(totalSales.reduce((acc, item) => acc + item.totalPrice, 0));
-  }, [sales]);
-  
-  // const salesAmountTotal = salesTotal && salesTotal.reduce((a, b) => a + b, 0);
-  // console.log(salesAmountTotal);
+  const salesAmountTotal = salesTotal && salesTotal.reduce((a, b) => a + b, 0);
+  console.log(salesAmountTotal);
   const numOfDays = salesDate && salesDate.length;
   console.log(numOfDays);
-  const avgSale = Math.floor(totalSales / numOfDays);
+  const avgSale = Math.floor(salesAmountTotal / numOfDays);
   console.log(avgSale);
 
   const orderReport = {
@@ -103,6 +95,11 @@ const Analytics = () => {
     ],
   };
 
+  const averageOrderValue= totalsalesAmount/totalOrderCount
+  console.log(totalsalesAmount);
+  console.log(totalOrderCount);
+  console.log(averageOrderValue);
+
   useEffect(() => {
     if (error) {
       toast.error(error.message);
@@ -119,54 +116,6 @@ const Analytics = () => {
     dispatch(getperDayOders())
     dispatch(getSalesperDay())
   }, [dispatch,error,totalSalesError]);
-
-  // Date
-  let currentDate = new Date().toJSON().slice(0, 10);
-
-  // Week
-  const getLastWeeksDate = () => {
-    const now = new Date();
-    return new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000)
-      .toJSON()
-      .slice(0, 10);
-  };
-  const weekend = getLastWeeksDate();
-  console.log(weekend);
-
-  // Month
-  function getMonthEndDate(numOfMonths, date = new Date()) {
-    const dateCopy = new Date(date.getTime());
-    dateCopy.setMonth(dateCopy.getMonth() - numOfMonths);
-    return dateCopy;
-  }
-  const date = new Date();
-  const monthend = getMonthEndDate(1, date).toJSON().slice(0, 10);
-
-  // Filtering
-  const todayOrders =
-  totalOrder &&
-  totalOrder.filter((order) => order.ordersPerDayDate === currentDate);
-
-  const weekOrders =
-  totalOrder && totalOrder.filter((order) => order.ordersPerDayDate >= weekend);
-
-  const monthOrders =
-  totalOrder &&
-  totalOrder.filter((order) => order.ordersPerDayDate >= monthend);
-
-  const analyticSelect = (e) => {
-    let item = parseInt(e.target.value);
-    if (item === 1) {
-      setSales(totalOrder);
-      console.log(totalOrder);
-    } else if (item === 2) {
-      setSales(todayOrders);
-    } else if (item === 3) {
-      setSales(weekOrders);
-    }else if (item === 4) {
-      setSales(monthOrders);
-    }
-  };
 
 
   return (
@@ -222,12 +171,11 @@ const Analytics = () => {
               <select
                 className="form-select "
                 aria-label="Default select example"
-                onChange={analyticSelect}
               >
-                <option value="1">Lifetime</option>
-                <option value="2">Today</option>
-                <option value="3">This Week</option>
-                <option value="4">This Month</option>
+                <option selected>Lifetime</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
               </select>
             </div>
           </div>
@@ -243,7 +191,7 @@ const Analytics = () => {
         <div className="card" style={{ width: "24%" }}>
           <div className="card-body">
             <h6 className="card-title">AVG ORDER VALUE</h6>
-            <h2 className="card-subtitle mb-2 text-muted"></h2>
+            <h2 className="card-subtitle mb-2 text-muted">{averageOrderValue}</h2>
           </div>
         </div>
         <div className="card" style={{ width: "24%" }}>
@@ -269,7 +217,7 @@ const Analytics = () => {
         <div className="card" style={{ width: "30.5rem" }}>
           <div className="card-body">
             <h5 className="card-title">TOTAL SALES</h5>
-            <h2 className="card-subtitle mb-2 text-muted">{totalSale}</h2>
+            <h2 className="card-subtitle mb-2 text-muted">{totalsalesAmount}</h2>
           </div>
         </div>
       </div>
@@ -446,7 +394,6 @@ const Analytics = () => {
 
 export default Analytics;
 
-
 // import React, { useEffect, useState } from "react";
 // import { useDispatch, useSelector } from "react-redux";
 // import { NavLink, useNavigate } from "react-router-dom";
@@ -489,7 +436,7 @@ export default Analytics;
 //     error: ordersPerDayError,loading: ordersPerDayLoading,dateSales:ordersPerDayDate,totalSales:ordersPerDayTotal,ordersReport,} = useSelector((state) => state.ordersPerDay);
 
 //   const totalOrderCount = totalOrder?.reduce((a,b)=>a+b,0)
-//   const totalsalesAmount = totalSales?.reduce((a,b)=>a+b,0)
+//   // const totalsalesAmount = totalSales?.reduce((a,b)=>a+b,0)
 
 //   const toatlOrdersCount = ordersPerDayTotal && ordersPerDayTotal.reduce((a, b) => a + b, 0);
 //   console.log(toatlOrdersCount);
@@ -508,11 +455,19 @@ export default Analytics;
 //   const { error:salesError, loading:salesLoading, dateSales:salesDate, totalSales:salesTotal, salesReport:salesSalseReport } = useSelector(
 //     (state) => state.salePerDay
 //   );
-//   const salesAmountTotal = salesTotal && salesTotal.reduce((a, b) => a + b, 0);
-//   console.log(salesAmountTotal);
+
+//   const [sales, setSales] = useState(totalOrderCount);
+//   const [totalSale, setTotalSale] = useState();
+
+//   useEffect(() => {
+//     setTotalSale(totalSales.reduce((acc, item) => acc + item.totalPrice, 0));
+//   }, [sales]);
+  
+//   // const salesAmountTotal = salesTotal && salesTotal.reduce((a, b) => a + b, 0);
+//   // console.log(salesAmountTotal);
 //   const numOfDays = salesDate && salesDate.length;
 //   console.log(numOfDays);
-//   const avgSale = Math.floor(salesAmountTotal / numOfDays);
+//   const avgSale = Math.floor(totalSales / numOfDays);
 //   console.log(avgSale);
 
 //   const orderReport = {
@@ -560,6 +515,54 @@ export default Analytics;
 //     dispatch(getperDayOders())
 //     dispatch(getSalesperDay())
 //   }, [dispatch,error,totalSalesError]);
+
+//   // Date
+//   let currentDate = new Date().toJSON().slice(0, 10);
+
+//   // Week
+//   const getLastWeeksDate = () => {
+//     const now = new Date();
+//     return new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000)
+//       .toJSON()
+//       .slice(0, 10);
+//   };
+//   const weekend = getLastWeeksDate();
+//   console.log(weekend);
+
+//   // Month
+//   function getMonthEndDate(numOfMonths, date = new Date()) {
+//     const dateCopy = new Date(date.getTime());
+//     dateCopy.setMonth(dateCopy.getMonth() - numOfMonths);
+//     return dateCopy;
+//   }
+//   const date = new Date();
+//   const monthend = getMonthEndDate(1, date).toJSON().slice(0, 10);
+
+//   // Filtering
+//   const todayOrders =
+//   totalOrder &&
+//   totalOrder.filter((order) => order.ordersPerDayDate === currentDate);
+
+//   const weekOrders =
+//   totalOrder && totalOrder.filter((order) => order.ordersPerDayDate >= weekend);
+
+//   const monthOrders =
+//   totalOrder &&
+//   totalOrder.filter((order) => order.ordersPerDayDate >= monthend);
+
+//   const analyticSelect = (e) => {
+//     let item = parseInt(e.target.value);
+//     if (item === 1) {
+//       setSales(totalOrder);
+//       console.log(totalOrder);
+//     } else if (item === 2) {
+//       setSales(todayOrders);
+//     } else if (item === 3) {
+//       setSales(weekOrders);
+//     }else if (item === 4) {
+//       setSales(monthOrders);
+//     }
+//   };
 
 
 //   return (
@@ -615,11 +618,12 @@ export default Analytics;
 //               <select
 //                 className="form-select "
 //                 aria-label="Default select example"
+//                 onChange={analyticSelect}
 //               >
-//                 <option selected>Lifetime</option>
-//                 <option value="1">One</option>
-//                 <option value="2">Two</option>
-//                 <option value="3">Three</option>
+//                 <option value="1">Lifetime</option>
+//                 <option value="2">Today</option>
+//                 <option value="3">This Week</option>
+//                 <option value="4">This Month</option>
 //               </select>
 //             </div>
 //           </div>
@@ -661,7 +665,7 @@ export default Analytics;
 //         <div className="card" style={{ width: "30.5rem" }}>
 //           <div className="card-body">
 //             <h5 className="card-title">TOTAL SALES</h5>
-//             <h2 className="card-subtitle mb-2 text-muted">{totalsalesAmount}</h2>
+//             <h2 className="card-subtitle mb-2 text-muted">{totalSale}</h2>
 //           </div>
 //         </div>
 //       </div>
@@ -837,3 +841,4 @@ export default Analytics;
 // };
 
 // export default Analytics;
+
