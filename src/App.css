@@ -30,8 +30,12 @@ input[type="number"] {
     width: 100%;
   }
 
-  .section1 {
+  /* .section1 {
     display: none !important;
+  } */
+
+  .hideButton{
+    display: initial !important;
   }
 
   .section2-btn {
