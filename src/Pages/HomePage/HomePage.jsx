@@ -18,7 +18,7 @@ import {
 import { getAllOrders } from "../../redux/actions/orderAction";
 import { getAllNurseries } from "../../redux/actions/nurseryAction";
 
-const HomePage = () => {
+const HomePage = ({ toggle }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -148,34 +148,31 @@ const HomePage = () => {
     setTotalSales(sales.reduce((acc, item) => acc + item.totalPrice, 0));
   }, [sales]);
 
-  
- 
-   // Today
-   let currentDate = new Date().toJSON().slice(0, 10)
-   console.log(currentDate,'current Date'); 
- 
-   // Yesterday 
-   const getYesterdayDate=()=> {
-     const now = new Date();
-     return new Date(now.getTime() - 1 * 24 * 60 * 60 * 1000).toJSON().slice(0,10);
-   }
-   const yesterday= getYesterdayDate()
-   console.log(yesterday,'Yesterday');
- 
- 
-    const todayOrders =
-     orders && orders.filter((order) => (order.createdAt).slice(0, 10) === currentDate);
-     console.log(todayOrders); 
-     console.log(currentDate);
+  // Today
+  let currentDate = new Date().toJSON().slice(0, 10);
+  console.log(currentDate, "current Date");
 
- 
+  // Yesterday
+  const getYesterdayDate = () => {
+    const now = new Date();
+    return new Date(now.getTime() - 1 * 24 * 60 * 60 * 1000)
+      .toJSON()
+      .slice(0, 10);
+  };
+  const yesterday = getYesterdayDate();
+  console.log(yesterday, "Yesterday");
+
+  const todayOrders =
+    orders &&
+    orders.filter((order) => order.createdAt.slice(0, 10) === currentDate);
+  console.log(todayOrders);
+  console.log(currentDate);
 
   const yesterdayOrders =
     orders &&
     orders.filter((order) => order.createdAt.slice(0, 10) === yesterday);
   console.log(todayOrders);
   console.log(currentDate);
-
   const daySelect = (e) => {
     let item = parseInt(e.target.value);
     if (item === 1) {
@@ -195,6 +192,7 @@ const HomePage = () => {
       >
         <div className="container-fluid px-5">
           <button
+            onClick={() => toggle()}
             className="navbar-toggler"
             type="button"
             data-bs-toggle="collapse"
@@ -218,7 +216,7 @@ const HomePage = () => {
       </nav>
       <div className="d-flex justify-content-between align-items-center px-2 py-1">
         <div
-          className="d-flex justify-content-between px-5 py-4"
+          className="d-flex justify-content-between px-5 pt-2"
           style={{ width: "24rem" }}
         >
           <p>Overview</p>
@@ -292,7 +290,7 @@ const HomePage = () => {
               <div>
                 <p style={{ fontWeight: 500 }}>TOTAL SALES</p>
                 <h2 style={{ fontWeight: 700, fontSize: "2rem" }}>
-                 Rs {Math.round(totalSales)}
+                  Rs {Math.round(totalSales)}
                 </h2>
               </div>
               <div
