@@ -422,13 +422,13 @@ const AllProducts = () => {
                                   <hr style={{ width: "95%" }} />
                                   <div className="d-flex p-2 justify-content-between align-items-center">
                                     <h5>In Stock: {product.stock}</h5>
-                                    {/* <button
+                                    <button
                               type="button"
                               className="btn  btn-danger btn-md"
                               onClick={()=> dispatch(deleteProduct(product._id))}
                             >
                               Delete
-                            </button> */}
+                            </button>
                                     <button
                                       type="button"
                                       className="btn bg-success btn-success btn-md"

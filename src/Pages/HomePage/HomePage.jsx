@@ -141,6 +141,7 @@ const HomePage = ({ toggle }) => {
     dispatch(deleteBanner(id));
   };
   const [saleDate, setSalesDate] = useState(1);
+  
   const [sales, setSales] = useState(orders);
   const [totalSales, setTotalSales] = useState();
 
@@ -148,25 +149,27 @@ const HomePage = ({ toggle }) => {
     setTotalSales(sales.reduce((acc, item) => acc + item.totalPrice, 0));
   }, [sales]);
 
-  // Today
-  let currentDate = new Date().toJSON().slice(0, 10);
-  console.log(currentDate, "current Date");
-
-  // Yesterday
-  const getYesterdayDate = () => {
-    const now = new Date();
-    return new Date(now.getTime() - 1 * 24 * 60 * 60 * 1000)
-      .toJSON()
-      .slice(0, 10);
-  };
-  const yesterday = getYesterdayDate();
-  console.log(yesterday, "Yesterday");
-
+  
+ 
+   // Today
+   let currentDate = new Date().toJSON().slice(0, 10)
+   console.log(currentDate,'current Date'); 
+ 
+   // Yesterday 
+   const getYesterdayDate=()=> {
+     const now = new Date();
+     return new Date(now.getTime() - 1 * 24 * 60 * 60 * 1000).toJSON().slice(0,10);
+   }
+   const yesterday= getYesterdayDate()
+   console.log(yesterday,'Yesterday');
+ 
+ 
   const todayOrders =
-    orders &&
-    orders.filter((order) => order.createdAt.slice(0, 10) === currentDate);
-  console.log(todayOrders);
-  console.log(currentDate);
+    orders && orders.filter((order) => (order.createdAt).slice(0, 10) === currentDate);
+    console.log(todayOrders); 
+    console.log(currentDate);
+
+ 
 
   const yesterdayOrders =
     orders &&
