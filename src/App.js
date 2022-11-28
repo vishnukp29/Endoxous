@@ -17,7 +17,6 @@ import "./App.css";
 import AddCategory from "./Pages/AddCategory/AddCategory";
 import AddProducts from "./Pages/Products/AddProducts";
 import EditProducts from "./Pages/Products/EditProducts";
-import ProductDetails from "./Pages/Products/ProductDetails";
 import Analystics from "./Pages/Analytics/Analytics";
 import CustomerSupport from "./Pages/CustomerSupport/CustomerSupport";
 import CustomerName from "./Pages/CustomerName/CustomerName";

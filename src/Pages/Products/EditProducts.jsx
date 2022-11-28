@@ -324,7 +324,8 @@ const EditProducts = () => {
             <div id="createProductFormImage">
               {oldImages &&
                 oldImages.map((image, index) => (
-                  <img key={index} src={image.url} alt="Old Product Preview" />
+                  <img key={index} src={image.url} alt="Old Product Preview" height="200"
+                  width="160"/>
                 ))}
             </div>
             <div id="createProductFormImage">

@@ -78,12 +78,11 @@ const AddProducts = () => {
       const reader = new FileReader();
       reader.onload = () => {
         if (reader.readyState === 2) {
-          let imageFiles 
-          
+
           setImagesPreviw((old) => [...old, reader.result]);
           setImages((old) => [...old, reader.result]);
-          setImagesPreviw((previousImages)=>previousImages.concat(images));
-          setImages((previousImages)=>previousImages.concat(images));
+          setImagesPreviw((previousImages) => previousImages.concat(images));
+          setImages((previousImages) => previousImages.concat(images));
         }
       };
 
@@ -131,8 +130,8 @@ const AddProducts = () => {
     setHashTags([]);
   };
 
-  const priceDifference = mrp-price
-  const offerPercentage =100*(priceDifference)/mrp
+  const priceDifference = mrp - price;
+  const offerPercentage = (100 * priceDifference) / mrp;
 
   return (
     <div className="">
@@ -187,6 +186,7 @@ const AddProducts = () => {
                 aria-describedby="numberHelp"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
+                required=" "
               />
             </div>
 
@@ -201,14 +201,17 @@ const AddProducts = () => {
                 aria-describedby="numberHelp"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
+                requiredrequired=" "
               />
             </div>
 
             <div className="mb-2">
               <label htmlFor="exampleInputNumber" className="form-label">
                 Product Category
-              </label> <br/>
-              <select className="bg-white p-2 rounded"
+              </label>{" "}
+              <br />
+              <select
+                className="bg-white p-2 rounded"
                 onChange={(e) => setCategory(e.target.value)}
                 value={category}
               >
@@ -235,6 +238,7 @@ const AddProducts = () => {
                   aria-describedby="numberHelp"
                   value={mrp}
                   onChange={(e) => setMrp(e.target.value)}
+                  required=" "
                 />
               </div>
               <div className="mb-2">
@@ -248,6 +252,7 @@ const AddProducts = () => {
                   aria-describedby="numberHelp"
                   value={price}
                   onChange={(e) => setPrice(e.target.value)}
+                  required=" "
                 />
                 <label
                   htmlFor="exampleInputNumber"
@@ -270,6 +275,7 @@ const AddProducts = () => {
                   aria-describedby="numberHelp"
                   value={stock}
                   onChange={(e) => setStock(e.target.value)}
+                  required=" "
                 />
               </div>
             </div>
@@ -279,7 +285,7 @@ const AddProducts = () => {
             Product Images
             <div className="multipleImages" id="createProductFormFile">
               <label htmlFor="images" className="imageLabel">
-                + 
+                +
                 <input
                   type="file"
                   className="imageInput"
@@ -289,32 +295,34 @@ const AddProducts = () => {
                   accept="image/webp"
                   onChange={createProductImagesChange}
                   multiple
+                  required=" "
                 />
               </label>
             </div>
             <div id="createProductFormImage" className="images">
-            {imagesPreviw.map((image, index) => (
-              <div className="image">
-                <img
-                  key={index}
-                  src={image}
-                  alt="Avatar Preview"
-                  height="200"
-                  width="160"
-                  className="imagePreview"
-                />
-                <button
-                  className="label label-danger"
-                  onClick={() => {
-                    let items =  images.filter((e) => e !== image)
-                     setImages(items);
+              {imagesPreviw.map((image, index) => (
+                <div className="image">
+                  <img
+                    key={index}
+                    src={image}
+                    alt="Avatar Preview"
+                    height="200"
+                    width="160"
+                    className="imagePreview"
+                  />
+                  <button
+                    className="label label-danger"
+                    onClick={() => {
+                      let items = images.filter((e) => e !== image);
+                      setImages(items);
                       setImagesPreviw(items);
-                  }}>
-                  X
-                </button>
-              </div>
-            ))}
-          </div>
+                    }}
+                  >
+                    X
+                  </button>
+                </div>
+              ))}
+            </div>
           </div>
 
           <div className="bg-white p-4 rounded mt-3">
@@ -330,6 +338,7 @@ const AddProducts = () => {
                 aria-describedby="numberHelp"
                 value={inventory}
                 onChange={(e) => setInventory(e.target.value)}
+                required=" "
               />
             </div>
           </div>
@@ -392,4 +401,3 @@ const AddProducts = () => {
 };
 
 export default AddProducts;
-
