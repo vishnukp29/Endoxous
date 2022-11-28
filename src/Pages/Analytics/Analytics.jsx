@@ -18,6 +18,7 @@ import { clearErrors, getOrderChart, getSalesOrdders, getSalesperDay } from "../
 import { getperDayOders } from "../../redux/actions/chartAction";
 import { toast } from "react-toastify";
 import {getUsersOrders } from "../../redux/actions/orderAction";
+import { getAllUsers } from "../../redux/actions/userAction";
 
 ChartJS.register(
   Title,
@@ -38,6 +39,7 @@ const Analytics = () => {
   const { error, loading,dateOrder,totalOrder } = useSelector((state) => state.chart);
   const { error:totalSalesError,dateSales,totalSales } = useSelector((state) => state.chartSales);
   
+
   const { error: ordersPerDayError,loading: ordersPerDayLoading,dateSales:ordersPerDayDate,totalSales:ordersPerDayTotal,ordersReport,} 
         = useSelector((state) => state.ordersPerDay);
 

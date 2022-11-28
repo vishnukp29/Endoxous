@@ -22,8 +22,8 @@ import Analystics from "./Pages/Analytics/Analytics";
 import CustomerSupport from "./Pages/CustomerSupport/CustomerSupport";
 import CustomerName from "./Pages/CustomerName/CustomerName";
 import PageNotFound from "./Components/SideBar/PageNotFound";
+import Coupon from "./Pages/Coupon/Coupon";
 
-//import Page1 from "./Pages/Page1/Page1";
 
 function App() {
   const [show, setShow] = useState(false);
@@ -39,6 +39,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/verifyotp" element={<VerifyOTP />} />
+          <Route path="/coupon" element={<Coupon />} />
           <Route path="*" element={<PageNotFound toggle={toggle} />} />
           <Route path="/products" element={<AllProducts toggle={toggle} />} />
           <Route path="/dashboard" element={<HomePage toggle={toggle} />} />
