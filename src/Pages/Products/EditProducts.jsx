@@ -37,8 +37,8 @@ const EditProducts = () => {
   const [imagesPreviw, setImagesPreviw] = useState([]);
   const [inventory, setInventory] = useState(0);
   // tags
-	const [hashTags, setHashTags] = useState([]);
-	const [tag, setTag] = useState('');
+  const [hashTags, setHashTags] = useState([]);
+  const [tag, setTag] = useState("");
 
   //   const categories = [];
   const productId = id;
@@ -137,34 +137,36 @@ const EditProducts = () => {
   };
 
   // Tags
-	const handleTagInput = (e) => {
-		if (e.target.value.length > 0) {
-			console.log("🚀 ~ file: EditProducts.jsx ~ line 149 ~ handleTagInput ~ e.target.value", e.target.value)
-			setTag(e.target.value);
-			console.log(tag);
-		}
-		
-	}
+  const handleTagInput = (e) => {
+    if (e.target.value.length > 0) {
+      console.log(
+        "🚀 ~ file: EditProducts.jsx ~ line 149 ~ handleTagInput ~ e.target.value",
+        e.target.value
+      );
+      setTag(e.target.value);
+      console.log(tag);
+    }
+  };
 
   const addTag = (e) => {
-		if (hashTags.length < 0) {
-		setHashTags(tag)
-		} else {
-				setHashTags([...hashTags, tag]);
-				console.log(hashTags);
-		}
-		setTag('');
-	};
-	const removeTag = (removedTag) => {
-		const newTags = hashTags.filter((tag) => tag !== removedTag);
-		setHashTags(newTags);
-	};
-	const clearTags = () => {
-		setHashTags([]);
-	};
+    if (hashTags.length < 0) {
+      setHashTags(tag);
+    } else {
+      setHashTags([...hashTags, tag]);
+      console.log(hashTags);
+    }
+    setTag("");
+  };
+  const removeTag = (removedTag) => {
+    const newTags = hashTags.filter((tag) => tag !== removedTag);
+    setHashTags(newTags);
+  };
+  const clearTags = () => {
+    setHashTags([]);
+  };
 
   return (
-    <div className="">
+    <div className="section2">
       <nav
         className="s2-navabar navbar navbar-expand-lg"
         style={{ backgroundColor: "white" }}
@@ -256,7 +258,7 @@ const EditProducts = () => {
             <div className="d-flex flex-row gap-2">
               <div className="mb-2">
                 <label htmlFor="exampleInputNumber" className="form-label">
-                 MRP
+                  MRP
                 </label>
                 <input
                   type="number"
@@ -353,52 +355,50 @@ const EditProducts = () => {
           </div>
 
           <div className="bg-white p-4 rounded mt-3">
-						<div className="mb-2">
-							<h6>Tags to Products</h6>
+            <div className="mb-2">
+              <h6>Tags to Products</h6>
 
-							<input
-								type="text"
-								className="form-control"
-								id="exampleInputNumber1"
-								aria-describedby="numberHelp"
-								value={tag || ''}
-								onChange={handleTagInput}
-							/>
-						</div>
-						<div className="gap-2 d-flex">
-							<button
-								onClick={addTag}
-								type="button"
-								className="btn btn-secondary rounded-pill"
-							>
-								Add Tag
-							</button>
-							{hashTags && (
-								<>
-									{hashTags?.map((tag, index) => (
-										<button
-											key={index}
-											onClick={() => removeTag(tag)}
-											type="button"
-											className="btn btn-danger rounded-pill"
-										>
-											{tag}{' '}
-											<span className="ml-1">X</span>
-										</button>
-									))}
+              <input
+                type="text"
+                className="form-control"
+                id="exampleInputNumber1"
+                aria-describedby="numberHelp"
+                value={tag || ""}
+                onChange={handleTagInput}
+              />
+            </div>
+            <div className="gap-2 d-flex">
+              <button
+                onClick={addTag}
+                type="button"
+                className="btn btn-secondary rounded-pill"
+              >
+                Add Tag
+              </button>
+              {hashTags && (
+                <>
+                  {hashTags?.map((tag, index) => (
+                    <button
+                      key={index}
+                      onClick={() => removeTag(tag)}
+                      type="button"
+                      className="btn btn-danger rounded-pill"
+                    >
+                      {tag} <span className="ml-1">X</span>
+                    </button>
+                  ))}
 
-									<button
-										onClick={() => clearTags()}
-										type="button"
-										className="btn btn-danger rounded-pill ml-1"
-									>
-										Clear All Tags{' '}
-										<span className="ml-1">X</span>
-									</button>
-								</>
-							)}
-						</div>
-					</div>
+                  <button
+                    onClick={() => clearTags()}
+                    type="button"
+                    className="btn btn-danger rounded-pill ml-1"
+                  >
+                    Clear All Tags <span className="ml-1">X</span>
+                  </button>
+                </>
+              )}
+            </div>
+          </div>
 
           <button type="submit" className="btn btn-success w-100 mt-3 mb-5">
             <Link to="" style={{ color: "white", textDecoration: "none" }}>

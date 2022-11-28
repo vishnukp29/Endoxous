@@ -1,4 +1,5 @@
 import SideBar from "./Components/SideBar/SideBar";
+import { useState } from "react";
 import HomePage from "./Pages/HomePage/HomePage";
 import AllOrders from "./Pages/AllOrders/AllOrders";
 import AllOrdersPage3 from "./Pages/AllOrdersPage3/AllOrdersPage3";
@@ -22,35 +23,66 @@ import CustomerSupport from "./Pages/CustomerSupport/CustomerSupport";
 import CustomerName from "./Pages/CustomerName/CustomerName";
 import PageNotFound from "./Components/SideBar/PageNotFound";
 
-
 //import Page1 from "./Pages/Page1/Page1";
 
 function App() {
+  const [show, setShow] = useState(false);
+  const toggle = () => {
+    setShow(!show);
+  };
+
   return (
     <div className="App">
       <BrowserRouter>
-        <SideBar />
+        <SideBar show={show} toggle={toggle} />
         <ToastContainer position="top-center" />
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/verifyotp" element={<VerifyOTP />} />
-          <Route path="*" element={<PageNotFound />} />
-          <Route path="/products" element={<AllProducts />} />
-          <Route path="/dashboard" element={<HomePage />} />
-          <Route path="/orders" element={<AllOrders />} />
-          <Route path="/orders/:id" element={<AllOrdersPage3 />} />
-          <Route path="/allnurseries" element={<AllNurseries />} />
-          <Route path="/ordersreport" element={<OrdersReports />} />
-          <Route path="/salesreport" element={<SalesReport />} />
-          <Route path="/catagories" element={<Categories />} />
-          <Route path="/customers" element={<MyCustomers />} />
-          <Route path="/customer" element={<CustomerName />} />
-          <Route path="/category/new" element={<AddCategory />} />
-          <Route path="/product/new" element={<AddProducts />} />
-          <Route path="/analystics" element={<Analystics />} />
-          <Route path="/support" element={<CustomerSupport />} />
-          <Route path="/customer/:id" element={<CustomerName />} />
-          <Route path="/product/edit/:id" element={<EditProducts />} />
+          <Route path="*" element={<PageNotFound toggle={toggle} />} />
+          <Route path="/products" element={<AllProducts toggle={toggle} />} />
+          <Route path="/dashboard" element={<HomePage toggle={toggle} />} />
+          <Route path="/orders" element={<AllOrders toggle={toggle} />} />
+          <Route
+            path="/orders/:id"
+            element={<AllOrdersPage3 toggle={toggle} />}
+          />
+          <Route
+            path="/allnurseries"
+            element={<AllNurseries toggle={toggle} />}
+          />
+          <Route
+            path="/ordersreport"
+            element={<OrdersReports toggle={toggle} />}
+          />
+          <Route
+            path="/salesreport"
+            element={<SalesReport toggle={toggle} />}
+          />
+          <Route path="/catagories" element={<Categories toggle={toggle} />} />
+          <Route path="/customers" element={<MyCustomers toggle={toggle} />} />
+          <Route path="/customer" element={<CustomerName toggle={toggle} />} />
+          <Route
+            path="/category/new"
+            element={<AddCategory toggle={toggle} />}
+          />
+          <Route
+            path="/product/new"
+            element={<AddProducts toggle={toggle} />}
+          />
+          <Route path="/analystics" element={<Analystics toggle={toggle} />} />
+          <Route
+            path="/support"
+            element={<CustomerSupport toggle={toggle} />}
+          />
+          <Route
+            path="/customer/:id"
+            element={<CustomerName toggle={toggle} />}
+          />
+          <Route
+            path="/product/edit/:id"
+            element={<EditProducts show={show} />}
+          />
         </Routes>
       </BrowserRouter>
     </div>
