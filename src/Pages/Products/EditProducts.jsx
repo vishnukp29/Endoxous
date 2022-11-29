@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { NavLink, Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 import {
   getProductDetails,
@@ -9,6 +10,7 @@ import {
 } from "../../redux/actions/productAction";
 import { UPDATE_PRODUCT_RESET } from "../../constants/productConstants";
 import { getAllCategories } from "../../redux/actions/categoryAction";
+import "./AddProduct.css";
 
 const EditProducts = () => {
   const dispatch = useDispatch();
@@ -31,11 +33,13 @@ const EditProducts = () => {
   const [category, setCategory] = useState("");
   const [price, setPrice] = useState(0);
   const [mrp, setMrp] = useState(0);
+  const [discount, setDiscount] = useState(0);
   const [stock, setStock] = useState(0);
   const [images, setImages] = useState([]);
   const [oldImages, setOldImages] = useState([]);
   const [imagesPreviw, setImagesPreviw] = useState([]);
   const [inventory, setInventory] = useState(0);
+  const [unit, setUnit] = useState("");
   // tags
   const [hashTags, setHashTags] = useState([]);
   const [tag, setTag] = useState("");
@@ -51,45 +55,38 @@ const EditProducts = () => {
       setDescription(product.description);
       setCategory(product.category);
       setPrice(product.price);
-      setCategory(product.mrp);
+      setMrp(product.mrp);
       setOldImages(product.images);
+    
       setStock(product.stock);
-      setTag(product.tag);
+      setTag(product.hashTags);
+      setUnit(product.unit);
     }
 
     if (error) {
-      alert.error(error.message);
+      toast.error(error.message);
       dispatch(clearErrors());
     }
 
     if (updateError) {
-      alert.error(updateError.message);
+      toast.error(updateError.message);
       dispatch(clearErrors());
     }
 
     if (isUpdated) {
-      alert.success("Product Updated Successfully");
+      toast.success("Product Updated Successfully");
       navigate("/products");
       dispatch({ type: UPDATE_PRODUCT_RESET });
     }
 
     dispatch(getAllCategories());
-  }, [
-    dispatch,
-    alert,
-    error,
-    isUpdated,
-    productId,
-    product,
-    updateError,
-    navigate,
-  ]);
+  }, [dispatch,error,isUpdated,productId,product,updateError,navigate,]);
 
   const updateProductSubmitHandler = (e) => {
     e.preventDefault();
 
     const myForm = new FormData();
-    myForm.set("name", name + " " + category);
+    myForm.set("name", name );
     myForm.set("description", description);
     myForm.set("category", category);
     myForm.set("price", price);
@@ -97,12 +94,16 @@ const EditProducts = () => {
     myForm.set("stock", stock);
     myForm.set("inventory", inventory);
     myForm.set("hashTags", hashTags);
+    myForm.set("unit", unit);
+    myForm.set("discount", discount);
 
     images.forEach((image) => {
       myForm.append("images", image);
     });
-    dispatch(updateProduct(myForm));
+    dispatch(updateProduct(id,myForm));
   };
+
+  console.log(oldImages,'========old');
 
   const updateProductImagesChange = (e) => {
     const files = Array.from(e.target.files);
@@ -117,6 +118,8 @@ const EditProducts = () => {
         if (reader.readyState === 2) {
           setImagesPreviw((old) => [...old, reader.result]);
           setImages((old) => [...old, reader.result]);
+          setImagesPreviw((previousImages) => previousImages.concat(images));
+          setImages((previousImages) => previousImages.concat(images));
         }
       };
 
@@ -147,7 +150,6 @@ const EditProducts = () => {
       console.log(tag);
     }
   };
-
   const addTag = (e) => {
     if (hashTags.length < 0) {
       setHashTags(tag);
@@ -165,8 +167,11 @@ const EditProducts = () => {
     setHashTags([]);
   };
 
+  const priceDifference = mrp - price;
+  const offerPercentage = (100 * priceDifference) / mrp;
+
   return (
-    <div className="section2">
+    <div className="">
       <nav
         className="s2-navabar navbar navbar-expand-lg"
         style={{ backgroundColor: "white" }}
@@ -185,7 +190,7 @@ const EditProducts = () => {
           </button>
 
           <NavLink className="fw-bold navbar-brand" to="">
-            Edit Products
+            Product Details
           </NavLink>
           <button
             className="btn btn-outline-success btnround"
@@ -218,6 +223,7 @@ const EditProducts = () => {
                 aria-describedby="numberHelp"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
+                required=" "
               />
             </div>
 
@@ -232,15 +238,17 @@ const EditProducts = () => {
                 aria-describedby="numberHelp"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
+                requiredrequired=" "
               />
             </div>
 
             <div className="mb-2">
               <label htmlFor="exampleInputNumber" className="form-label">
                 Product Category
-              </label>
+              </label>{" "}
               <br />
               <select
+                className="bg-white p-2 rounded"
                 onChange={(e) => setCategory(e.target.value)}
                 value={category}
               >
@@ -267,6 +275,7 @@ const EditProducts = () => {
                   aria-describedby="numberHelp"
                   value={mrp}
                   onChange={(e) => setMrp(e.target.value)}
+                  required=" "
                 />
               </div>
               <div className="mb-2">
@@ -280,13 +289,14 @@ const EditProducts = () => {
                   aria-describedby="numberHelp"
                   value={price}
                   onChange={(e) => setPrice(e.target.value)}
+                  required=" "
                 />
-                <label
+                <input
                   htmlFor="exampleInputNumber"
-                  className="form-label bg-success mt-1 px-1 text-white rounded"
-                >
-                  20$ OFF
-                </label>
+                  className="form-label bg-success mt-1 px-1 text-white rounded w-50"
+                  onChange={(e) => setDiscount(e.target.value)}
+                  value={`${Math.floor(offerPercentage)} % OFF`}
+                />
               </div>
             </div>
 
@@ -302,38 +312,82 @@ const EditProducts = () => {
                   aria-describedby="numberHelp"
                   value={stock}
                   onChange={(e) => setStock(e.target.value)}
+                  required=" "
                 />
               </div>
             </div>
           </div>
 
-          <div className="bg-white p-4 rounded mt-3">
-            <div className="mb-2" id="createProductFormFile">
-              <label htmlFor="exampleInputNumber" className="form-label">
-                Product Images
+          <div className="bg-white p-4 rounded mt-3 d-flex">
+            Product Images
+            <div className="multipleImages" id="createProductFormFile">
+              <label htmlFor="images" className="imageLabel">
+                +
+                <input
+                  type="file"
+                  className="imageInput"
+                  id="images"
+                  aria-describedby="numberHelp"
+                  name="images"
+                  accept="image/webp"
+                  onChange={updateProductImagesChange}
+                  multiple
+                  required=" "
+                />
               </label>
-              <input
-                type="file"
-                className="form-control"
-                id="exampleInputNumber1"
-                aria-describedby="numberHelp"
-                name="avatar"
-                accept="image/*"
-                onChange={updateProductImagesChange}
-                multiple
-              />
             </div>
-            <div id="createProductFormImage">
-              {oldImages &&
-                oldImages.map((image, index) => (
-                  <img key={index} src={image.url} alt="Old Product Preview" height="200"
-                  width="160"/>
-                ))}
-            </div>
-            <div id="createProductFormImage">
+            
+            <div id="createProductFormImage" className="images">
               {imagesPreviw.map((image, index) => (
-                <img key={index} src={image} alt="Avatar Preview" />
+
+                <div className="image">
+                  <img
+                    key={index}
+                    src={image}
+                    alt="Avatar Preview"
+                    height="200"
+                    width="160"
+                    className="imagePreview"
+                  />
+                  <button
+                    className="label label-danger"
+                    onClick={() => {
+                      let items = images.filter((e) => e !== image);
+                      setImages(items);
+                      setImagesPreviw(items);
+                    }}
+                  >
+                    X
+                  </button>
+                </div>
               ))}
+              
+            </div>
+            <div id="createProductFormImage" className="images">
+              {oldImages.map((image, index) => (
+
+                <div className="image">
+                  <img
+                    key={index}
+                    src={image.url}
+                    alt="Avatar Preview"
+                    height="200"
+                    width="160"
+                    className="imagePreview"
+                  />
+                  <button
+                    className="label label-danger"
+                    onClick={() => {
+                      let items = images.filter((e) => e !== image);
+                      setImages(items);
+                      setImagesPreviw(items);
+                    }}
+                  >
+                    X
+                  </button>
+                </div>
+              ))}
+
             </div>
           </div>
 
@@ -348,8 +402,9 @@ const EditProducts = () => {
                 className="form-control"
                 id="exampleInputNumber1"
                 aria-describedby="numberHelp"
-                value={inventory}
-                onChange={(e) => setInventory(e.target.value)}
+                value={unit}
+                onChange={(e) => setUnit(e.target.value)}
+                required=" "
               />
             </div>
           </div>
@@ -401,9 +456,7 @@ const EditProducts = () => {
           </div>
 
           <button type="submit" className="btn btn-success w-100 mt-3 mb-5">
-            <Link to="" style={{ color: "white", textDecoration: "none" }}>
-              Edit Product
-            </Link>
+              Edit Product 
           </button>
         </form>
       </div>

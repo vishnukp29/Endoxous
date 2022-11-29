@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { addBannerReducer, allBannersReducer, deleteBannerReducer } from "./reducers/bannerReducer";
 import { allCategoriesReducer, categoryBlockReducer, newCategoryReducer,categoryUnblockReducer } from "./reducers/categoryReducer";
 import { chartReducer, chartSalesReducer, ordersPerDayReducer, salePerDayReducer } from "./reducers/chartReducer";
+import { addCouponReducer,allCouponsReducer,deleteCouponReducer } from "./reducers/couponReducer";
 import { allNurseriesReducer } from "./reducers/nurseryReducer";
 import { allOrdersReducer, orderDetailsReducer, orderReducer,  usersOrdersReducer} from "./reducers/orderReducer";
 import { newProductReducer, productDetailsReducer, productReducer, productsReducer } from "./reducers/productReducers";
@@ -39,6 +40,9 @@ const Store = configureStore({
      salePerDay:salePerDayReducer,
     userDetails : userDetailsReducer,
     usersOrders : usersOrdersReducer,
+    addCoupon:addCouponReducer,
+    allCoupons:allCouponsReducer,
+    deleteCoupon:deleteCouponReducer,
     // forgotPassword : forgotPasswordReducer,
     // deleteCart : deleteCartItemReducer,
     // shippingInfo : saveShippingReducer,

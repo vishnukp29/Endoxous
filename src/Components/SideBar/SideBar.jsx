@@ -89,6 +89,11 @@ const SideBar = ({ show, toggle }) => {
                 </div>
               </li>
               <li className="nav-item m-2">
+                <NavLink to="/couponlist">
+                  <button className="s1-btn btn btn-sm px-4 ">Coupons</button>
+                </NavLink>
+              </li>
+              <li className="nav-item m-2">
                 <NavLink to="/ordersreport">
                   <button className="s1-btn btn btn-sm px-4 ">Payments</button>
                 </NavLink>

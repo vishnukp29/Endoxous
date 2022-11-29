@@ -96,8 +96,7 @@ function Categories() {
       <div className="section2 ">
         <nav
           className="s2-navabar navbar navbar-expand-lg "
-          style={{ backgroundColor: "white" }}
-        >
+          style={{ backgroundColor: "white" }}>
           <div className="container-fluid px-5">
             <button
               className="navbar-toggler"
@@ -179,8 +178,7 @@ function Categories() {
                   width: "100%",
                   borderRadius: ".5rem",
                   backgroundColor: "white",
-                }}
-              >
+                }}>
                 <thead style={{ backgroundColor: "#eaeaea" }}>
                   <tr>
                     <th scope="col">IMG</th>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -334,10 +334,22 @@ const HomePage = ({ toggle }) => {
                       accept="image/*"
                       onChange={bannerDataChange}
                     />
-                    <label htmlFor="file" className="btn btn py-0">
+                    {avatar !=="" ? (
+                      <Fragment>
+                        <button type="submit">Save</button>
+                        
+                      </Fragment>
+                    ) : (
+                      <Fragment>
+                        <label htmlFor="file" className="btn btn py-0">
                       + Add new
                     </label>
+                      </Fragment>
+                      
+                    )}
+
                   </div>
+                 
                 </form>
               </div>
               <div

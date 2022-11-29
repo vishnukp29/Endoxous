@@ -29,10 +29,11 @@ const AddProducts = () => {
   const [imagesPreviw, setImagesPreviw] = useState([]);
   const [inventory, setInventory] = useState(0);
   const [faqs, setFaqs] = useState([]);
+  const [unit, setUnit] = useState("");
   // tags
   const [hashTags, setHashTags] = useState([]);
   const [tag, setTag] = useState("");
-
+console.log(discount,"===============discount");
   useEffect(() => {
     if (error) {
       toast.error(error.message);
@@ -52,14 +53,16 @@ const AddProducts = () => {
     e.preventDefault();
 
     const myForm = new FormData();
-    myForm.set("name", name + " " + category);
+    myForm.set("name", name);
     myForm.set("description", description);
     myForm.set("category", category);
     myForm.set("price", price);
     myForm.set("mrp", mrp);
     myForm.set("stock", stock);
     myForm.set("inventory", inventory);
-    myForm.set("hashTags", hashTags);
+    myForm.set("hashTags", hashTags); 
+    myForm.set("unit", unit);
+    myForm.set("discount", Math.round(offerPercentage));
 
     images.forEach((image) => {
       myForm.append("images", image);
@@ -254,12 +257,12 @@ const AddProducts = () => {
                   onChange={(e) => setPrice(e.target.value)}
                   required=" "
                 />
-                <label
+                  <input
                   htmlFor="exampleInputNumber"
-                  className="form-label bg-success mt-1 px-1 text-white rounded"
-                >
-                  {Math.floor(offerPercentage)}% OFF
-                </label>
+                  className="form-label bg-success mt-1 px-1 text-white rounded w-50"
+                  onChange={(e)=>setDiscount(e.target.value)}
+                  value={`${Math.floor(offerPercentage)} % OFF`} 
+                 />
               </div>
             </div>
 
@@ -336,8 +339,8 @@ const AddProducts = () => {
                 className="form-control"
                 id="exampleInputNumber1"
                 aria-describedby="numberHelp"
-                value={inventory}
-                onChange={(e) => setInventory(e.target.value)}
+                value={unit}
+                onChange={(e) => setUnit(e.target.value)}
                 required=" "
               />
             </div>
