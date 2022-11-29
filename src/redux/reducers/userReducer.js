@@ -45,6 +45,9 @@ import {
   RESEND_PHONE_OTP_SUCCESS,
   RESEND_PHONE_OTP_REQUEST,
   RESEND_PHONE_OTP_FAIL,
+  RETURNING_USERS_REQUEST,
+  RETURNING_USERS_SUCCESS,
+  RETURNING_USERS_FAIL
 } from "../../constants/userConstants";
 
 // Register and Login
@@ -242,6 +245,40 @@ export const allUsersReducer = (state = { users: [] }, action) => {
       };
 
     case ALL_USERS_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+// Returning Users Reducer
+export const returningUsersReducer = (state = { users: [] }, action) => {
+  switch (action.type) {
+    case RETURNING_USERS_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case RETURNING_USERS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        users: action.payload,
+      };
+
+    case RETURNING_USERS_FAIL:
       return {
         ...state,
         loading: false,

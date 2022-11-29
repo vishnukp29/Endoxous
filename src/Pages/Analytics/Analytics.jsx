@@ -17,8 +17,7 @@ import {
 import { clearErrors, getOrderChart, getSalesOrdders, getSalesperDay } from "../../redux/actions/chartAction";
 import { getperDayOders } from "../../redux/actions/chartAction";
 import { toast } from "react-toastify";
-import {getUsersOrders } from "../../redux/actions/orderAction";
-import { getAllUsers } from "../../redux/actions/userAction";
+import { getAllUsers,getReturningUsers } from "../../redux/actions/userAction";
 
 ChartJS.register(
   Title,
@@ -39,9 +38,19 @@ const Analytics = () => {
   const { error, loading,dateOrder,totalOrder } = useSelector((state) => state.chart);
   const { error:totalSalesError,dateSales,totalSales } = useSelector((state) => state.chartSales);
 
-
   const { error: ordersPerDayError,loading: ordersPerDayLoading,dateSales:ordersPerDayDate,totalSales:ordersPerDayTotal,ordersReport,} 
         = useSelector((state) => state.ordersPerDay);
+
+  const { error:salesError, loading:salesLoading, dateSales:salesDate, totalSales:salesTotal, salesReport:salesSalseReport } = useSelector(
+    (state) => state.salePerDay
+  );
+
+  const {users} = useSelector((state)=>state.allUsers)
+  const {users:customers} = useSelector((state)=>state.returningUsers)
+  const userShppedMorethanOne= customers.length
+  const noOfCustomers= users.length
+  const returningCustomers = (userShppedMorethanOne/noOfCustomers)*100
+  console.log(returningCustomers);
 
   const totalOrderCount = totalOrder?.reduce((a,b)=>a+b,0)
   console.log(totalOrderCount);
@@ -56,9 +65,6 @@ const Analytics = () => {
   // const avg = Math.floor(toatlOrdersCount / days);
   // console.log(avg); 
 
-  const { error:salesError, loading:salesLoading, dateSales:salesDate, totalSales:salesTotal, salesReport:salesSalseReport } = useSelector(
-    (state) => state.salePerDay
-  );
   // const salesAmountTotal = salesTotal && salesTotal.reduce((a, b) => a + b, 0);
   // console.log(salesAmountTotal);
   // const numOfDays = salesDate && salesDate.length;
@@ -110,11 +116,12 @@ const Analytics = () => {
       dispatch(clearErrors());
     }
 
-
     dispatch(getOrderChart())
     dispatch(getSalesOrdders())
     dispatch(getperDayOders())
     dispatch(getSalesperDay())
+    dispatch(getAllUsers())
+    dispatch(getReturningUsers())
   }, [dispatch,error,totalSalesError]);
 
   const [orderDate, setOrderDate] = useState(1);
@@ -237,9 +244,7 @@ const Analytics = () => {
                 aria-label="Default select example"
               >
                 <option selected>All nurseries</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
+                <option value="1">Greens Calicut</option>
               </select>
             </div>
             <div className="p2-selection mx-2">
@@ -280,7 +285,7 @@ const Analytics = () => {
         <div className="card" style={{ width: "24%" }}>
           <div className="card-body">
             <h6 className="card-title">RETURNING CUSTOMERS</h6>
-            <h2 className="card-subtitle mb-2 text-muted">10 %</h2>
+            <h2 className="card-subtitle mb-2 text-muted">{returningCustomers.toFixed(2)} %</h2>
           </div>
         </div>
       </div>

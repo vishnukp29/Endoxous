@@ -41,6 +41,9 @@ import {
   RESEND_PHONE_OTP_REQUEST,
   RESEND_PHONE_OTP_SUCCESS,
   RESEND_PHONE_OTP_FAIL,
+  RETURNING_USERS_REQUEST,
+  RETURNING_USERS_SUCCESS,
+  RETURNING_USERS_FAIL
 } from "../../constants/userConstants";
 import axios from "../../axios";
 import axiosWithoutToken from "../../axios-without";
@@ -237,6 +240,19 @@ export const getUserDetails = (id) => async (dispatch) => {
     dispatch({ type: USER_DETAILS_SUCCESS, payload: data.user });
   } catch (error) {
     dispatch({ type: USER_DETAILS_FAIL, payload: error.response.data });
+  }
+};
+
+// Get Returning --Admin
+export const getReturningUsers = () => async (dispatch) => {
+  try {
+    dispatch({ type: RETURNING_USERS_REQUEST });
+
+    const { data } = await axios.get(`/admin/returningusers`);
+    console.log(data&&data,'data');
+    dispatch({ type: RETURNING_USERS_SUCCESS, payload: data.users });
+  } catch (error) {
+    dispatch({ type: RETURNING_USERS_FAIL, payload: error.response.data });
   }
 };
 

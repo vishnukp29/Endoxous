@@ -6,7 +6,7 @@ import { allNurseriesReducer } from "./reducers/nurseryReducer";
 import { allOrdersReducer, orderDetailsReducer, orderReducer,  usersOrdersReducer} from "./reducers/orderReducer";
 import { newProductReducer, productDetailsReducer, productReducer, productsReducer } from "./reducers/productReducers";
 import { ordersTicketReducer } from "./reducers/ticketsReducer";
-import { allUsersReducer, userReducer, verifyUserReducer, userDetailsReducer } from "./reducers/userReducer";
+import { allUsersReducer, userReducer, verifyUserReducer, userDetailsReducer,returningUsersReducer } from "./reducers/userReducer";
 
 const Store = configureStore({
   reducer: {
@@ -28,6 +28,7 @@ const Store = configureStore({
     // categoryDetails : categoryDetailsReducer,
     // category : categoryReducer,
      allUsers : allUsersReducer,
+     returningUsers:returningUsersReducer,
      order : orderReducer,
      chart:chartReducer,
      chartSales:chartSalesReducer,
