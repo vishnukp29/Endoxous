@@ -17,6 +17,14 @@ import {
     UPDATE_CATEGORY_SUCCESS,
     UPDATE_CATEGORY_RESET,
     UPDATE_CATEGORY_FAIL,
+    BLOCK_CATEGORY_REQUEST,
+    BLOCK_CATEGORY_SUCCESS,
+    BLOCK_CATEGORY_RESET,
+    BLOCK_CATEGORY_FAIL,
+    UNBLOCK_CATEGORY_REQUEST,
+    UNBLOCK_CATEGORY_SUCCESS,
+    UNBLOCK_CATEGORY_RESET,
+    UNBLOCK_CATEGORY_FAIL,
     CLEAR_ERRORS
   } from "../../constants/categoryConstants";
   
@@ -158,6 +166,82 @@ export const categoryReducer = (state = {}, action) => {
             return {
                 ...state,
                 isDeleted : false,
+                message: null,
+            };
+        case CLEAR_ERRORS : 
+            return {
+                ...state,
+                error : null,
+            };
+        default:
+           return state;
+    }
+
+};
+
+// Category Block --Admin
+export const categoryBlockReducer = (state = {}, action) => {
+    switch (action.type) {
+        case BLOCK_CATEGORY_REQUEST:
+            return {
+                ...state,
+                loading : true,
+            };
+        case BLOCK_CATEGORY_SUCCESS : 
+            return {
+                ...state,
+                loading: false,
+                isBlocked : action.payload.success,
+                message: action.payload.message,
+            };
+        case BLOCK_CATEGORY_FAIL : 
+            return {
+                ...state,
+                loading: false,
+                error : action.payload,
+            };
+        case BLOCK_CATEGORY_RESET : 
+            return {
+                ...state,
+                isBlocked : false,
+                message: null,
+            };
+        case CLEAR_ERRORS : 
+            return {
+                ...state,
+                error : null,
+            };
+        default:
+           return state;
+    }
+
+};
+
+// Category Unblock --Admin
+export const categoryUnblockReducer = (state = {}, action) => {
+    switch (action.type) {
+        case UNBLOCK_CATEGORY_REQUEST:
+            return {
+                ...state,
+                loading : true,
+            };
+        case UNBLOCK_CATEGORY_SUCCESS : 
+            return {
+                ...state,
+                loading: false,
+                isActive : action.payload.success,
+                message: action.payload.message,
+            };
+        case UNBLOCK_CATEGORY_FAIL : 
+            return {
+                ...state,
+                loading: false,
+                error : action.payload,
+            };
+        case UNBLOCK_CATEGORY_RESET : 
+            return {
+                ...state,
+                isActive : false,
                 message: null,
             };
         case CLEAR_ERRORS : 

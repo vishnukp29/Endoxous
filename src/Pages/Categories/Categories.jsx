@@ -6,23 +6,21 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
   clearErrors,
-  getAllCategories,
+  getAllCategories,unBlockCategory,blockCategory
 } from "../../redux/actions/categoryAction";
 import Loader from "../../Components/SideBar/Loader/Loader";
 import { getAllNurseries } from "../../redux/actions/nurseryAction";
+import { BLOCK_CATEGORY_RESET, UNBLOCK_CATEGORY_RESET } from "../../constants/categoryConstants";
 function Categories() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [keyword, setKeyword] = useState("");
 
-  const { error, loading, categoryList } = useSelector(
-    (state) => state.allCategories
-  );
-  const { error: nurseriesError, nurseries } = useSelector(
-    (state) => state.allNurseries
-  );
+  const { error, loading, categoryList } = useSelector((state) => state.allCategories );
+  const { error: nurseriesError, nurseries } = useSelector( (state) => state.allNurseries);
 
-  console.log(categoryList && categoryList, "=========== category list");
+  const {error:blockError,isBlocked,message} = useSelector( (state) => state.categoryBlock)
+  const {error:unblockError,isActive,message:unblockMessage} = useSelector( (state) => state.categoryUnblock)
 
   const [state, setState] = useState(false);
   const [filteredCategories, setFilteredCategories] = useState([]);
@@ -32,10 +30,29 @@ function Categories() {
       toast.error(error.message);
       dispatch(clearErrors());
     }
+    if (unblockError) {
+      toast.error(error.message);
+      dispatch(clearErrors());
+    }
+    if (blockError) {
+      toast.error(error.message);
+      dispatch(clearErrors());
+    }
+    if (isBlocked) {
+      toast.success(message);
+      dispatch({type:BLOCK_CATEGORY_RESET})
+    }
+    if (isActive) {
+      toast.success(unblockMessage);
+      dispatch({type:UNBLOCK_CATEGORY_RESET})
+      
+    }
+    
 
     dispatch(getAllCategories());
     dispatch(getAllNurseries());
-  }, [dispatch, error]);
+
+  }, [dispatch, error,isActive,unblockMessage,isBlocked,message,unblockError,]);
 
   const addCategoryHandler = () => {
     navigate("/category/new");
@@ -53,6 +70,26 @@ function Categories() {
       setFilteredCategories();
     }
   };
+
+  const [toggled,setToggled] = useState(false)
+
+  const toggleSwitch = (id,status)=>{
+    console.log(id,status,"======= inside func");
+    if(status===true){
+      dispatch(unBlockCategory(id))
+    }else if(!status){
+      dispatch(blockCategory(id))
+    }else if(status===false){
+      dispatch(blockCategory(id))
+    } 
+    
+    
+    
+    
+    
+    // toggled?setToggled(isBlocked):setToggled(isActive)
+    // console.log(toggled); 
+  }
 
   return (
     <div className="mainsection">
@@ -191,15 +228,30 @@ function Categories() {
                           <td> 1 </td>
                           <td>
                             <div>
-                              <input
-                                className="form-check-input s2-radio"
-                                type="radio"
-                                name="radioNoLabel"
-                                id="radioNoLabel1"
-                                value="Pending"
-                                aria-label="..."
-                              />{" "}
-                              Pending
+                              <span
+                                className="form-check form-switch d-inline me-2"
+                                style={{
+                                  position: "absolute",
+                                }}
+                              >
+                                {category?.isBlock === true ? (
+                                  <input
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  id="flexSwitchCheckDefault"
+                                  onClick={()=>toggleSwitch(category?._id,category?.isBlock,category)}
+                                  checked
+                                />
+                                ) : (
+                                  <input
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  id="flexSwitchCheckDefault"
+                                  onClick={()=>toggleSwitch(category?._id,category?.isBlock,category)}
+                                />
+                                )}
+                              </span>
+                              {/* <span className="mx-5">Pending</span> */}
                             </div>
                           </td>
                           <td>Rs 320</td>

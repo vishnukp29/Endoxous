@@ -1,12 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { addBannerReducer, allBannersReducer, deleteBannerReducer } from "./reducers/bannerReducer";
-import { allCategoriesReducer, newCategoryReducer } from "./reducers/categoryReducer";
+import { allCategoriesReducer, categoryBlockReducer, newCategoryReducer,categoryUnblockReducer } from "./reducers/categoryReducer";
 import { chartReducer, chartSalesReducer, ordersPerDayReducer, salePerDayReducer } from "./reducers/chartReducer";
 import { allNurseriesReducer } from "./reducers/nurseryReducer";
 import { allOrdersReducer, orderDetailsReducer, orderReducer,  usersOrdersReducer} from "./reducers/orderReducer";
 import { newProductReducer, productDetailsReducer, productReducer, productsReducer } from "./reducers/productReducers";
 import { ordersTicketReducer } from "./reducers/ticketsReducer";
 import { allUsersReducer, userReducer, verifyUserReducer, userDetailsReducer,returningUsersReducer } from "./reducers/userReducer";
+
 
 const Store = configureStore({
   reducer: {
@@ -25,6 +26,8 @@ const Store = configureStore({
      ordersTicket : ordersTicketReducer,
      allCategories : allCategoriesReducer,
      newCategory : newCategoryReducer,
+     categoryUnblock:categoryUnblockReducer,
+     categoryBlock:categoryBlockReducer,
     // categoryDetails : categoryDetailsReducer,
     // category : categoryReducer,
      allUsers : allUsersReducer,

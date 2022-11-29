@@ -16,7 +16,15 @@ import {
     UPDATE_CATEGORY_REQUEST,
     UPDATE_CATEGORY_SUCCESS,
     UPDATE_CATEGORY_FAIL,
-    CLEAR_ERRORS
+    CLEAR_ERRORS,
+    BLOCK_CATEGORY_REQUEST,
+    BLOCK_CATEGORY_SUCCESS,
+    BLOCK_CATEGORY_RESET,
+    BLOCK_CATEGORY_FAIL,
+    UNBLOCK_CATEGORY_REQUEST,
+    UNBLOCK_CATEGORY_SUCCESS,
+    UNBLOCK_CATEGORY_RESET,
+    UNBLOCK_CATEGORY_FAIL
   } from "../../constants/categoryConstants";
 
 
@@ -140,6 +148,64 @@ import {
     } catch (error) {
         dispatch({
             type : DELETE_CATEGORY_FAIL,
+            payload : error.response.data,
+        })
+        
+    }
+
+  };
+
+  // Block category --Admin
+  export const blockCategory = (id) =>async (dispatch) => {
+    try {
+        dispatch({type : BLOCK_CATEGORY_REQUEST });
+
+        const config = {
+            headers : {
+                "Content-Type" : "application/json",
+            },
+        };
+
+        const {data} = await axios.put(`/admin/category/block/${id}`,config);
+        console.log(data&&data,"========= block action");
+
+        dispatch({
+            type : BLOCK_CATEGORY_SUCCESS,
+            payload : data,
+        });
+        
+    } catch (error) {
+        dispatch({
+            type : BLOCK_CATEGORY_FAIL,
+            payload : error.response.data,
+        })
+        
+    }
+
+  };
+
+  // Unblock category --Admin
+  export const unBlockCategory = (id) =>async (dispatch) => {
+    try {
+        dispatch({type : UNBLOCK_CATEGORY_REQUEST });
+
+        const config = {
+            headers : {
+                "Content-Type" : "application/json",
+            },
+        };
+
+        const {data} = await axios.put(`/admin/category/active/${id}`,config);
+        console.log(data&&data,"========= Active action");
+
+        dispatch({
+            type : UNBLOCK_CATEGORY_SUCCESS,
+            payload : data,
+        });
+        
+    } catch (error) {
+        dispatch({
+            type : UNBLOCK_CATEGORY_FAIL,
             payload : error.response.data,
         })
         
