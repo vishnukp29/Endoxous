@@ -38,30 +38,33 @@ const Analytics = () => {
 
   const { error, loading,dateOrder,totalOrder } = useSelector((state) => state.chart);
   const { error:totalSalesError,dateSales,totalSales } = useSelector((state) => state.chartSales);
-  
+
 
   const { error: ordersPerDayError,loading: ordersPerDayLoading,dateSales:ordersPerDayDate,totalSales:ordersPerDayTotal,ordersReport,} 
         = useSelector((state) => state.ordersPerDay);
 
   const totalOrderCount = totalOrder?.reduce((a,b)=>a+b,0)
+  console.log(totalOrderCount);
   const totalsalesAmount = totalSales?.reduce((a,b)=>a+b,0)
 
-  const toatlOrdersCount = ordersPerDayTotal && ordersPerDayTotal.reduce((a, b) => a + b, 0);
-  console.log(toatlOrdersCount);
-  const days = ordersPerDayDate && ordersPerDayDate.length;
-  console.log(days);
-  const avg = Math.floor(toatlOrdersCount / days);
-  console.log(avg); 
+  // const toatlOrdersCount = ordersPerDayTotal && ordersPerDayTotal.reduce((a, b) => a + b, 0);
+  // console.log(toatlOrdersCount);
+
+  // const days = ordersPerDayDate && ordersPerDayDate.length;
+  // console.log(days);
+  
+  // const avg = Math.floor(toatlOrdersCount / days);
+  // console.log(avg); 
 
   const { error:salesError, loading:salesLoading, dateSales:salesDate, totalSales:salesTotal, salesReport:salesSalseReport } = useSelector(
     (state) => state.salePerDay
   );
-  const salesAmountTotal = salesTotal && salesTotal.reduce((a, b) => a + b, 0);
-  console.log(salesAmountTotal);
-  const numOfDays = salesDate && salesDate.length;
-  console.log(numOfDays);
-  const avgSale = Math.floor(salesAmountTotal / numOfDays);
-  console.log(avgSale);
+  // const salesAmountTotal = salesTotal && salesTotal.reduce((a, b) => a + b, 0);
+  // console.log(salesAmountTotal);
+  // const numOfDays = salesDate && salesDate.length;
+  // console.log(numOfDays);
+  // const avgSale = Math.floor(salesAmountTotal / numOfDays);
+  // console.log(avgSale);
 
   const orderReport = {
     labels: dateOrder&&dateOrder,
@@ -114,59 +117,78 @@ const Analytics = () => {
     dispatch(getSalesperDay())
   }, [dispatch,error,totalSalesError]);
 
-  const [sales, setSales] = useState(totalOrder);
+  const [orderDate, setOrderDate] = useState(1);
+
+  const [orders, setOrders] = useState("");
+  const [totalOrders, setTotalOrders] = useState();
+
+  const [sales, setSales] = useState("");
   const [totalSale, setTotalSale] = useState();
 
+  console.log(totalOrders)
+  console.log(totalSale);
+
   useEffect(() => {
-    setTotalSale(totalOrder?.reduce((a,b)=>a+b,0));
-  }, [sales]);
+    setTotalOrders(ordersPerDayTotal && ordersPerDayTotal.reduce((a, b) => a + b, 0));
+    setTotalSale(salesTotal && salesTotal.reduce((a, b) => a + b, 0))
+  }, [orders,sales]);
 
-  // Date
-  let currentDate = new Date().toJSON().slice(0, 10);
-  console.log(currentDate);
+    // Orders
+  const days = ordersPerDayDate && ordersPerDayDate.length;
+  console.log(days);
+  
+  const avg = Math.floor(totalOrders / days);
+  console.log(avg); 
 
-  // Week
-  const getLastWeeksDate = () => {
+  // const salesAmountTotal = salesTotal && salesTotal.reduce((a, b) => a + b, 0);
+  // console.log(salesAmountTotal);
+
+  // Sales
+  const numOfDays = salesDate && salesDate.length;
+  console.log(numOfDays);
+
+  const avgSale = Math.floor(totalSale / numOfDays);
+  console.log(avgSale);
+
+  // Today
+  let currentDate = new Date().toJSON().slice(0, 10)
+  console.log(currentDate,'current Date'); 
+
+  // Yesterday 
+  const getYesterdayDate=()=> {
     const now = new Date();
-    return new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000)
-      .toJSON()
-      .slice(0, 10);
-  };
-  const weekend = getLastWeeksDate();
-  console.log(weekend);
-
-  // Month
-  function getMonthEndDate(numOfMonths, date = new Date()) {
-    const dateCopy = new Date(date.getTime());
-    dateCopy.setMonth(dateCopy.getMonth() - numOfMonths);
-    return dateCopy;
+    return new Date(now.getTime() - 1 * 24 * 60 * 60 * 1000).toJSON().slice(0,10);
   }
-  const date = new Date();
-  const monthend = getMonthEndDate(1, date).toJSON().slice(0, 10);
-  console.log(monthend);
+  const yesterday= getYesterdayDate()
+  console.log(typeof yesterday,'Yesterday');
 
   // Filtering
-  const todayOrders =
-    totalOrder &&
-    totalOrder.filter((order) => order.dateOrder === currentDate);
+  //totalOrder.filter((order) => order.ordersPerDayDate === currentDate);
+    const todayOrders =
+    ordersReport &&
+    ordersReport && ordersReport.filter((order) => order.date === currentDate)
+    const todayCount = todayOrders&&todayOrders.reduce((acc,item)=> acc+item.count, 0)
+    const todaySales = todayOrders&&todayOrders.reduce((acc,item)=> acc+item.total, 0)
+    console.log(todayCount&&todayCount,todaySales&&todaySales,"========= count");
 
-  const weekOrders =
-    totalOrder && totalOrder.filter((order) => order.dateOrder >= weekend);
-
-  const monthOrders =
-    totalOrder &&
-    totalOrder.filter((order) => order.dateOrder >= monthend);
+    const yesterdayOrders =
+    ordersReport && ordersReport.filter((order) => order.date === yesterday);
+    const yesterdayCount = yesterdayOrders&&yesterdayOrders.reduce((acc,item)=> acc+item.count, 0)
+    const yesterdaySales = yesterdayOrders&&yesterdayOrders.reduce((acc,item)=> acc+item.total, 0)
+    console.log(yesterdayCount&&yesterdayCount,"========= Order");
+    console.log(yesterdaySales&&yesterdaySales,"=====Sales");
 
     const analyticSelect = (e) => {
       let item = parseInt(e.target.value);
       if (item === 1) {
-        setSales(totalOrder); 
+        setOrders(totalOrderCount); 
+        setSales(totalsalesAmount); 
       } else if (item === 2) {
-        setSales(todayOrders);
+        setOrders(todayCount);
+        setSales(todaySales); 
       } else if (item === 3) {
-        setSales(weekOrders);
-      }else if (item === 4) {
-        setSales(monthOrders);
+        setOrders(yesterdayCount); 
+        setSales(yesterdaySales); 
       }
     };
   
@@ -222,14 +244,14 @@ const Analytics = () => {
             </div>
             <div className="p2-selection mx-2">
               <select
+                selected={orderDate}
                 className="form-select "
                 aria-label="Default select example"
                 onChange={analyticSelect}
               >
-                <option selected>Lifetime</option>
-                <option value="1">Today</option>
-                <option value="2">This Week</option>
-                <option value="3">This Month</option>
+                <option value="1">Lifetime</option>
+                <option value="2">Today</option>
+                <option value="3">Yesterday</option>
               </select>
             </div>
           </div>
@@ -266,13 +288,13 @@ const Analytics = () => {
         <div className="card" style={{ width: "30.5rem" }}>
           <div className="card-body">
             <h5 className="card-title">TOTAL ORDERS</h5>
-            <h2 className="card-subtitle mb-2 text-muted">{totalOrderCount}</h2>
+            <h2 className="card-subtitle mb-2 text-muted">{orders}</h2>
           </div>
         </div>
         <div className="card" style={{ width: "30.5rem" }}>
           <div className="card-body">
             <h5 className="card-title">TOTAL SALES</h5>
-            <h2 className="card-subtitle mb-2 text-muted">{totalsalesAmount}</h2>
+            <h2 className="card-subtitle mb-2 text-muted">{sales}</h2>
           </div>
         </div>
       </div>

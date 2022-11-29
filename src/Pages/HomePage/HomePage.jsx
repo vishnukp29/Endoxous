@@ -173,10 +173,11 @@ const HomePage = ({ toggle }) => {
  
 
   const yesterdayOrders =
-    orders &&
-    orders.filter((order) => order.createdAt.slice(0, 10) === yesterday);
+    orders &&orders.filter((order) => order.createdAt.slice(0, 10) === yesterday);
   console.log(todayOrders);
+  
   console.log(currentDate);
+
   const daySelect = (e) => {
     let item = parseInt(e.target.value);
     if (item === 1) {
