@@ -199,6 +199,7 @@ function AllOrdersPage3() {
                 <div className="d-flex justify-content-between">
                   <h6>
                     <DateFormatter date={order?.createdAt} />
+                    {/* {order?.createdAt.toLocaleTimeString()} */}
                   </h6>
                   <div>
                     <input
@@ -469,6 +470,7 @@ function AllOrdersPage3() {
                       {order?.shippedAt ? (
                         <Fragment>
                            <DateFormatter date={order?.shippedAt} />
+                           {order?.shippedAt.slice(10,)}
                         </Fragment>
                       ) : (
                         <Fragment>

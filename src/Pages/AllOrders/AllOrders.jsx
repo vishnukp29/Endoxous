@@ -1,5 +1,4 @@
 import React, { Fragment, useEffect, useState } from "react";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./Page2.css";
 import DateFormatter from "../../utils/DateFormatter";
