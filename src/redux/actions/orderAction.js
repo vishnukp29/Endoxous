@@ -21,7 +21,19 @@ import {
   USER_ORDERS_REQUEST,
   USER_ORDERS_SUCCESS,
   USER_ORDERS_FAIL,
+  ADD_ORDER_NOTE_REQUEST,
+  ADD_ORDER_NOTE_SUCCESS,
+  ADD_ORDER_NOTE_FAIL,
+  DELETE_ORDER_NOTE_REQUEST,
+  DELETE_ORDER_NOTE_SUCCESS,
+  DELETE_ORDER_NOTE_FAIL,
   CLEAR_ERRORS,
+  CANCEL_ORDER_NOTE_REQUEST,
+  CANCEL_ORDER_NOTE_SUCCESS,
+  CANCEL_ORDER_NOTE_FAIL,
+  ACTIVE_ORDER_NOTE_REQUEST,
+  ACTIVE_ORDER_NOTE_SUCCESS,
+  ACTIVE_ORDER_NOTE_FAIL,
 } from "../../constants/orderConstants";
 
 // CREATE order
@@ -110,13 +122,12 @@ export const getAllOrders = (keyword) => async (dispatch) => {
 export const updateOrder = (id, order) => async (dispatch) => {
   try {
     dispatch({ type: UPDATE_ORDER_REQUEST });
-    console.log(id, order, "============= order Action 1");
     const config = {
       headers: {
         "Content-Type": "application/json",
       },
     };
-    console.log(id, order, "============= order Action 2");
+   
     const { data } = await axios.put(`/admin/order/${id}`, order);
 
     dispatch({
@@ -155,9 +166,9 @@ export const getUsersOrders = (id) => async (dispatch) => {
 
   try {
     dispatch({ type: USER_ORDERS_REQUEST });
-    console.log(id,"========== id");
+
     const { data } = await axios.get(`/admin/user/orders/${id}`);
-    console.log(data&&data,"=========== data");
+    
 
     dispatch({
       type: USER_ORDERS_SUCCESS,
@@ -166,6 +177,89 @@ export const getUsersOrders = (id) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: USER_ORDERS_FAIL,
+      payload: error.response.data,
+    });
+  }
+};
+
+// Add Note
+export const addOrderNote = (message,id) => async (dispatch) => {
+  
+  try {
+    dispatch({ type: ADD_ORDER_NOTE_REQUEST });
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    const { data } = await axios.post(`/admin/note/add/${id}`,message, config);
+
+    dispatch({
+      type: ADD_ORDER_NOTE_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ADD_ORDER_NOTE_FAIL,
+      payload: error.response.data,
+    });
+  }
+};
+
+// Delete order Note
+export const deleteOrderNote = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: DELETE_ORDER_NOTE_REQUEST });
+
+    const { data } = await axios.delete(`/admin/note/remove/${id}`);
+
+    dispatch({
+      type: DELETE_ORDER_NOTE_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: DELETE_ORDER_NOTE_FAIL,
+      payload: error.response.data,
+    });
+  }
+};
+
+// Order Cancel
+export const orderCancel = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: CANCEL_ORDER_NOTE_REQUEST });
+
+    const { data } = await axios.delete(`/order/${id}`);
+
+    dispatch({
+      type: CANCEL_ORDER_NOTE_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: CANCEL_ORDER_NOTE_FAIL,
+      payload: error.response.data,
+    });
+  }
+};
+
+// Order active
+export const orderActive = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: ACTIVE_ORDER_NOTE_REQUEST });
+
+    const { data } = await axios.put(`/order/${id}`);
+
+    dispatch({
+      type: ACTIVE_ORDER_NOTE_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ACTIVE_ORDER_NOTE_FAIL,
       payload: error.response.data,
     });
   }

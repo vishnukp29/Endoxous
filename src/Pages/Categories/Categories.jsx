@@ -11,6 +11,7 @@ import {
 import Loader from "../../Components/SideBar/Loader/Loader";
 import { getAllNurseries } from "../../redux/actions/nurseryAction";
 import { BLOCK_CATEGORY_RESET, UNBLOCK_CATEGORY_RESET } from "../../constants/categoryConstants";
+import { getAdminProducts } from "../../redux/actions/productAction";
 function Categories() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -21,6 +22,8 @@ function Categories() {
 
   const {error:blockError,isBlocked,message} = useSelector( (state) => state.categoryBlock)
   const {error:unblockError,isActive,message:unblockMessage} = useSelector( (state) => state.categoryUnblock)
+
+  const { loading:productsLoading, error:productsError, products } = useSelector((state) => state.products);
 
   const [state, setState] = useState(false);
   const [filteredCategories, setFilteredCategories] = useState([]);
@@ -48,7 +51,7 @@ function Categories() {
       
     }
     
-
+    dispatch(getAdminProducts());
     dispatch(getAllCategories());
     dispatch(getAllNurseries());
 
@@ -223,7 +226,7 @@ function Categories() {
                             </div>
                           </th>
                           <td>{category?.name}</td>
-                          <td> 1 </td>
+                          <td>{(products&&products.filter((product)=>product.category === category?.name)).length}</td>
                           <td>
                             <div>
                               <span

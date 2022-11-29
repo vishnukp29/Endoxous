@@ -340,9 +340,10 @@ function AllOrders() {
               Cancelled
             </button>
           </div>
+          
           <div className="tableForAll s2-table m-5 ">
             <div className="s2-table subTableForAll">
-              {loading ? (
+              {loading ? ( 
                 <Loader />
               ) : (
                 <table

@@ -166,10 +166,12 @@ console.log(discount,"===============discount");
         <hr />
       </nav>
 
-      <div
+      {loading ? (
+        <Loader/>
+      ):(
+        <div
         className="conatiner-sm d-flex justify-content-center flex-column align-items-center section bg-light h-100"
-        style={{ height: "100vh" }}
-      >
+        style={{ height: "100vh" }}>
         <h2 className="mb-5 mt-5">Add New Product</h2>
         <form
           action=""
@@ -392,13 +394,14 @@ console.log(discount,"===============discount");
             </div>
           </div>
 
-          <button type="submit" className="btn btn-success w-100 mt-3 mb-5">
+          <button type="submit" className="btn btn-success w-100 mt-3 mb-5"> 
             <Link to="" style={{ color: "white", textDecoration: "none" }}>
               Add Products
             </Link>
           </button>
         </form>
       </div>
+      )}
     </div>
   );
 };

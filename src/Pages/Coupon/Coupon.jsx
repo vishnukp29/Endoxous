@@ -27,7 +27,7 @@ const Coupon = () => {
         if (success) {
             toast.success(couponMessage);
             dispatch({type:ADD_COUPON_RESET});
-            navigate(`/dashboard`)
+            navigate(`/couponlist`)
         }
         
         dispatch(getAllCoupons())

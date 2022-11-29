@@ -23,6 +23,22 @@ import {
     USER_ORDERS_REQUEST,
     USER_ORDERS_SUCCESS,
     USER_ORDERS_FAIL,
+    ADD_ORDER_NOTE_REQUEST,
+    ADD_ORDER_NOTE_SUCCESS,
+    ADD_ORDER_NOTE_FAIL,
+    ADD_ORDER_NOTE_RESET,
+    DELETE_ORDER_NOTE_REQUEST,
+    DELETE_ORDER_NOTE_SUCCESS,
+    DELETE_ORDER_NOTE_FAIL,
+    DELETE_ORDER_NOTE_RESET,
+    CANCEL_ORDER_NOTE_REQUEST,
+    CANCEL_ORDER_NOTE_SUCCESS,
+    CANCEL_ORDER_NOTE_FAIL,
+    CANCEL_ORDER_NOTE_RESET,
+    ACTIVE_ORDER_NOTE_REQUEST,
+    ACTIVE_ORDER_NOTE_SUCCESS,
+    ACTIVE_ORDER_NOTE_FAIL,
+    ACTIVE_ORDER_NOTE_RESET,
   } from "../../constants/orderConstants";
   
   
@@ -116,6 +132,8 @@ import {
       switch (action.type) {
           case UPDATE_ORDER_REQUEST:
           case DELETE_ORDER_REQUEST:
+          case CANCEL_ORDER_NOTE_REQUEST:
+          case ACTIVE_ORDER_NOTE_REQUEST:
               return {
                   ...state,
                   loading : true,
@@ -133,9 +151,25 @@ import {
                   loading: false,
                   isDeleted : action.payload,
               };
+          case CANCEL_ORDER_NOTE_SUCCESS : 
+              return {
+                  ...state,
+                  loading: false,
+                  isCancelled : action.payload.success,
+                  message : action.payload.message,
+              };
+          case ACTIVE_ORDER_NOTE_SUCCESS : 
+              return {
+                  ...state,
+                  loading: false,
+                  isActived : action.payload.success,
+                  message : action.payload.message,
+              };
   
           case UPDATE_ORDER_FAIL : 
           case DELETE_ORDER_FAIL : 
+          case CANCEL_ORDER_NOTE_FAIL : 
+          case ACTIVE_ORDER_NOTE_FAIL : 
               return {
                   ...state,
                   loading: false,
@@ -150,6 +184,18 @@ import {
               return {
                   ...state,
                   isDeleted : false,
+              };
+          case CANCEL_ORDER_NOTE_RESET : 
+              return {
+                  ...state,
+                  isCancelled : false,
+                  message:false,
+              };
+          case ACTIVE_ORDER_NOTE_RESET : 
+              return {
+                  ...state,
+                  isActived : false,
+                  message:false,
               };
           case CLEAR_ERRORS : 
               return {
@@ -209,6 +255,83 @@ import {
               return {
                   loading: false,
                   error : action.payload,
+              };
+          case CLEAR_ERRORS : 
+              return {
+                  ...state,
+                  error : null,
+              };
+          default:
+             return state;
+      }
+  
+  };
+  
+  // Add note --Admin
+  export const addNoteReducer = (state = {}, action) => {
+      switch (action.type) {
+          case ADD_ORDER_NOTE_REQUEST:
+              return {
+                  ...state,
+                  loading : true,
+              };
+          case ADD_ORDER_NOTE_SUCCESS : 
+              return {
+                  ...state,
+                  loading: false,
+                  success:action.payload.success,
+                  message:action.payload.message
+              };
+          case ADD_ORDER_NOTE_FAIL : 
+              return {
+                  ...state,
+                  loading: false,
+                  error : action.payload,
+              };
+          case ADD_ORDER_NOTE_RESET : 
+              return {
+                  ...state,
+                  success : false,
+              };
+          case CLEAR_ERRORS : 
+              return {
+                  ...state,
+                  error : null,
+              };
+          default:
+             return state;
+      }
+  
+  };
+   
+  // Delete Order Note
+  export const deleteorderNoteReducer = (state = {}, action) => {
+      switch (action.type) {
+          case DELETE_ORDER_NOTE_REQUEST:
+              return {
+                  ...state,
+                  loading : true,
+              };
+         
+          case DELETE_ORDER_NOTE_SUCCESS : 
+              return {
+                  ...state,
+                  loading: false,
+                  isDeleted : action.payload.success,
+                  message : action.payload.message,
+              };
+  
+          case DELETE_ORDER_NOTE_FAIL : 
+              return {
+                  ...state,
+                  loading: false,
+                  error : action.payload,
+              };
+          case DELETE_ORDER_NOTE_RESET : 
+              return {
+                  ...state,
+                  isDeleted : false,
+                  message : false,
               };
           case CLEAR_ERRORS : 
               return {

@@ -4,11 +4,10 @@ import { allCategoriesReducer, categoryBlockReducer, newCategoryReducer,category
 import { chartReducer, chartSalesReducer, ordersPerDayReducer, salePerDayReducer } from "./reducers/chartReducer";
 import { addCouponReducer,allCouponsReducer,deleteCouponReducer } from "./reducers/couponReducer";
 import { allNurseriesReducer } from "./reducers/nurseryReducer";
-import { allOrdersReducer, orderDetailsReducer, orderReducer,  usersOrdersReducer} from "./reducers/orderReducer";
+import { allOrdersReducer, orderDetailsReducer, orderReducer,  usersOrdersReducer,addNoteReducer,deleteorderNoteReducer} from "./reducers/orderReducer";
 import { newProductReducer, productDetailsReducer, productReducer, productsReducer } from "./reducers/productReducers";
-import { ordersTicketReducer } from "./reducers/ticketsReducer";
+import { ordersTicketReducer,allTicketsReducer,ticketActionsReducer } from "./reducers/ticketsReducer";
 import { allUsersReducer, userReducer, verifyUserReducer, userDetailsReducer,returningUsersReducer } from "./reducers/userReducer";
-
 
 const Store = configureStore({
   reducer: {
@@ -38,11 +37,15 @@ const Store = configureStore({
      chartSales:chartSalesReducer,
      ordersPerDay:ordersPerDayReducer,
      salePerDay:salePerDayReducer,
-    userDetails : userDetailsReducer,
-    usersOrders : usersOrdersReducer,
-    addCoupon:addCouponReducer,
-    allCoupons:allCouponsReducer,
-    deleteCoupon:deleteCouponReducer,
+      userDetails : userDetailsReducer,
+      usersOrders : usersOrdersReducer,
+      addCoupon:addCouponReducer,
+      allCoupons:allCouponsReducer,
+      deleteCoupon:deleteCouponReducer,
+      addNote : addNoteReducer,
+     deleteorderNote : deleteorderNoteReducer,
+     allTickets : allTicketsReducer,
+     ticketActions : ticketActionsReducer,
     // forgotPassword : forgotPasswordReducer,
     // deleteCart : deleteCartItemReducer,
     // shippingInfo : saveShippingReducer,
@@ -53,19 +56,10 @@ const Store = configureStore({
     // newReview : newReviewReducer,
     // productReviews : productReviewsReducer,
     // reviews : reviewReducer,
-    
-    
     // newWishlist :newWishlistReducer,
     // myWishlist : myWishlistReducer,
-    // deleteWishlist : deleteWishlistItemReducer,
-
-
-    
-    
+    // deleteWishlist : deleteWishlistItemReducer,  
   },
-
-  
-  
 });
 
 export default Store;
