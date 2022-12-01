@@ -23,7 +23,7 @@ const SideBar = ({ show, toggle }) => {
         <div style={{ zIndex: "1" }} className="section1">
           <div style={{ position: "absolute", top: "1rem", right: "1rem" }}>
             <BsFillArrowLeftCircleFill
-            className="hideButton"
+              className="hideButton"
               style={{ display: "none" }}
               onClick={() => toggle()}
             />
@@ -32,25 +32,29 @@ const SideBar = ({ show, toggle }) => {
           <div className="logo">
             <img className="logo" src={logo} alt="img" />
           </div>
-          <div>
+          <div className="sideListItems">
             <ul className="navbar-nav justify-content-end flex-grow-1 ">
-              <li className="nav-item m-2">
+              <li className="nav-item m-1">
                 <NavLink to="/dashboard">
-                  <button className="s1-btn btn btn-sm px-4 ">Home</button>
+                  <button className="s1-btn btn btn-sm px-4 sideBtns">
+                    Home
+                  </button>
                 </NavLink>
               </li>
-              <li className="nav-item m-2">
+              <li className="nav-item m-1">
                 <NavLink to="/orders">
-                  <button className="s1-btn btn btn-sm px-4 ">Orders</button>
+                  <button className="s1-btn btn btn-sm px-4 sideBtns">
+                    Orders
+                  </button>
                 </NavLink>
               </li>
-              <li className="nav-item m-2">
+              <li className="nav-item m-1">
                 <div>
                   {/* to="/salesreport" */}
                   {/* <button className="s1-btn btn btn-sm px-4 ">Products</button> */}
                   <div className="dropdown">
                     <button
-                      className="s1-btn btn btn-sm"
+                      className="s1-btn btn btn-sm sideBtns"
                       type="button"
                       id="dropdownMenuButton1"
                       data-bs-toggle="dropdown"
@@ -64,7 +68,7 @@ const SideBar = ({ show, toggle }) => {
                     >
                       <li>
                         <NavLink
-                          className="dropdown-item s1-btn btn btn-sm px-4"
+                          className="dropdown-item s1-btn btn btn-sm px-4 sideBtns"
                           to="/products"
                         >
                           All Products
@@ -72,7 +76,7 @@ const SideBar = ({ show, toggle }) => {
                       </li>
                       <li>
                         <NavLink
-                          className="dropdown-item s1-btn btn btn-sm px-4"
+                          className="dropdown-item s1-btn btn btn-sm px-4 sideBtns"
                           to="/catagories"
                         >
                           Catagories
@@ -80,7 +84,7 @@ const SideBar = ({ show, toggle }) => {
                       </li>
                       <li>
                         <NavLink
-                          className="dropdown-item s1-btn btn btn-sm px-4"
+                          className="dropdown-item s1-btn btn btn-sm px-4 sideBtns"
                           to="/"
                         >
                           Inventory
@@ -90,14 +94,18 @@ const SideBar = ({ show, toggle }) => {
                   </div>
                 </div>
               </li>
-              <li className="nav-item m-2">
+              <li className="nav-item m-1">
                 <NavLink to="/couponlist">
-                  <button className="s1-btn btn btn-sm px-4 ">Coupons</button>
+                  <button className="s1-btn btn btn-sm px-4  sideBtns">
+                    Coupons
+                  </button>
                 </NavLink>
               </li>
-              <li className="nav-item m-2">
+              <li className="nav-item m-1">
                 <NavLink to="/support">
-                  <button className="s1-btn btn btn-sm px-4 ">Support</button>
+                  <button className="s1-btn btn btn-sm px-4  sideBtns">
+                    Support
+                  </button>
                 </NavLink>
               </li>
               <li className="nav-item m-2">
@@ -105,27 +113,36 @@ const SideBar = ({ show, toggle }) => {
                   <button className="s1-btn btn btn-sm px-4 ">Customer</button>
                 </NavLink>
               </li>
-              <li className="nav-item m-2">
+              
+              <li className="nav-item m-1">
                 <NavLink to="/ordersreport">
-                  <button className="s1-btn btn btn-sm px-4 ">Payments</button>
+                  <button className="s1-btn btn btn-sm px-4  sideBtns">
+                    Payments
+                  </button>
                 </NavLink>
               </li>
-              <li className="nav-item m-2">
+              <li className="nav-item m-1">
                 <NavLink to="/salesreport">
-                  <button className="s1-btn btn btn-sm px-4 ">Sales Report</button>
+                  <button className="s1-btn btn btn-sm px-4  sideBtns">
+                    Sales Report
+                  </button>
                 </NavLink>
               </li>
-              <li className="nav-item m-2">
+              <li className="nav-item m-1">
                 <NavLink to="/analystics">
-                  <button className="s1-btn btn btn-sm px-4 ">Analytics</button>
+                  <button className="s1-btn btn btn-sm px-4  sideBtns">
+                    Analytics
+                  </button>
                 </NavLink>
               </li>
-              <li className="nav-item m-2">
+              <li className="nav-item m-1">
                 <NavLink to="/allnurseries">
-                  <button className="s1-btn btn btn-sm px-4 ">Nurseries</button>
+                  <button className="s1-btn btn btn-sm px-4  sideBtns">
+                    Nurseries
+                  </button>
                 </NavLink>
               </li>
-              <li className="nav-item m-2">
+              <li className="nav-item m-1">
                 <NavLink>
                   <button
                     className="s1-btn btn btn-sm px-4"

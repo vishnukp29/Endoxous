@@ -30,11 +30,15 @@ input[type="number"] {
     width: 100%;
   }
 
-  /* .section1 {
-    display: none !important;
+  .section1 {
+    width: 50%;
+  }
+
+  /* .sideListItems{
+    width: 100%;
   } */
 
-  .hideButton{
+  .hideButton {
     display: initial !important;
   }
 
@@ -108,21 +112,21 @@ input[type="number"] {
     margin: 0 !important;
   }
 
-  .filterOption{
+  .filterOption {
     margin: 2rem 0 !important;
   }
 
-  .gridHandler{
+  .gridHandler {
     display: flex;
     align-items: center;
     margin-left: 1rem;
   }
 
-  .card{
+  .card {
     width: 100% !important;
   }
 
-  .cardView{
+  .cardView {
     display: flex;
     justify-content: flex-start !important;
     padding: 1rem;
