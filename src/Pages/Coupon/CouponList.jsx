@@ -94,7 +94,7 @@ const CouponList = () => {
 
           <div className="s2-table px-5 m-3 ">
             <div className="s2-table py-4">
-              {loading || deleteLoading ? (
+              {loading || deleteLoading ? ( 
                 <Loader/>
               ):(
                 <table className="table table-borderless table-sm ">

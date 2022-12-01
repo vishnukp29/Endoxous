@@ -1,10 +1,8 @@
 import React, { useEffect, useState,Fragment } from "react";
 import "./Page8.css";
-// import logo from "../../Assets/Images/logo3.png";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { clearErrors, getAllUsers } from "../../redux/actions/userAction.js";
-import { getAllNurseries } from "../../redux/actions/nurseryAction";
 import { toast } from "react-toastify";
 import DateFormatter from "../../utils/DateFormatter";
 import Loader from "../../Components/SideBar/Loader/Loader"; 
@@ -15,8 +13,6 @@ function MyCustomers() {
   const [keyword, setKeyword] = useState("");
 
   const { error, loading, users } = useSelector((state) => state.allUsers);
-  const { error: nurseriesError, nurseries } = useSelector((state) => state.allNurseries);
-  console.log(users && users, "====== users");
   const usersOnly = users && users.filter((user) => user.role !== "admin");
 
   const [filteredUsers, setFilteredUsers] = useState([]);
@@ -37,18 +33,6 @@ function MyCustomers() {
 
   const AllUsers = users && users.filter((user) => user);
 
-  const nurseryDropDownHandler = (e) => {
-    const nursery = e.target.value;
-    const nuserysOrders =
-    users && users.filter((user) => user.deliveredBy === nursery); 
-    setFilteredUsers(nuserysOrders);
-    setState(true);
-
-    if (nursery === 1) {
-      setFilteredUsers(AllUsers);
-      setState(true);
-    }
-  };
 
   // Date
   let currentDate = new Date().toJSON().slice(0, 10);
@@ -217,7 +201,10 @@ function MyCustomers() {
           </div>
           <div className="s2-table px-5 m-3 ">
             <div className="s2-table py-4">
-              <table className="table table-borderless table-sm ">
+              {loading ? (
+                <Loader/>
+              ) : (
+                <table className="table table-borderless table-sm ">
                 <thead className="s2-table-nava">
                   <tr>
                     <th scope="col">Customer ID</th>
@@ -231,7 +218,7 @@ function MyCustomers() {
                   </tr>
                 </thead>
                 <tbody className="table-group-divider  my-5">
-                  {state==false ? (<Fragment>
+                  {state === false ? (<Fragment>
                     {usersOnly &&
                     usersOnly
                       .filter((val) => {
@@ -348,11 +335,9 @@ function MyCustomers() {
                       ))}
                     </Fragment>
                   )}
-                  
-
-                  
                 </tbody>
               </table>
+              )}
             </div>
           </div>
         </div>

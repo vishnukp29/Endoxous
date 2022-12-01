@@ -75,22 +75,6 @@ const Analytics = () => {
   console.log(totalOrderCount);
   const totalsalesAmount = totalSales?.reduce((a, b) => a + b, 0);
 
-  // const toatlOrdersCount = ordersPerDayTotal && ordersPerDayTotal.reduce((a, b) => a + b, 0);
-  // console.log(toatlOrdersCount);
-
-  // const days = ordersPerDayDate && ordersPerDayDate.length;
-  // console.log(days);
-
-  // const avg = Math.floor(toatlOrdersCount / days);
-  // console.log(avg);
-
-  // const salesAmountTotal = salesTotal && salesTotal.reduce((a, b) => a + b, 0);
-  // console.log(salesAmountTotal);
-  // const numOfDays = salesDate && salesDate.length;
-  // console.log(numOfDays);
-  // const avgSale = Math.floor(salesAmountTotal / numOfDays);
-  // console.log(avgSale);
-
   const orderReport = {
     labels: dateOrder && dateOrder,
     datasets: [
@@ -168,9 +152,6 @@ const Analytics = () => {
   const avg = Math.floor(totalOrders / days);
   console.log(avg);
 
-  // const salesAmountTotal = salesTotal && salesTotal.reduce((a, b) => a + b, 0);
-  // console.log(salesAmountTotal);
-
   // Sales
   const numOfDays = salesDate && salesDate.length;
   console.log(numOfDays);
@@ -193,7 +174,6 @@ const Analytics = () => {
   console.log(typeof yesterday, "Yesterday");
 
   // Filtering
-  //totalOrder.filter((order) => order.ordersPerDayDate === currentDate);
   const todayOrders =
     ordersReport &&
     ordersReport &&

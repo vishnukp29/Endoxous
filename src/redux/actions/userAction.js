@@ -10,30 +10,12 @@ import {
   LOAD_USER_FAIL,
   LOGOUT_USER_SUCCESS,
   LOGOUT_USER_FAIL,
-  UPDATE_PROFILE_REQUEST,
-  UPDATE_PROFILE_SUCCESS,
-  UPDATE_PROFILE_FAIL,
-  UPDATE_PASSWORD_REQUEST,
-  UPDATE_PASSWORD_SUCCESS,
-  UPDATE_PASSWORD_FAIL,
-  FORGOT_PASSWORD_REQUEST,
-  FORGOT_PASSWORD_SUCCESS,
-  FORGOT_PASSWORD_FAIL,
-  RESET_PASSWORD_REQUEST,
-  RESET_PASSWORD_SUCCESS,
-  RESET_PASSWORD_FAIL,
   ALL_USERS_REQUEST,
   ALL_USERS_SUCCESS,
   ALL_USERS_FAIL,
   USER_DETAILS_REQUEST,
   USER_DETAILS_SUCCESS,
   USER_DETAILS_FAIL,
-  UPDATE_USER_REQUEST,
-  UPDATE_USER_SUCCESS,
-  UPDATE_USER_FAIL,
-  DELETE_USER_REQUEST,
-  DELETE_USER_SUCCESS,
-  DELETE_USER_FAIL,
   CLEAR_ERRORS,
   VERIFY_PHONE_REQUEST,
   VERIFY_PHONE_SUCCESS,
@@ -43,7 +25,7 @@ import {
   RESEND_PHONE_OTP_FAIL,
   RETURNING_USERS_REQUEST,
   RETURNING_USERS_SUCCESS,
-  RETURNING_USERS_FAIL
+  RETURNING_USERS_FAIL,
 } from "../../constants/userConstants";
 import axios from "../../axios";
 import axiosWithoutToken from "../../axios-without";
@@ -55,8 +37,8 @@ export const login = (phone) => async (dispatch) => {
 
     const config = { headers: { "Content-Type": "application/json" } };
 
-    const { data } = await axiosWithoutToken.post(`/login`, {phone}, config);
-    if (data&&data.phone) {
+    const { data } = await axiosWithoutToken.post(`/login`, { phone }, config);
+    if (data && data.phone) {
       await localStorage.setItem("Uphone", JSON.stringify(data.phone));
     }
     dispatch({ type: LOGIN_SUCCESS, payload: data });
@@ -66,17 +48,21 @@ export const login = (phone) => async (dispatch) => {
 };
 
 // Verify OTP
-export const verifyOTP = (otp,phone) => async (dispatch) => {
+export const verifyOTP = (otp, phone) => async (dispatch) => {
   try {
     dispatch({ type: VERIFY_PHONE_REQUEST });
 
     const config = { headers: { "Content-Type": "application/json" } };
 
-    const { data } = await axiosWithoutToken.post(`/verify/phone`, {otp,phone}, config);
-    if (data&&data.token) {
+    const { data } = await axiosWithoutToken.post(
+      `/verify/phone`,
+      { otp, phone },
+      config
+    );
+    if (data && data.token) {
       await localStorage.setItem("token", JSON.stringify(data.token));
     }
-    
+
     dispatch({ type: VERIFY_PHONE_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: VERIFY_PHONE_FAIL, payload: error.response.data });
@@ -92,7 +78,7 @@ export const register = (userData) => async (dispatch) => {
 
     const { data } = await axios.post(`/register`, userData, { config });
 
-    if (data&&data.user) {
+    if (data && data.user) {
       await localStorage.setItem("Udetails", JSON.stringify(data.user));
     }
 
@@ -123,97 +109,12 @@ export const logout = () => async (dispatch) => {
   try {
     await localStorage.removeItem("Udetails");
     await localStorage.removeItem("token");
-    await axios.get(`/logout`);
+    const {data} =await axios.get(`/logout`);
+    console.log(data&&data);
 
     dispatch({ type: LOGOUT_USER_SUCCESS });
   } catch (error) {
     dispatch({ type: LOGOUT_USER_FAIL, payload: error.response.data.message });
-  }
-};
-
-// Update Profile
-export const updateProfile = (userData) => async (dispatch) => {
-  try {
-    dispatch({ type: UPDATE_PROFILE_REQUEST });
-
-    const config = { headers: { "Content-Type": "multipart/form-data" } };
-
-    const { data } = await axios.put(`/me/update`, userData, config);
-
-    dispatch({ type: UPDATE_PROFILE_SUCCESS, payload: data.success });
-  } catch (error) {
-    dispatch({
-      type: UPDATE_PROFILE_FAIL,
-      payload:
-        ((error || {}).response || {}).data ||
-        "something went wrong please try again",
-      // payload: error.response.data,
-    });
-  }
-};
-
-// Update Password
-export const updatePassword = (passwords) => async (dispatch) => {
-  try {
-    dispatch({ type: UPDATE_PASSWORD_REQUEST });
-
-    const config = { headers: { "Content-Type": "application/json" } };
-
-    const { data } = await axios.put(`/password/update`, passwords, config);
-
-    dispatch({ type: UPDATE_PASSWORD_SUCCESS, payload: data.success });
-  } catch (error) {
-    dispatch({
-      type: UPDATE_PASSWORD_FAIL,
-      payload:
-        ((error || {}).response || {}).data ||
-        "something went wrong please try again",
-      // payload: error.response.data,
-    });
-  }
-};
-
-// Forgot Password
-export const forgotPassword = (email) => async (dispatch) => {
-  try {
-    dispatch({ type: FORGOT_PASSWORD_REQUEST });
-
-    const config = { headers: { "Content-Type": "application/json" } };
-
-    const { data } = await axios.post(`/password/forgot`, email, config);
-    dispatch({ type: FORGOT_PASSWORD_SUCCESS, payload: data.message });
-  } catch (error) {
-    dispatch({
-      type: FORGOT_PASSWORD_FAIL,
-      payload:
-        ((error || {}).response || {}).data ||
-        "something went wrong please try again",
-      // payload: error.response.data,
-    });
-  }
-};
-
-// Reset Password
-export const resetPassword = (token, passwords) => async (dispatch) => {
-  try {
-    dispatch({ type: RESET_PASSWORD_REQUEST });
-
-    const config = { headers: { "Content-Type": "application/json" } };
-
-    const { data } = await axios.put(
-      `/password/reset/${token}`,
-      passwords,
-      config
-    );
-    dispatch({ type: RESET_PASSWORD_SUCCESS, payload: data.success });
-  } catch (error) {
-    dispatch({
-      type: RESET_PASSWORD_FAIL,
-      payload:
-        ((error || {}).response || {}).data ||
-        "something went wrong please try again",
-      //payload: error.response.data,
-    });
   }
 };
 
@@ -249,70 +150,12 @@ export const getReturningUsers = () => async (dispatch) => {
     dispatch({ type: RETURNING_USERS_REQUEST });
 
     const { data } = await axios.get(`/admin/returningusers`);
-    console.log(data&&data,'data');
+    console.log(data && data, "data");
     dispatch({ type: RETURNING_USERS_SUCCESS, payload: data.users });
   } catch (error) {
     dispatch({ type: RETURNING_USERS_FAIL, payload: error.response.data });
   }
 };
-
-// Update User --Admin
-export const updateUser = (id, userData) => async (dispatch) => {
-  try {
-    dispatch({ type: UPDATE_USER_REQUEST });
-
-    const config = { headers: { "Content-Type": "application/json" } };
-
-    const { data } = await axios.put(`/admin/user/${id}`, userData, config);
-
-    dispatch({ type: UPDATE_USER_SUCCESS, payload: data });
-  } catch (error) {
-    dispatch({
-      type: UPDATE_USER_FAIL,
-      payload:
-        ((error || {}).response || {}).data ||
-        "something went wrong please try again",
-    });
-  }
-};
-
-// Delete User --Admin
-export const deleteUser = (id) => async (dispatch) => {
-  try {
-    dispatch({ type: DELETE_USER_REQUEST });
-
-    const { data } = await axios.delete(`/admin/user/${id}`);
-
-    dispatch({ type: DELETE_USER_SUCCESS, payload: data });
-  } catch (error) {
-    dispatch({
-      type: DELETE_USER_FAIL,
-      payload:
-        ((error || {}).response || {}).data ||
-        "something went wrong please try again",
-    });
-  }
-};
-
-// // verify User Phone Number
-// export const verifyPhone = (otp) => async (dispatch) => {
-//   try {
-//     dispatch({ type: VERIFY_PHONE_REQUEST });
-
-//     const config = { headers: { "Content-Type": "application/json" } };
-
-//     const { data } = await axios.post(`/verify/phone`, otp, config);
-//     dispatch({ type: VERIFY_PHONE_SUCCESS, payload: data });
-//   } catch (error) {
-//     dispatch({
-//       type: VERIFY_PHONE_FAIL,
-//       payload:
-//         ((error || {}).response || {}).data ||
-//         "something went wrong please try again",
-//       // payload: error.response.data,
-//     });
-//   }
-// };
 
 // Resend Phone OTP
 export const resendPhoneOTP = (id) => async (dispatch) => {

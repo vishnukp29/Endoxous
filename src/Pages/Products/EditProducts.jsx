@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { NavLink, Link, useNavigate, useParams } from "react-router-dom";
+import { NavLink,useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import {
@@ -23,7 +23,7 @@ const EditProducts = () => {
     isUpdated,
   } = useSelector((state) => state.product);
 
-  const { product, error, success,loading:detailError } = useSelector(
+  const { product, error,loading:detailError } = useSelector(
     (state) => state.productDetails
   );
   const { categoryList } = useSelector((state) => state.allCategories);
@@ -38,7 +38,6 @@ const EditProducts = () => {
   const [images, setImages] = useState([]);
   const [oldImages, setOldImages] = useState([]);
   const [imagesPreviw, setImagesPreviw] = useState([]);
-  const [inventory, setInventory] = useState(0);
   const [unit, setUnit] = useState("");
   // tags
   const [hashTags, setHashTags] = useState([]);
@@ -57,13 +56,12 @@ const EditProducts = () => {
       setPrice(product.price);
       setMrp(product.mrp);
       setOldImages(product.images);
-
       setStock(product.stock);
       setTag(product.hashTags);
       setUnit(product.unit);
     }
 
-    if (error) {
+    if (error) { 
       toast.error(error.message);
       dispatch(clearErrors());
     }
@@ -92,7 +90,6 @@ const EditProducts = () => {
     myForm.set("price", price);
     myForm.set("mrp", mrp);
     myForm.set("stock", stock);
-    myForm.set("inventory", inventory);
     myForm.set("hashTags", hashTags);
     myForm.set("unit", unit);
     myForm.set("discount", discount);
@@ -102,8 +99,6 @@ const EditProducts = () => {
     });
     dispatch(updateProduct(id, myForm));
   };
-
-  console.log(oldImages, "========old");
 
   const updateProductImagesChange = (e) => {
     const files = Array.from(e.target.files);

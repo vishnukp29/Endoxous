@@ -25,47 +25,36 @@ const HomePage = ({ toggle }) => {
   const [avatar, setAvatar] = useState("");
   const [avatarPreview, setAvatarPreview] = useState("");
 
+  // -------------------------------- Selctors --------------------------------
   const { error, loading, banners } = useSelector((state) => state.banners);
-  const {
-    error: addBannerError,
-    loading: addBannerLoading,
-    message,
-    success,
-  } = useSelector((state) => state.addBanner);
-  const {
-    error: deleteBannerError,
-    loading: deleteBannerLoging,
-    message: deleteMessge,
-    isDeleted,
-  } = useSelector((state) => state.deleteBanner);
-  const { error: ordersError, orders } = useSelector(
-    (state) => state.allOrders
-  );
-  
-  const { error: nurseriesError, nurseries } = useSelector(
-    (state) => state.allNurseries
-  );
 
-  console.log(nurseries && nurseries, "========= nurseries");
+  const {error: addBannerError,message,success, 
+    } = useSelector((state) => state.addBanner);
+
+  const {error: deleteBannerError, message: deleteMessge,isDeleted,
+    } = useSelector((state) => state.deleteBanner);
+
+  const { error: ordersError, orders } = useSelector((state) => state.allOrders);
+  
+  const { error: nurseriesError, nurseries } = useSelector((state) => state.allNurseries);
+  
+  // ----------------------------------------------------------------//
 
   const pendingOrders =
     orders && orders.filter((order) => order.orderStatus === "pending");
 
   const pendingOrdersWorth =
-    pendingOrders &&
-    pendingOrders.reduce((acc, item) => acc + item.totalPrice, 0);
+    pendingOrders &&pendingOrders.reduce((acc, item) => acc + item.totalPrice, 0);
 
-  const ordersToShip =
-    orders &&
-    orders.filter(
-      (order) =>
-        order.orderStatus !== "Shipped" &&
-        order.orderStatus !== "Cancelled" &&
-        order.orderStatus !== "Delivered"
-    );
+  const ordersToShip =orders &&orders.filter((order) =>
+    order.orderStatus !== "Shipped" &&
+    order.orderStatus !== "Cancelled" &&
+    order.orderStatus !== "Delivered"
+  );
+
   const top5Nuseries = nurseries && nurseries.slice(0, 5);
 
-  const [filteredOrders, setFilterOrders] = useState([]);
+  // -------------------------------- UseEffect --------------------------------
 
   useEffect(() => {
     if (error) {
@@ -141,7 +130,6 @@ const HomePage = ({ toggle }) => {
   const bannerDeleteHandler = (id) => {
     dispatch(deleteBanner(id));
   };
-  const [saleDate, setSalesDate] = useState(1);
   
   const [sales, setSales] = useState(orders);
   const [totalSales, setTotalSales] = useState();
@@ -150,11 +138,10 @@ const HomePage = ({ toggle }) => {
     setTotalSales(sales.reduce((acc, item) => acc + item.totalPrice, 0));
   }, [sales]);
 
-  
- 
+  // -------------------------------- Calculating Date --------------------------------
+
    // Today
    let currentDate = new Date().toJSON().slice(0, 10)
-   console.log(currentDate,'current Date'); 
  
    // Yesterday 
    const getYesterdayDate=()=> {
@@ -162,21 +149,13 @@ const HomePage = ({ toggle }) => {
      return new Date(now.getTime() - 1 * 24 * 60 * 60 * 1000).toJSON().slice(0,10);
    }
    const yesterday= getYesterdayDate()
-   console.log(yesterday,'Yesterday');
  
- 
+// -------------------------------- Filtering --------------------------------
   const todayOrders =
     orders && orders.filter((order) => (order.createdAt).slice(0, 10) === currentDate);
-    console.log(todayOrders); 
-    console.log(currentDate);
-
- 
 
   const yesterdayOrders =
     orders &&orders.filter((order) => order.createdAt.slice(0, 10) === yesterday);
-  console.log(todayOrders);
-  
-  console.log(currentDate);
 
   const daySelect = (e) => {
     let item = parseInt(e.target.value);
@@ -231,7 +210,7 @@ const HomePage = ({ toggle }) => {
           <div className="d-flex px-4 ">
             <div className="p2-selection mx-2">
               <select
-                selected={saleDate}
+                // selected={saleDate}
                 className="form-select "
                 aria-label="Default select example"
                 onChange={daySelect}
@@ -273,7 +252,7 @@ const HomePage = ({ toggle }) => {
                   {top5Nuseries &&
                     top5Nuseries.map((nursery, index) => (
                       <>
-                        <th scope="row">{index + 1}.</th>
+                        <th scope="row" key={index}>{index + 1}.</th>
                         <td>{nursery.name}</td>
                         <td>60,000</td>
                       </>
@@ -377,7 +356,7 @@ const HomePage = ({ toggle }) => {
 
                 {banners &&
                   banners?.map((banner, index) => (
-                    <div>
+                    <div key={index}>
                       <MdDelete
                         style={{
                           color: "#dc3545",

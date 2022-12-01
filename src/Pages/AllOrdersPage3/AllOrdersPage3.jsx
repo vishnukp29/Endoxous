@@ -152,6 +152,7 @@ function AllOrdersPage3() {
   const orderActiveHandler=(OrderId) =>{
     dispatch(orderActive(OrderId));
   }
+  // console.log(order.createdAt)
 
   return (
     <Fragment>
@@ -199,8 +200,9 @@ function AllOrdersPage3() {
                 <div className="d-flex justify-content-between">
                   <h6>
                     <DateFormatter date={order?.createdAt} />
-                    {/* {order?.createdAt.toLocaleTimeString()} */}
+                    {/* {console.log(order.createdAt.slice(11,16))} */}
                   </h6>
+                  {/* <h6>{order.createdAt.slice(11,16)}</h6> */}
                   <div>
                     <input
                       className="form-check-input s2-radio"
@@ -453,8 +455,10 @@ function AllOrdersPage3() {
                     />{" "}
                     Order Placed
                     <p>
-                      <DateFormatter date={order?.createdAt} />{" "}
+                      <DateFormatter date={order?.createdAt} />{" "} 
+                      {/* <h6>{order.createdAt.slice(11,16)}</h6> */}
                     </p>
+                    
                   </div>
                   <div>
                     <input
@@ -470,7 +474,6 @@ function AllOrdersPage3() {
                       {order?.shippedAt ? (
                         <Fragment>
                            <DateFormatter date={order?.shippedAt} />
-                           {order?.shippedAt.slice(10,)}
                         </Fragment>
                       ) : (
                         <Fragment>

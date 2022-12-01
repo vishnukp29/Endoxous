@@ -6,7 +6,7 @@ import { OPEN_TICKET_RESET } from "../../constants/tiketsConstants";
 import { clearErrors } from "../../redux/actions/orderAction";
 import { getAllTickets, openTicket } from "../../redux/actions/ticketsAction";
 import Loader from "../../Components/SideBar/Loader/Loader";
-
+ 
 const CustomerSupport = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -14,7 +14,7 @@ const CustomerSupport = () => {
   const [state, setState] = useState(false);
 
   const { error, loading, tickets } = useSelector((state) => state.allTickets);
-  const { error:actionError, loading:actionLoading,isOpen  } = useSelector((state) => state.ticketActions);
+  const { error:actionError,isOpen  } = useSelector((state) => state.ticketActions); 
 
 
 
@@ -39,7 +39,7 @@ const CustomerSupport = () => {
     }
     
     dispatch(getAllTickets());
-  }, [dispatch,error,setFilterTickets,isOpen]);
+  }, [dispatch,error,setFilterTickets,isOpen,actionError]);
 
   const clossedTickets = tickets&&tickets.filter((ticket)=>ticket.ticketClossed?.status === true );
   const newTickets = tickets&&tickets.filter((ticket)=> !ticket.ticketClossed?.status === true && !ticket.isOpend?.status === true);

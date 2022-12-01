@@ -9,10 +9,6 @@ import { clearErrors, getAllOrders } from "../../redux/actions/orderAction";
 import { getAllNurseries } from "../../redux/actions/nurseryAction";
 import Loader from "../../Components/SideBar/Loader/Loader";
 
-import { AgGridReact } from 'ag-grid-react';
-import 'ag-grid-community/dist/styles/ag-grid.css';
-import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
-
 function AllOrders() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -129,7 +125,6 @@ function AllOrders() {
       .slice(0, 10);
   };
   const weekend = getLastWeeksDate();
-  console.log(weekend);
 
   // Month
   function getMonthEndDate(numOfMonths, date = new Date()) {
@@ -139,6 +134,7 @@ function AllOrders() {
   }
   const date = new Date();
   const monthend = getMonthEndDate(1, date).toJSON().slice(0, 10);
+  console.log(monthend);
 
   // Custom Date
   const [showDatePicker, setShowDatePicker] = useState(false);
@@ -146,9 +142,6 @@ function AllOrders() {
   // const [selectedDate, setSelectedDate] = useState(new Date()); 
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState(''); 
-
-  console.log(startDate);
-  console.log(endDate);
 
   const [customDate, setCustomDate] = useState(
     startDate, endDate
@@ -252,7 +245,7 @@ function AllOrders() {
                     aria-label="Default select example"
                     onChange={handleSelect}
                   >
-                    <option selected>Order status </option>
+                    <option defaultValue=''>Order status </option>
                     <option value="1">Pending</option>
                     <option value="2">Shipped</option>
                     <option value="3">Delivered</option>

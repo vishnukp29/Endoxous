@@ -31,7 +31,7 @@ const Coupon = () => {
         }
         
         dispatch(getAllCoupons())
-    }, [dispatch,error,couponMessage,success,navigate]);
+    }, [dispatch,error,couponMessage,success,navigate]); 
 
     
     const createCouponSubmitHandler = (e) => {

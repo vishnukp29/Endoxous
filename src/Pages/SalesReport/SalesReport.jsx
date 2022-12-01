@@ -12,7 +12,6 @@ function SalesReport() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  //const { error } = useSelector((state) => state.chartSalesperDay);
   const {
     error: orderError,
     orders,
@@ -22,6 +21,7 @@ function SalesReport() {
   const { error, loading, dateSales, totalSales, salesReport } = useSelector(
     (state) => state.salePerDay
   );
+  
   console.log(
     dateSales && dateSales,
     "============",

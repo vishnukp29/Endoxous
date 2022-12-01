@@ -16,14 +16,13 @@ function Categories() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [keyword, setKeyword] = useState("");
-
   const { error, loading, categoryList } = useSelector((state) => state.allCategories );
-  const { error: nurseriesError, nurseries } = useSelector( (state) => state.allNurseries);
+  const { nurseries } = useSelector( (state) => state.allNurseries);
 
   const {error:blockError,isBlocked,message} = useSelector( (state) => state.categoryBlock)
   const {error:unblockError,isActive,message:unblockMessage} = useSelector( (state) => state.categoryUnblock)
 
-  const { loading:productsLoading, error:productsError, products } = useSelector((state) => state.products);
+  const { products } = useSelector((state) => state.products);
 
   const [state, setState] = useState(false);
   const [filteredCategories, setFilteredCategories] = useState([]);
@@ -55,12 +54,11 @@ function Categories() {
     dispatch(getAllCategories());
     dispatch(getAllNurseries());
 
-  }, [dispatch, error,isActive,unblockMessage,isBlocked,message,unblockError,]);
+  }, [dispatch, error,isActive,unblockMessage,isBlocked,message,unblockError,blockError]);
 
   const addCategoryHandler = () => {
     navigate("/category/new");
   };
-  console.log(keyword, "======  key word");
 
   const nurseryDropDownHandler = (e) => {
     const nursery = e.target.value;
@@ -69,12 +67,10 @@ function Categories() {
       categoryList.filter((category) => category.seller === nursery);
     setFilteredCategories(nuserysproducts);
     setState(true);
-    if (nursery == 1) {
+    if (nursery === 1) {
       setFilteredCategories();
     }
   };
-
-  const [toggled,setToggled] = useState(false)
 
   const toggleSwitch = (id,status)=>{
     console.log(id,status,"======= inside func");
@@ -85,13 +81,6 @@ function Categories() {
     }else if(status===false){
       dispatch(blockCategory(id))
     } 
-    
-    
-    
-    
-    
-    // toggled?setToggled(isBlocked):setToggled(isActive)
-    // console.log(toggled); 
   }
 
   return (

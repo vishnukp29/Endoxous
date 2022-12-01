@@ -1,20 +1,22 @@
 import React from "react";
 import logo from "../../Assets/Images/logo3.png";
 import "./SideBar.css";
-import { NavLink } from "react-router-dom";
+import { NavLink,useNavigate } from "react-router-dom";
 import { logout } from "../../redux/actions/userAction";
 import { useDispatch } from "react-redux";
 import { BsFillArrowLeftCircleFill } from "react-icons/bs";
+import { toast } from "react-toastify";
 
 const SideBar = ({ show, toggle }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate()
 
   function logoutUser() {
     dispatch(logout());
-    alert.success("Logout Successfully");
+    toast.success("Logout Successfully");
+    navigate('/')
   }
-  console.log("sidebar ", show);
-  console.log("widsdas", window.innerWidth < 992, show);
+  
   return (
     <div>
       {(show || !(window.innerWidth < 992)) && (
@@ -96,6 +98,11 @@ const SideBar = ({ show, toggle }) => {
               <li className="nav-item m-2">
                 <NavLink to="/support">
                   <button className="s1-btn btn btn-sm px-4 ">Support</button>
+                </NavLink>
+              </li>
+              <li className="nav-item m-2">
+                <NavLink to="/customers">
+                  <button className="s1-btn btn btn-sm px-4 ">Customer</button>
                 </NavLink>
               </li>
               <li className="nav-item m-2">
