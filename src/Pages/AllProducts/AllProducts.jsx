@@ -390,7 +390,7 @@ const AllProducts = () => {
                                       />
                                     </div>
                                   </div>
-                                  <div className="col-md-8">
+                                  <div className="col-md-8 ">
                                     <div className="card-body">
                                       <h5 className="card-title text-capitalize">
                                         {product.name}
@@ -400,10 +400,15 @@ const AllProducts = () => {
                                           per piece
                                         </small>
                                       </p>
+                                      <p className="card-text ">
+                                        <small className="text-muted ">
+                                          {product._id}
+                                        </small>
+                                      </p>
                                       <span className="card-text fs-5">
                                         Rs {product.mrp}
                                       </span>
-
+                                      
                                       <span
                                         className="form-check form-switch d-inline me-2"
                                         style={{

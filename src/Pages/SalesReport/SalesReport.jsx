@@ -21,6 +21,9 @@ function SalesReport() {
   const { error, loading, dateSales, totalSales, salesReport } = useSelector(
     (state) => state.salePerDay
   );
+
+  const sorted= salesReport&&salesReport.sort((a,b)=>a.date - b.date) 
+  console.log(sorted,'=================sorted');
   
   console.log(
     dateSales && dateSales,
@@ -38,6 +41,8 @@ function SalesReport() {
 
   const [state, setState] = useState(false);
   const [filteredOrders, setFilterOrders] = useState([]);
+
+  
 
   useEffect(() => {
     if (error) {
